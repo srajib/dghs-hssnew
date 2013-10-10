@@ -15,7 +15,7 @@ if(!empty($_SESSION['loginid']))
 			print "</script>";
 		}
 }
-?>
+?> 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,8 +28,7 @@ if(!empty($_SESSION['loginid']))
     <!-- Styles -->
     
     <link href="./css/bootstrap.css" rel="stylesheet">
-    <link href="./css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="./css/bootstrap-overrides.css" rel="stylesheet">
+     <link href="./css/bootstrap-overrides.css" rel="stylesheet">
     
 	<link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
         
@@ -89,7 +88,7 @@ if(isset($_POST['submit']))
 }
 ?>
 
-<div style="height:100px; width:auto; background:url(img/background-gradient-small.jpg) repeat-x;"><img src="img/logo.png" height="90" width="110"><font style="font-family:'Arial Black', Gadget, sans-serif; font-size:25px;position:relative; bottom:15px;">Health System Strengthening Admin Panel</font><br>
+<div style="height:100px; width:auto; background:url(img/background-gradient-small.jpg) repeat-x;"><img src="img/logo.png" height="90" width="110"><font style="font-family:'Arial Black', Gadget, sans-serif; font-size:25px;position:relative; bottom:15px;">Health System Strengthening </font><br>
 <font style="font-family:Georgia, 'Times New Roman', Times, serif; font-size:13px; left:110px; position:relative; bottom:50px">Government of People's Republic of Bangladesh</font><br>
 <font style="font-family:Arial, Helvetica, sans-serif; font-size:15px; left:110px; position:relative; bottom:52px"><b>Directorate General of Health Services</b></font></div>
 <div class="account-container login">

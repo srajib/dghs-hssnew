@@ -346,7 +346,7 @@ if($_SESSION['loginid'] <= 2)
 									questionReturn($qid,$month,$org_code);
 									$qa=questionReturn($qid,$month,$org_code);
 									$qans=answerReturn($qid,$month,$org_code);
-									 echo '<div class="">'.$i.'. '.$ques=$qa[1]. '&nbsp;&nbsp;  <a href="evidence.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Photograph</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Document</a></div>';
+									 echo '<div class="">'.$i.'. '.$ques=$qa[1]. '&nbsp;&nbsp;  <a href="evidence_tartiary.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Photograph</a> | <a href="doc_tartiary.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Document</a></div>';
 									 $ans=$qans[2];
 									
 									

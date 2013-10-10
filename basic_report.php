@@ -36,7 +36,7 @@ if($_SESSION['loginid'] <= 2)
 <link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 
 <link href="./css/slate.css" rel="stylesheet">
-<link href="./css/slate-responsive.css" rel="stylesheet">
+
 
 
 <!-- Javascript -->
@@ -179,10 +179,12 @@ if($_SESSION['loginid'] <= 2)
 			</div>
 		    </div>
                 <?php
-              
+                /*$sql=mysql_query("select org_type_code from organization");
+                        $org_type_row=  mysql_fetch_array($sql);
+                          $org_type=$org_type_row['org_type_code'];*/
+                        
 			if($org_type=='1002'||$org_type=='1028'||$org_type=='1005'||$org_type=='1022'||$org_type=='1023'){
-                          
-                            
+                                                
                             ?>
 			<script>
 				function toggle() {
@@ -253,7 +255,7 @@ if($_SESSION['loginid'] <= 2)
 					
 					if(vname > 0)
 					{
-					  	$('#output').html("<b><a href='report.php?month="+t+"' target='_blank'>Please click here to see your report.</a></b>"); //Set output element html
+					  	$('#output').html("<b><a href='report_upo.php?month="+t+"' target='_blank'>Please click here to see your report.</a></b>"); //Set output element html
 						$('.widget-accordion').hide();
 					}
 					else{

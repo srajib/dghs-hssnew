@@ -85,6 +85,19 @@ if($_SESSION['loginid'] <= 2)
 						<span>Home</span>
 					</a>	    				
 				</li>
+                                <? if($org_type=='1002'||$org_type=='1028'||$org_type=='1005'||$org_type=='1022'||$org_type=='1023'){?>
+                                <li class="dropdown">
+					<a href="reporting_tartiary.php">
+						<i class="icon-home"></i>
+						<span>HSS Report Panel</span>
+					</a>	    				
+				</li><?}else{?>
+                                <li class="dropdown">
+					<a href="reporting.php">
+						<i class="icon-home"></i>
+						<span>HSS Report Panel</span>
+					</a>	    				
+				</li><?}?>
 				
 				<li class="dropdown">					
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
@@ -286,8 +299,8 @@ if($_SESSION['loginid'] <= 2)
 			</select>-->
                         <select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
 				<option value="">==Select Month==</option>
-				<option value="09-2013">September</option>
-				<option value="10-2013">October</option>
+				<option value="09-2013">September,2013</option>
+				<option value="10-2013">October,2013</option>
 				
 			</select>
 			</div>

@@ -1,8 +1,8 @@
 <?php 
 
-$host = "localhost";
+$host = "103.247.238.173";
 $user = "root";
-$pass = "";
+$pass = "mistestdb";
 $db = "dghs_hrm_main";
 
 mysql_connect($host,$user,$pass) or die("Connection failed");

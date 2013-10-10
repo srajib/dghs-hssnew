@@ -3,6 +3,7 @@ session_start();
 //error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
+require_once "phpuploader/phpuploader/include_phpuploader.php" ;
 if(empty($_SESSION['loginid']))
 {
 	print "<script>";
@@ -16,7 +17,9 @@ if($_SESSION['loginid'] <= 2)
 	print " self.location='admin.php'"; // Comment this line if you don't want to redirect
 	print "</script>";
 }
-
+ @$q_id=$_REQUEST['question_id'];
+ @$org_code=$_REQUEST['org_code'];
+ @$month=$_REQUEST['month'];
 
 ?>
 
@@ -41,31 +44,23 @@ if($_SESSION['loginid'] <= 2)
 
 
 <!-- Javascript -->
-<script src="./js/jquery-1.7.2.min.js"></script>
-<script src="./js/jquery-ui-1.8.21.custom.min.js"></script>
-<script src="./js/jquery.ui.touch-punch.min.js"></script>
-<script src="./js/bootstrap.js"></script>
+<link href="phpuploader/demo.css" rel="stylesheet" type="text/css" />
+        			
+	<script type="text/javascript">
+	function doStart()
+	{
+		var uploadobj = document.getElementById('myuploader');
+		if (uploadobj.getqueuecount() > 0)
+		{
+			uploadobj.startupload();
+		}
+		else
+		{
+			alert("Please browse files for upload");
+		}
+	}
+	</script>
 
-<script src="./js/Slate.js"></script>
-
-<script src="./js/plugins/flot/jquery.flot.js"></script>
-<script src="./js/plugins/flot/jquery.flot.orderBars.js"></script>
-<script src="./js/plugins/flot/jquery.flot.pie.js"></script>
-<script src="./js/plugins/flot/jquery.flot.resize.js"></script>
-
-<script src="./js/demos/charts/bar.js"></script>
-
-<script type="text/javascript">
-function validate(){ 
-var filevalue=document.getElementById("file").value; 
-if(filevalue=="" || filevalue.length<1){
-alert("Select File.");
-document.getElementById("file").focus();
-return false;
-} 
-return true; 
-}
-</script> 
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -93,17 +88,7 @@ return true;
 						<span>Home</span>
 					</a>	    				
 				</li>
-				<!--
-				<li class="dropdown active" style="margin-left:-20px;">					
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-th"></i>
-						Home
-						<b class="caret"></b>
-					</a>	
-					
-				</li>
--->
-			
+
 				<li class="dropdown">					
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-external-link"></i>
@@ -160,88 +145,117 @@ return true;
 			
 		</div> <!-- /.page-title -->
 		
-		
-		
-		
-		<div class="row">
-			<form action="" method="post" enctype="multipart/form-data">
-			<div class="span6">
-			    Please select Doc1
-				<input type="file" name="userfile[]" id="file">
-				<br/>
-				Please select Doc2
-				<input type="file" name="userfile[]">
-				<br/>
-				Please select Doc3
-				<input type="file" name="userfile[]">
 				
-				<div style="margin-left:200px;">
-				<input type="submit" name="submit" value="Submit" class="btn btn-primary"> 
-				</div>
-			</div> <!-- /.span6 -->
+		<div class="row">
+                
+			                         
+    <div class="span6">   
+        <div class="demo">
+			<h2>Start uploading manually </h2>
+			<div>Allowed file types: <span style="color:red">pdf, doc, docx.</span></div>
+                        <div>Allowed file Upload Limit: <span style="color:red">3 Files.</span></div>
+                        <div>Allowed file Size: <span style="color:red">1 mb.</span></div>
+			<!-- do not need enctype="multipart/form-data" -->
+			<form id="form1" method="POST">
+				<?php				
+					$uploader=new PhpUploader();
+					$uploader->MaxSizeKB=1024;
+					$uploader->Name="myuploader";
+					$uploader->InsertText="Select multiple files (Max 1M)";
+					$uploader->AllowedFileExtensions="*.pdf,*.doc,*.docx";	
+                                        $uploader->MaxFilesLimit=3;
+					$uploader->MultipleFilesUpload=true;
+					$uploader->ManualStartUpload=true;
+					$uploader->Render();
+				?>
+				<br /><br /><br />
+				<button id="submitbutton" onclick="doStart();return false;">Start Uploading Files</button>
+
 			</form>
 			
-			<div class="span6">
-				
+			<br/><br/><br/>
 <?php
+$fileguidlist=@$_POST["myuploader"];
+if($fileguidlist)
+{
+	$guidlist=explode("/",$fileguidlist);
+	echo("<div style='font-family:Fixedsys;'>");
+	echo("Uploaded ");
+	echo(count($guidlist));
+	echo(" files:");
+	echo("</div>");
+	echo("<hr/>");
+	$myArray = array();
+        $i=1;
+       
+	foreach($guidlist as $fileguid)
+	{
+		 $mvcfile=$uploader->GetUploadedFile($fileguid);
+               
+		if($mvcfile)
+		{
+                    
+			echo("<div style='font-family:Fixedsys;border-bottom:dashed 1px gray;padding:6px;'>");
+			echo("FileName: ");
+			echo($mvcfile->FileName);
+			echo("<br/>FileSize: ");
+			echo($mvcfile->FileSize." b");
+	//		echo("<br/>FilePath: ");
+			//echo($mvcfile->FilePath);
+			echo("</div>");
+                        
+                        $mvcfile->FileName='q_'.$q_id.'_'.$org_code.'_'.$month.'_'.$i++.'.'.substr($mvcfile->FileName,- 3);
+                        $filepath=$mvcfile->FileName;
+                        array_push($myArray,$mvcfile->FileName);
+                 
+                        $mvcfile->MoveTo("docs/". $filepath);
+                       
+                      
+                      //Copys the uploaded file to a new location.
+			//$mvcfile->CopyTo("upload/".$filepath);
+			//Deletes this instance.
+			//$mvcfile->Delete();
+		}
 
-if (isset($_POST['submit'])){
-
-for($i=0;$i<3;$i++){
-echo "<b>Doc-".($i+1).":</b><br>"; 
-if ((($_FILES["userfile"]["type"][$i] == "application/pdf")
-|| ($_FILES["userfile"]["type"][$i] == "application/vnd.ms-excel")
-|| ($_FILES["userfile"]["type"][$i] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"))
-&& ($_FILES["userfile"]["size"][$i] < 5000000))
-{
-if ($_FILES["userfile"]["error"][$i] > 0)
-{
-echo "File Error : " . $_FILES["userfile"]["error"][$i] . "<br />";
-}else {
-
-if (file_exists("docs/".$_FILES["userfile"]["name"][$i]))
-{
-echo "<b>".$_FILES["userfile"]["name"][$i] . " already exists. </b>";
-}else
-{
-move_uploaded_file($_FILES["userfile"]["tmp_name"][$i],"docs/". $_FILES["userfile"]["name"][$i]);
-echo "Stored in: " . "docs/" . $_FILES["userfile"]["name"][$i]."<br />";
+	}
+        
+   $datetime=date('Y-m-d - h:i:s');
+   $arvalue=implode(",",$myArray);
+   
+   $ex=explode(",",$arvalue);
+   $file1=$ex[0]; 
+   $file2=$ex[1];
+   $file3=$ex[2];
+  
+  if(!empty($file1)){
+   $sql=mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_doc1='$file1',answer_storage_modified='$datetime' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'"); 
+   }
+   if(!empty($file2)){
+   $sql=  $sql=mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_doc2='$file2',answer_storage_modified='$datetime' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'"); 
+   }
+   if(!empty($file3)){
+       
+      $sql=mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_doc3='$file3',answer_storage_modified='$datetime' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'"); 
+     // echo "Uploded Successfully file3"; 
+   }
+   //$sql=  mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_evidence1='$file1',answer_storage_q".$q_id."_evidence2='$file2',answer_storage_q".$q_id."_evidence3='$file3' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'");
+}
 ?>
-Uploaded File:<br>
-<?php echo $_FILES["userfile"]["name"][$i]; ?>
-<?php
-}
-}
-}else
-{
-echo "Invalid file detail<br> file type ::".$_FILES["userfile"]["type"][$i]." , file size::: ".$_FILES["userfile"]["size"][$i];
-}
-echo "<br>";
-}
-}else{ 
-echo "File details not avaliable.";
-}
-?>
-		
 				
-				
-			</div> <!-- /.span6 -->
-			
-		</div> <!-- /.row -->
-		
-		
-		
+	</div>
+    </div>
+    
+</div> <!-- /.span6 -->
+					
+                </div><!--row -->
 	</div> <!-- /.container -->
-	
-</div> <!-- /#content -->
-
 
 
 <div id="footer">	
 		
 	<div class="container">
 		
-			&copy; 2013 MIS, DGHS, All rights reserved.
+		&copy; 2013 MIS, DGHS, All rights reserved.
 		
 	</div> <!-- /.container -->		
 	

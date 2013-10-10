@@ -17,8 +17,8 @@ $user_email=$org_detail['email_address1'];
 	<div class="container">			
 		
 		<div style="height:100px; width:auto;"><img src="img/logo.png" style="height:80px; width:95px; border:none"><font style="font-family:'Arial Black', Gadget, sans-serif; font-size:25px;position:relative; bottom:15px; color:#CCC">Health System Strengthening  </font><br>
-<font style="font-family:Georgia, 'Times New Roman', Times, serif; font-size:13px; left:95px; position:relative; bottom:40px; float:left; color:#CCC">Government of People's Republic of Bangladesh</font><br>
-<font style="font-family:Arial, Helvetica, sans-serif; font-size:15px; left:95px; position:relative; bottom:42px;  color:#CCC"><b>Directorate General of Health Services</b></font></div>			
+<font style="font-family:Georgia, 'Times New Roman', Times, serif; font-size:13px; left:430px; position:relative; bottom:40px; float:left; color:#CCC">Government of People's Republic of Bangladesh</font><br>
+<font style="font-family:Arial, Helvetica, sans-serif; font-size:15px; left:-2px; position:relative; bottom:42px;  color:#CCC"><b>Directorate General of Health Services</b></font></div>			
 			
 		
 		<div id="info">				
@@ -27,11 +27,11 @@ $user_email=$org_detail['email_address1'];
 				<i class="icon-cog"></i>
 			</a>
 			
-			<div id="info-menu" style="margin-left:-500px">
+			<div id="info-menu" style="margin-left:700px">
 				
 				<div class="info-details" >
 				
-					<h5>Welcome <?php echo $org_detail['org_name']; ?>.</h5>
+					<h5>Welcome to <?php echo $org_detail['org_name']; ?>.</h5>
 					
 					<p>
 						Logged in using <?php echo $user_email ;
