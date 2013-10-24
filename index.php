@@ -27,14 +27,14 @@ if(!empty($_SESSION['loginid']))
     
     <!-- Styles -->
     
-    <link href="./css/bootstrap.css" rel="stylesheet">
+     <link href="./css/bootstrap.css" rel="stylesheet">
      <link href="./css/bootstrap-overrides.css" rel="stylesheet">
     
-	<link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+     <link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
         
-    <link href="./css/slate.css" rel="stylesheet">
+     <link href="./css/slate.css" rel="stylesheet">
     
-	<link href="./css/components/signin.css" rel="stylesheet" type="text/css">   
+     <link href="./css/components/signin.css" rel="stylesheet" type="text/css">   
     
     
     <!-- Javascript -->

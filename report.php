@@ -25,14 +25,46 @@ $answer_storage_month_year=$_REQUEST['month'];
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Health System Strengthening</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-
-<style>
-	body {
+<!--//light box-->
+   <script type="text/javascript" src="lightBox/js/jquery.js"></script>
+    <script type="text/javascript" src="lightBox/js/jquery.lightbox-0.5.js"></script>
+   
+    <link rel="stylesheet" type="text/css" href="lightBox/css/jquery.lightbox-0.5.css" media="screen" />    
+     
+ 
+    <script type="text/javascript">
+    $(function() {
+        $('.gallery a').lightBox();
+    });
+    </script>
+    
+   	<style type="text/css">
+	/* jQuery lightBox plugin - Gallery style */
+	.gallery {
+		background-color: #fff;
+		padding: 10px;
+		width: 520px;
+	}
+	.gallery ul { list-style: none; }
+	.gallery ul li { display: inline; }
+	.gallery ul img {
+		border: 5px solid #3e3e3e;
+		border-width: 5px 5px 20px;
+	}
+	.gallery ul a:hover img {
+		border: 5px solid #fff;
+		border-width: 5px 5px 20px;
+		color: #fff;
+	}
+	.gallery ul a:hover { color: #fff; }
+        
+  body {
 		font-size: 13px;
 	}
 	.btn_print{
@@ -53,9 +85,7 @@ $answer_storage_month_year=$_REQUEST['month'];
 			display: none;
 		}	
 	}
-</style>
-
-	
+	</style>
 
 </head>
 
@@ -113,10 +143,20 @@ $answer_storage_month_year=$_REQUEST['month'];
 								 {
 								  return $ev;
 								 }
+								}
+                                 function docReturn($qid,$org_code,$answer_storage_month_year)
+								{
+								 $doc = mysql_query("SELECT hss_tertiary_answer_storage.answer_storage_q".$qid."_doc1,hss_tertiary_answer_storage.answer_storage_q".$qid."_doc2,hss_tertiary_answer_storage.answer_storage_q".$qid."_doc3 FROM hss_tertiary_answer_storage WHERE hss_tertiary_answer_storage.answer_storage_month_year='".$answer_storage_month_year."' AND hss_tertiary_answer_storage.answer_storage_org_id='".$org_code."'");
+								
+								while($dc = mysql_fetch_array($doc))
+								 {
+								  return $dc;
+								 }
 								}	
+                                   
 					
 					$score = 0;			
-					for($i=1;$i<51;$i++)
+					for($i=1;$i<53;$i++)
                     {					
 					$count = mysql_query("SELECT * FROM hss_tertiary_answer_storage  WHERE hss_tertiary_answer_storage.answer_storage_q".$i."_answer='Yes'  AND hss_tertiary_answer_storage.answer_storage_month_year='".$answer_storage_month_year."' AND hss_tertiary_answer_storage.answer_storage_org_id='".$org_code."'");
 				    $count_row=(mysql_num_rows($count));
@@ -126,7 +166,7 @@ $answer_storage_month_year=$_REQUEST['month'];
 
 					 $url ="http://app.dghs.gov.bd/dghshrm/uploads/";
 
-                  $org = mysql_query("SELECT organization.org_name,admin_division.division_name, admin_district.district_name, admin_upazila.upazila_name FROM organization
+                    $org = mysql_query("SELECT organization.org_name,admin_division.division_name, admin_district.district_name, admin_upazila.upazila_name FROM organization
                     LEFT JOIN admin_division ON organization.division_code=admin_division.division_bbs_code
                     LEFT JOIN admin_district ON organization.district_code=admin_district.district_bbs_code
                     LEFT JOIN admin_upazila  ON organization.upazila_id=admin_upazila.old_upazila_id where organization.org_code='".$org_code."'");
@@ -221,27 +261,29 @@ $answer_storage_month_year=$_REQUEST['month'];
 									
 									 $qa=questionReturn($qid,$org_code,$answer_storage_month_year);
 									 $ev=evidenceReturn($qid,$org_code,$answer_storage_month_year);
-									 
-									 echo '<div class="">'.$i.'. '. $qa[1].'&nbsp;&nbsp;';
+									 $dc=docReturn($qid,$org_code,$answer_storage_month_year);
+                                                                         
+									   echo '<div class="gallery">'.$i.'. '. $qa[1].'&nbsp;&nbsp;';
 									 $url1='upload/';
 									$path1 =$url1.'q_'.$qid.'_'.$org_code.'_'.$answer_storage_month_year.'_1.gif';
 									$imgurl_check1 = $path1;
+                                                                        
 									if ($ev[0]==NULL)
 										  { ?><img src="images/no.jpg" width="50" height="50">&nbsp;
-									     <?php }else{ ?><img src="upload/<?php echo $ev[0];?>" width="50" height="50">&nbsp;<?php }  
+									     <?php }else{ ?><a href="upload/<?php echo $ev[0];?>" title=""><img src="upload/<?php echo $ev[0];?>" width="50" height="50"></a>&nbsp;<?php }  
 								 	echo '';
 									$path2 =$url1.'q_'.$qid.'_'.$org_code.'_'.$answer_storage_month_year.'_2.gif';
 									$imgurl_check2 = $path2;
 								   if ($ev[1]==NULL)
 										  { ?><img src="images/no.jpg" width="50" height="50">&nbsp;
-									     <?php }else{ ?><img src="upload/<?php echo $ev[1];?>" width="50" height="50">&nbsp;<?php }  
+									     <?php }else{ ?><a href="upload/<?php echo $ev[1];?>" title=""><img src="upload/<?php echo $ev[1];?>" width="50" height="50"></a>&nbsp;<?php }  
 								 	echo '';
 									
 									$path3 =$url1.'q'.$qid.'_'.$org_code.'_'.$answer_storage_month_year.'_3.jpeg';
 									$imgurl_check3 = $path3;
 								 if ($ev[2]==NULL)
 										  { ?><img src="images/no.jpg" width="50" height="50">
-									     <?php }else{ ?><img src="upload/<?php echo $ev[2];?>" width="50" height="50"><?php }  
+									     <?php }else{ ?><a href="upload/<?php echo $ev[2];?>" title=""><img src="upload/<?php echo $ev[2];?>" width="50" height="50"></a><?php } 
 								 	echo '</div>';
 						
 									 
@@ -260,9 +302,35 @@ $answer_storage_month_year=$_REQUEST['month'];
 									 
 									 if($answer1==$ans){ echo 'Answer: '.$answer1;}
 									 else{ echo 'Answer: '.$answer2;}
+                                                                         echo ' ';
 
 							
 							    }
+                                                             echo '<span>';
+                                                                
+                                                                //////////////// Doc/pdf/docx 
+                                                                       
+                                                                        $doc_url='docs/';
+                                                                        $doc_path1 =$doc_url.'q_'.$qid.'_'.$org_code.'_'.$answer_storage_month_year.'_1';
+                                                                        $docurl_check1 = $doc_path1;    
+                                                                        if ($dc[0]==NULL){}else
+								        { ?><a href="docs/<?php echo $dc[0];?>">Doc1 </a>&nbsp;<?php }  
+								 	echo ' ';
+                                                                        
+                                                                        $doc_path2 =$doc_url.'q_'.$qid.'_'.$org_code.'_'.$answer_storage_month_year.'_2.doc';
+                                                                        $docurl_check2 = $doc_path2;
+                                                                        if ($dc[1]==NULL){}else
+								        { ?><a href="docs/<?php echo $dc[1];?>">Doc2</a>&nbsp;<?php }  
+								 	echo ' ';
+                                                                        
+                                                                        $doc_path3 =$doc_url.'q_'.$qid.'_'.$org_code.'_'.$answer_storage_month_year.'_3.doc';
+                                                                        $docurl_check3 = $doc_path3;
+                                                                        if ($dc[2]==NULL){}else
+                                                                            { ?><a href="docs/<?php echo $dc[2];?>">Doc3</a>&nbsp;<?php }  
+								 	
+                                                                        ////////////
+                                                                echo '</span>';
+                                                            
                                                              }
 								?>
 								

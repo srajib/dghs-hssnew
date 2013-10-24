@@ -34,12 +34,14 @@ if($_SESSION['loginid'] <= 2)
 
 <!-- Styles -->
 <link href="./css/bootstrap.css" rel="stylesheet">
-<link href="./css/bootstrap-overrides.css" rel="stylesheet">
 <link href="./css/bootstrap-responsive.css" rel="stylesheet">
+<link href="./css/bootstrap-overrides.css" rel="stylesheet">
 
 <link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 
 <link href="./css/slate.css" rel="stylesheet">
+<link href="./css/slate-responsive.css" rel="stylesheet">
+
 
 <!-- Javascript -->
 <link href="phpuploader/demo.css" rel="stylesheet" type="text/css" />
@@ -58,6 +60,11 @@ if($_SESSION['loginid'] <= 2)
 		}
 	}
 	</script>
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 
 </head>
 
@@ -203,17 +210,16 @@ if($fileguidlist)
                         array_push($myArray,$mvcfile->FileName);
                  
                         $mvcfile->MoveTo("upload/". $filepath);
-                       
-                      
+ 
                       //Copys the uploaded file to a new location.
 			//$mvcfile->CopyTo("upload/".$filepath);
 			//Deletes this instance.
 			//$mvcfile->Delete();
 		}
-	}
 
-     $datetime=date('Y-m-d - h:i:s ');
-    
+	}
+        
+   
    $arvalue=implode(",",$myArray);
    
    $ex=explode(",",$arvalue);
@@ -222,24 +228,17 @@ if($fileguidlist)
    $file3=$ex[2];
   
   if(!empty($file1)){
-   $sql=  mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_evidence1='$file1',answer_storage_modified='$datetime' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id' ");
+   $sql=  mysql_query("UPDATE hss_tertiary_answer_storage SET answer_storage_q".$q_id."_evidence1='$file1' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'");
    }
    if(!empty($file2)){
-    $sql=  mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_evidence2='$file2',answer_storage_modified='$datetime' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'");   
+    $sql=  mysql_query("UPDATE hss_tertiary_answer_storage SET answer_storage_q".$q_id."_evidence2='$file2' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'");   
    }
    if(!empty($file3)){
-       
-      $sql=  mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_evidence3='$file3',answer_storage_modified='$datetime' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'");    
-    
+    $sql=  mysql_query("UPDATE hss_tertiary_answer_storage SET answer_storage_q".$q_id."_evidence3='$file3' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'");    
    }
    //$sql=  mysql_query("UPDATE hss_answer_storage SET answer_storage_q".$q_id."_evidence1='$file1',answer_storage_q".$q_id."_evidence2='$file2',answer_storage_q".$q_id."_evidence3='$file3' where answer_storage_org_id='$org_code' AND answer_storage_month_year='$month' AND answer_storage_q".$q_id."='$q_id'");
 }
-
-
-
 ?>
-                        
-                        
 				
 	</div>
     </div>
@@ -259,9 +258,6 @@ if($fileguidlist)
 	</div> <!-- /.container -->		
 	
 </div> <!-- /#footer -->
-
-
-
 
 
   </body>

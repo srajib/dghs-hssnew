@@ -70,6 +70,7 @@ if($_SESSION['loginid'] <= 2)
 <div id="nav">
 		
 	<div class="container">
+           
 		
 		<a href="javascript:;" class="btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
         	<i class="icon-reorder"></i>

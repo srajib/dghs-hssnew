@@ -34,12 +34,14 @@ if($_SESSION['loginid'] <= 2)
 
 <!-- Styles -->
 <link href="./css/bootstrap.css" rel="stylesheet">
-<link href="./css/bootstrap-overrides.css" rel="stylesheet">
 <link href="./css/bootstrap-responsive.css" rel="stylesheet">
+<link href="./css/bootstrap-overrides.css" rel="stylesheet">
 
 <link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 
 <link href="./css/slate.css" rel="stylesheet">
+<link href="./css/slate-responsive.css" rel="stylesheet">
+
 
 <!-- Javascript -->
 <link href="phpuploader/demo.css" rel="stylesheet" type="text/css" />
@@ -58,6 +60,11 @@ if($_SESSION['loginid'] <= 2)
 		}
 	}
 	</script>
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 
 </head>
 
@@ -211,9 +218,9 @@ if($fileguidlist)
 			//$mvcfile->Delete();
 		}
 	}
-
-     $datetime=date('Y-m-d - h:i:s ');
-    
+     date_default_timezone_set('(UTC+6:00)Dhaka');
+   echo $datetime=date("Y-m-d - H:i:s", time());
+    // echo $datetime=mktime(0,0,0,date("m"),date("d"),date("Y"))
    $arvalue=implode(",",$myArray);
    
    $ex=explode(",",$arvalue);
