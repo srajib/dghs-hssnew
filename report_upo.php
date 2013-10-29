@@ -84,6 +84,8 @@ $org_email = $_SESSION['username'];
                     display: none;
                 }	
             }
+			
+			
         </style>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -157,7 +159,14 @@ $org_email = $_SESSION['username'];
                     $count_row = (mysql_num_rows($count));
                     $score += $count_row;
                 }
-
+				
+				 $score2 = 0;
+				  for ($i = 1; $i < 53; $i++) {
+                    $count = mysql_query("SELECT * FROM hss_answer_storage  WHERE hss_answer_storage.answer_storage_q" . $i . "_answer='No' AND hss_answer_storage.answer_storage_month_year='" . $answer_storage_month_year . "' AND hss_answer_storage.answer_storage_org_id='" . $org_code . "'");
+                    $count_row = (mysql_num_rows($count));
+                    $score2 += $count_row;
+                }
+                    
                 //$url ="http://app.dghs.gov.bd/dghshrm/uploads/";
 
                 $org = mysql_query("SELECT organization.org_name,admin_division.division_name, admin_district.district_name, admin_upazila.upazila_name FROM organization
@@ -182,10 +191,9 @@ $org_email = $_SESSION['username'];
                                         <tr>
                                             <td align="center" valign="middle">
                                                 <p><a href="#"><img src="./publish_files/gov.jpg" height="100px" alt="BD GOV"></a><br>
-                                                    <span class="heading">Ministry of Health and Family Welfare (MOHFW)</span><br>
-                                                    <span class="subheading" style="font-size: 18px">Health System Strengthening <? //echo $pdfdata->lhb_year;   ?></span><br>
+                                                    <span class="heading">Health System Strengthening <? //echo $pdfdata->lhb_year;   ?></span><br>
 
-                                                    <span class="subheading"><? echo $org_detail[0]; ?></span>
+                                                    <span class="subheading" style="font-size: 18px"><?php echo $org_detail[0]; ?></span>
                                                 </p>
                                                 <p><span class="subheading" style="font-size: 18px">Upazila: <?php echo $org_detail[3]; ?>, District: <? echo $org_detail[2]; ?>, Division: <? echo $org_detail[1]; ?></span></p>
                                                 <p>
@@ -195,7 +203,8 @@ $org_email = $_SESSION['username'];
                                                         $date = '01-' . $answer_storage_month_year;
                                                         echo date('F-Y', strtotime($date));
                                                         ?></span><br>
-                                                    <span class="subheading" style="font-size: 20px">Score:  <?php echo $score_percentage = round(($score * 100) / 53) . '%'; ?> </span>
+                                                    <span class="subheading" style="font-size: 20px">Score:  <?php  //echo $no_ans=(53-($score2+$score)).'-';
+													echo $score_percentage = round(($score * 100) / 53) . '%'; ?> </span>
                                                 </p>
                                             </td>
                                         </tr>
@@ -208,14 +217,12 @@ $org_email = $_SESSION['username'];
                             <div class="headfoot">
                                 <img src="./publish_files/logo-hpnsdp.jpg" alt="HPNSDP" width="181" height="143"><br>
                                 <span class="black">Supported by:</span><br>
-                                <span style="color: #039">Management Information System (MIS)</span><br>
-                                <span class="black">Directorate General of Health Services (DGHS)</span><br>
-                                <span class="black">Ministry of Health &amp; Family Welfare (MOHFW)</span><br>
+                                <span style="color: #039">ADG Planning and Development,DGHS</span><br>
                                 <span class="black">Mohakhali, Dhaka-1212</span>
                             </div><!--end of id headfoot -->
                         </div><!--end of class fullpage -->
                         <p style="page-break-before:always"></p>
-                        <div class="fullpage" style="height:6480px;">
+                        <div class="fullpage" style="height:6727px;">
                             <div style="width:100%; text-align:right;"><? //echo $pdfdata->orgname." | Health Bulletin ".$year." | " ;   ?></div>
                             <fieldset>
                                 <legend><div id="lgndp">Question Answer</div></legend>
@@ -294,9 +301,10 @@ $org_email = $_SESSION['username'];
 
                                                                 if ($answer1 == $ans) {
                                                                     echo 'Answer: ' . $answer1;
-                                                                } else {
+                                                                } elseif ($answer2 == $ans)  {
                                                                     echo 'Answer: ' . $answer2;
-                                                                }
+                                                                }else
+																echo 'Answer: ' . 'Not Answered';
                                                             }
                                                             
                                                             echo '<span>'.'&nbsp;&nbsp;';

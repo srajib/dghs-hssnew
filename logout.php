@@ -7,7 +7,7 @@ mysql_query("UPDATE admin_rec SET logout_time='$logout' WHERE login_time='$login
 */
 session_destroy(); //Destroy it! So we are logged out now
 ?><head>
-<meta http-equiv="refresh" content="2; url=<?php echo $url="http://".$_SERVER['HTTP_HOST']."/hss/"; ?>">
+<meta http-equiv="refresh" content="2; url=<?php echo $url="http://".$_SERVER['HTTP_HOST']."/hss_server_24_10_13/"; ?>">
 
 <title>Admin Login - Hss - Logout</title>
 </head>

@@ -188,10 +188,9 @@ $answer_storage_month_year=$_REQUEST['month'];
              <tbody>
               <tr>
                <td align="center" valign="middle">
-                 <p><a href="#"><img src="./publish_files/gov.jpg" height="100px" alt="BD GOV"></a><br>
-                   <span class="heading">Ministry of Health and Family Welfare (MOHFW)</span><br>
-                   <span class="subheading" style="font-size: 18px">Health System Strengthening <? //echo $pdfdata->lhb_year; ?></span><br>
-                  
+                  <p><a href="#"><img src="./publish_files/gov.jpg" height="100px" alt="BD GOV"></a><br>
+                                                    <span class="heading">Health System Strengthening <? //echo $pdfdata->lhb_year;   ?></span><br>
+
                    <span class="subheading"><? echo $org_detail[0]; ?></span>
                 </p>
                 <p><span class="subheading" style="font-size: 18px">Upazila: <?php echo $org_detail[3]; ?>, District: <? echo $org_detail[2]; ?>, Division: <? echo $org_detail[1]; ?></span></p>
@@ -211,13 +210,11 @@ $answer_storage_month_year=$_REQUEST['month'];
 			
         </div><!--end of id headlogo -->
         <div class="headfoot">
-            <img src="./publish_files/logo-hpnsdp.jpg" alt="HPNSDP" width="181" height="143"><br>
-            <span class="black">Supported by:</span><br>
-            <span style="color: #039">Management Information System (MIS)</span><br>
-            <span class="black">Directorate General of Health Services (DGHS)</span><br>
-            <span class="black">Ministry of Health &amp; Family Welfare (MOHFW)</span><br>
-            <span class="black">Mohakhali, Dhaka-1212</span>
-        </div><!--end of id headfoot -->
+                                <img src="./publish_files/logo-hpnsdp.jpg" alt="HPNSDP" width="181" height="143"><br>
+                                <span class="black">Supported by:</span><br>
+                                <span style="color: #039">ADG Planning and Development,DGHS</span><br>
+                                <span class="black">Mohakhali, Dhaka-1212</span>
+                            </div><!--end of id headfoot -->
     </div><!--end of class fullpage -->
     <p style="page-break-before:always"></p>
     <div class="fullpage" style="height:6480px;">
@@ -300,10 +297,17 @@ $answer_storage_month_year=$_REQUEST['month'];
 									 $answer_id = $answer['answer_id'];
 									 $q_id = $answer['answer_q_id'];
 									 
-									 if($answer1==$ans){ echo 'Answer: '.$answer1;}
+                                                                if ($answer1 == $ans) {
+                                                                    echo 'Answer: ' . $answer1;
+                                                                } elseif ($answer2 == $ans)  {
+                                                                    echo 'Answer: ' . $answer2;
+                                                                }else
+																echo 'Answer: ' . 'Not Answered';
+                                                            
+									/* if($answer1==$ans){ echo 'Answer: '.$answer1;}
 									 else{ echo 'Answer: '.$answer2;}
                                                                          echo ' ';
-
+*/
 							
 							    }
                                                              echo '<span>';

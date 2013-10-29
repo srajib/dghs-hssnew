@@ -172,10 +172,11 @@ if($_SESSION['loginid'] <= 2)
 				
 			<div class="row">
 			<div class="span6">
-			
-			Select Form 
+			<!--Monitoring implementation of improvement plan of HSS-->
+			<input type='hidden' name='answer_storage_form' value='1'>
+			<!--Select Form 
 			<select name="answer_storage_form" style="width:350px;">
-                                        <option value="">--Select Form--</option>
+                                     
                                          <?php
                                      $forms = mysql_query("SELECT * FROM hss_forms");
                                      while($form = mysql_fetch_array($forms))
@@ -186,9 +187,9 @@ if($_SESSION['loginid'] <= 2)
 				}
 										 ?>
              </select>
-
+             -->
 			<br/>
-			Select Period
+			Report for the month of previous month
 			<?php
 				$first  = strtotime('first day this month');
 				$months = array();
@@ -299,9 +300,10 @@ if($_SESSION['loginid'] <= 2)
 				<? endforeach; ?>
 			</select>-->
                         <select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
-				<option value="">==Select Month==</option>
-				<option value="09-2013">September,2013</option>
+					<option value="">==Select Month==</option>
 				<option value="10-2013">October,2013</option>
+				<option value="09-2013">September,2013</option>
+				
 				
 			</select>
 			</div>

@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if(!empty($_SESSION['loginid']))
@@ -125,7 +126,7 @@ if(isset($_POST['submit']))
 				</span>
 									
 				<button name="submit" class="button btn btn-secondary btn-large">Sign In</button>
-				
+		                Please Use HRM username and password. 
 			</div> <!-- .actions -->
 		</form>
 		
