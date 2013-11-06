@@ -21,6 +21,7 @@ if($_SESSION['loginid'] <= 2)
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -172,7 +173,7 @@ if($_SESSION['loginid'] <= 2)
 		
 		<form name="orgfrom" action="" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="answer_storage_month_year_2" value="" id="answer_storage_month_year_2">
-		<input type="hidden" name="answer_storage_org_id" value="<?php echo $org_code;?>">
+		<input type="hidden" name="answer_storage_org_id" value="<?php echo $user_email;?>">
 		<input type="hidden" name="answer_storage_modified" value="<?php echo $date2=date('Y-m-d h:m:i');?>">
 		<input type="hidden" name="answer_storage_updated_by" value="<?php echo $user_email;?>">
 		
@@ -211,7 +212,7 @@ if($_SESSION['loginid'] <= 2)
 				//-----------------------------------------------------------------------
 				$.ajax({                                      
 				  url: 'api.php',                  //the script to call to get data          
-				  data: "org_id=<?php echo $org_code;?>&month="+v,                        //you can insert url argumnets here to pass to api.php
+				  data: "org_id=<?php echo $user_email;?>&month="+v,                        //you can insert url argumnets here to pass to api.php
 												   //for example "id=5&parent=6"
 				  dataType: 'json',                //data format      
 				  type: "POST",
@@ -278,118 +279,16 @@ if($_SESSION['loginid'] <= 2)
 				             
 				               
                         <?php 
-                        if($org_type=='1002'||$org_type=='1028'||$org_type=='1005'||$org_type=='1022'||$org_type=='1023'){
-                            $org_code=$_SESSION['org_code'] ;
+							$user_email=$_SESSION['email'] ;
 							$month=$_REQUEST['month'];	
-							$query=mysql_query("SELECT answer_storage_org_id FROM hss_tertiary_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$org_code'");
-					
-							//print_r($rows);
-						while($row=mysql_fetch_object($query)){
-						   $ans_strg_id=$row->answer_storage_org_id;
-							}
-							
-						   function questionReturn($qid,$month,$org_code )
-						   {
-						   
-						    $question = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_tertiary_answer_storage JOIN hss_tertiary_question AS q ON q.question_id=hss_tertiary_answer_storage.answer_storage_q".$qid." WHERE hss_tertiary_answer_storage.answer_storage_q".$qid.'='.$qid);
-						   
-						    while($qa = mysql_fetch_array($question))
-							 {
-							  return $qa;
-							 }
-						   }
-						   
-						    function answerReturn($qid,$month,$org_code )
-						   {
-						   
-						    $answer = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_tertiary_answer_storage JOIN hss_tertiary_question AS q ON q.question_id=hss_tertiary_answer_storage.answer_storage_q".$qid." WHERE hss_tertiary_answer_storage.answer_storage_org_id='".$org_code."' AND hss_tertiary_answer_storage.answer_storage_month_year='".$month."' AND hss_tertiary_answer_storage.answer_storage_q".$qid.'='.$qid);
-						   
-						    while($an = mysql_fetch_array($answer))
-							 {
-							  return $an;
-							 }
-						   }
-						   				  
-						
-						   $question_type=mysql_query("SELECT * FROM hss_tertiary_question_type");
-						   $j=1;
-						   while($question_types = mysql_fetch_array($question_type))
-						   {?>
-						    <div class="accordion-heading">
-						    <a class="accordion-toggle" data-toggle="collapse" data-parent="#sample-accordion" href="#collapse<?php echo $question_types['type_id'];?>">
-						   <?php
-							echo $question_types['type_name'];
-							      $question_types_id=$question_types['type_id'];
-							?>
-							</a>
-							  <i class="icon-plus toggle-icon"></i>
-				              </div>
-						    <div id="collapse<?php echo $question_types['type_id'];?>" class="accordion-body collapse">
-				           <div class="accordion-inner">
-						   
-							<?php
-						    $question = mysql_query("SELECT * FROM hss_tertiary_question where question_type_id=$question_types_id");
-							$i=0;
-							while($results = mysql_fetch_array($question))
-								{   $i++;
-								    $qid= $results['question_id'];
-									//echo '<div class="">'.$i.'. '.$results['question_desc'].   '&nbsp;&nbsp; <a href="evidence.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Evidence</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$user_email.'">Add Doc</a></div><div></div>';
-								
-									$answers = mysql_query("SELECT * FROM hss_answers_tertiary where answer_q_id=$qid");
-									
-									$q_answers = mysql_query("SELECT * FROM hss_tertiary_answer_storage where answer_storage_id='$ans_strg_id' AND answer_q_id='$qid'");
-									
-									//print_r($results = mysql_fetch_array($q_answers ));
-									
-									 $month=$_REQUEST['month'];
-									 $org_code=$_SESSION['org_code'] ;
-									questionReturn($qid,$month,$org_code);
-									$qa=questionReturn($qid,$month,$org_code);
-									$qans=answerReturn($qid,$month,$org_code);
-									 echo '<div class="">'.$i.'. '.$ques=$qa[1]. '&nbsp;&nbsp;  <a href="evidence_tartiary.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Photograph</a> | <a href="doc_tartiary.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Document</a></div>';
-									 $ans=$qans[2];
-									
-									
-									while($answer = mysql_fetch_assoc($answers))
-									{
-									 $k=$j++;
-									 $answer1 = $answer['answer_ans1'];
-									 $answer2 = $answer['answer_ans2'];
-									 $answer3 = $answer['answer_ans3'];
-									 $answer_id = $answer['answer_id'];
-									 $q_id = $answer['answer_q_id'];
-									 
-									 
-									 ?>
-									
-									 <?php
-									echo '<input type="hidden" name="answer_storage_q'.$q_id.'" value='.$q_id.'>&nbsp;';
-									echo '<input type="radio" name="answer_storage_q'.$q_id.'_answer" value='.$answer1;if($answer1==$ans){ echo ' checked=checked';}echo '> '.$answer1.'&nbsp;&nbsp;';
-									echo '<input type="radio" name="answer_storage_q'.$q_id.'_answer" value='.$answer2;if($answer2==$ans){ echo ' checked=checked';}echo ' > '.$answer2.'&nbsp;&nbsp;';
-									if($answer3){ echo '<input type="radio" name="answer_storage_q'.$q_id.'_answer" value='.$answer3;if($answer3==$ans){ echo ' checked=checked';}echo ' > '.$answer3;}else {}
-									?>
-									<?php }
-}
-								?>
-								
-								</div>
-								
-				              </div>    
-                       						
-                                                        <?
-                                                   }}
-                                                   else { //moly
-                                                   	
-						$org_code=$_SESSION['org_code'] ;
-							$month=$_REQUEST['month'];	
-							$query=mysql_query("SELECT answer_storage_id FROM hss_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$org_code'");
+							$query=mysql_query("SELECT answer_storage_id FROM hss_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$user_email'");
 					
 							//print_r($rows);
 						while($row=mysql_fetch_object($query)){
 						   $ans_strg_id=$row->answer_storage_id;
 							}
 							
-						   function questionReturn($qid,$month,$org_code )
+						   function questionReturn($qid,$month,$user_email )
 						   {
 						   
 						    $question = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_answer_storage JOIN hss_questions AS q ON q.question_id=hss_answer_storage.answer_storage_q".$qid." WHERE hss_answer_storage.answer_storage_q".$qid.'='.$qid);
@@ -400,17 +299,18 @@ if($_SESSION['loginid'] <= 2)
 							 }
 						   }
 						   
-						    function answerReturn($qid,$month,$org_code )
+						    function answerReturn($qid,$month,$user_email )
 						   {
 						   
-						    $answer = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_answer_storage JOIN hss_questions AS q ON q.question_id=hss_answer_storage.answer_storage_q".$qid." WHERE hss_answer_storage.answer_storage_org_id='".$org_code."' AND hss_answer_storage.answer_storage_month_year='".$month."' AND hss_answer_storage.answer_storage_q".$qid.'='.$qid);
+						    $answer = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_answer_storage JOIN hss_questions AS q ON q.question_id=hss_answer_storage.answer_storage_q".$qid." WHERE hss_answer_storage.answer_storage_org_id='".$user_email."' AND hss_answer_storage.answer_storage_month_year='".$month."' AND hss_answer_storage.answer_storage_q".$qid.'='.$qid);
 						   
 						    while($an = mysql_fetch_array($answer))
 							 {
 							  return $an;
 							 }
 						   }
-						   				  
+						   
+						  
 						
 						   $question_type=mysql_query("SELECT * FROM hss_question_type");
 						   $j=1;
@@ -443,11 +343,11 @@ if($_SESSION['loginid'] <= 2)
 									//print_r($results = mysql_fetch_array($q_answers ));
 									
 									 $month=$_REQUEST['month'];
-									 $org_code=$_SESSION['org_code'] ;
-									questionReturn($qid,$month,$org_code);
-									$qa=questionReturn($qid,$month,$org_code);
-									$qans=answerReturn($qid,$month,$org_code);
-									 echo '<div class="">'.$i.'. '.$ques=$qa[1]. '&nbsp;&nbsp;  <a href="evidence.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Photograph</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$org_code.'&&month='.$month.'">Add Document</a></div>';
+									 $user_email=$_SESSION['email'] ;
+									questionReturn($qid,$month,$user_email);
+									$qa=questionReturn($qid,$month,$user_email);
+									$qans=answerReturn($qid,$month,$user_email);
+									 echo '<div class="">'.$i.'. '.$ques=$qa[1]. '&nbsp;&nbsp;  <a href="evidence.php?question_id='.$qid.'&&org_email='.$user_email.'&&month='.$month.'">Add Photograph</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$user_email.'&&month='.$month.'">Add Document</a></div>';
 									 $ans=$qans[2];
 									
 									
@@ -475,9 +375,10 @@ if($_SESSION['loginid'] <= 2)
 								
 								</div>
 								
-				              </div>		
+				              </div>
+								
 						<?php
-							}}
+							}
 						?> 	<div style="margin-left:5px;"><input type="submit" name="submit" value="Save" class="btn btn-primary"> </div>
 				            </div>
 				              </div>
@@ -489,33 +390,26 @@ if($_SESSION['loginid'] <= 2)
 					$month=$_GET['month'];
 				
 		
-				    if($_POST['submit']){
-                                        
-                                    if($org_type=='1002'||$org_type=='1028'||$org_type=='1005'||$org_type=='1022'||$org_type=='1023'){
-                                      
-                                        $exception_field=array('submit','param','answer_storage_month_year_2');
-					$str=createMySqlUpdateString($_POST, $exception_field);
-					
-					$sql="UPDATE hss_tertiary_answer_storage SET $str where answer_storage_org_id='$org_code' and answer_storage_month_year='$month'"; 
-					
-					mysql_query($sql);
-					print "<script>";
-					print " self.location='org.php'"; // Comment this line if you don't want to redirect
-					print "</script>";
-                                        
-                                        
-                                    }    
-                                    else{
+				    if($_POST['submit']){						
 					$exception_field=array('submit','param','answer_storage_month_year_2');
 					$str=createMySqlUpdateString($_POST, $exception_field);
+					/******************************************************/	
+				
 					
-					$sql="UPDATE hss_answer_storage SET $str where answer_storage_org_id='$org_code' and answer_storage_month_year='$month'"; 
+					/*
+					$query=mysql_query("SELECT answer_storage_id FROM hss_answer_storage WHERE answer_storage_month_year='$month' AND answer_storage_org_id='$user_email'");
+					 while($row=mysql_fetch_object($query)){
+					 $ans_strg_id=$row->answer_storage_id;
+					}
+					*/
+					
+					$sql="UPDATE hss_answer_storage SET $str where answer_storage_org_id='$user_email' and answer_storage_month_year='$month'"; 
 					
 					mysql_query($sql);
 					print "<script>";
 					print " self.location='org.php'"; // Comment this line if you don't want to redirect
 					print "</script>";
-	}}
+	}
 	?>
 					
 				</div> <!-- /.widget -->

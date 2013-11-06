@@ -36,7 +36,7 @@ if($_SESSION['loginid'] <= 2)
 <link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 
 <link href="./css/slate.css" rel="stylesheet">
-
+<link href="./css/slate-responsive.css" rel="stylesheet">
 
 
 <!-- Javascript -->
@@ -90,8 +90,24 @@ if($_SESSION['loginid'] <= 2)
 						<span></span>
 					</a>	    				
 				</li>
-				
-			
+				<!--
+				<li class="dropdown active" style="margin-left:-20px;">					
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-th"></i>
+						Home
+						<b class="caret"></b>
+					</a>	
+					
+				</li>
+
+				<li class="dropdown">					
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-external-link"></i>
+						Data Entry Form
+						<b class="caret"></b>
+					</a>		
+				</li>
+				-->
 				<li class="dropdown">					
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-external-link"></i>
@@ -144,18 +160,19 @@ if($_SESSION['loginid'] <= 2)
 			  </li>
 			
 			  <li class="active">Monitoring implementation of improvement plan of HSS <span style="color:blue;"></a><span class="divider"></span></li>
-
+			
+			
 			</ul>
 			
 			<script>
-                           var v = $('#answer_storage_month_year option:selected').val();
-                           var t =$('#answer_storage_month_year_2').val(v);
+			var v = $('#answer_storage_month_year option:selected').val();
+            var t =$('#answer_storage_month_year_2').val(v);
 			</script>
 			
 		</div> <!-- /.page-title -->
 		
 		<form name="orgfrom" method="post" enctype="multipart/form-data" >
-		<input type="hidden" name="answer_storage_org_id" value="<?php echo $org_code;?>">
+		<input type="hidden" name="answer_storage_org_id" value="<?php echo $user_email;?>">
 		<input type="hidden" name="answer_storage_modified" value="<?php echo $date2=date('Y-m-d h:m:i');?>">
 		<input type="hidden" name="answer_storage_updated_by" value="<?php echo $user_email;?>">
 		
@@ -169,25 +186,27 @@ if($_SESSION['loginid'] <= 2)
 			<option value="test">Test</option>
 			</select><br/>
 			Select Period
+			<?php
+				$first  = strtotime('first day this month');
+				$months = array();
+				for ($i = 5; $i >-1; $i--) {
+				array_push($months, date('F', strtotime("-$i month", $first)));
+				}
+			?>
+			
+			
 			<select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
 				<option value="">==Select Month==</option>
-				<option value="10-2013">October,2013</option>
-				<option value="09-2013">September,2013</option>
-				
-				
+				<? foreach($months as $month): ?>
+				<option value="<?php echo date('m',strtotime($month)).'-'.date('Y');?>"><?php echo $month.'-'.date('Y'); ?></option>
+				<? endforeach; ?>
 			</select>
+			
 			
 			</div>
 		    </div>
-                <?php
-                /*$sql=mysql_query("select org_type_code from organization");
-                        $org_type_row=  mysql_fetch_array($sql);
-                          $org_type=$org_type_row['org_type_code'];*/
-                        
-			if($org_type=='1002'||$org_type=='1028'||$org_type=='1005'||$org_type=='1022'||$org_type=='1023'){
-                                                
-                            ?>
-			<script>
+			
+				<script>
 				function toggle() {
 				var v = $('#answer_storage_month_year option:selected').val();
 				var v = v.toString();
@@ -196,10 +215,10 @@ if($_SESSION['loginid'] <= 2)
 				//-----------------------------------------------------------------------
 				// 2) Send a http request with AJAX http://api.jquery.com/jQuery.ajax/
 				//-----------------------------------------------------------------------
-				$.ajax({  
-				  url: 'api_tartiary.php',     //the script to call to get data          
-				  data: "org_id=<?php echo $org_code; ?>&month="+v, //you can insert url argumnets here to pass to api.php
-										   //for example "id=5&parent=6"
+				$.ajax({                                      
+				  url: 'api.php',                  //the script to call to get data          
+				  data: "org_id=<?php echo $user_email;?>&month="+v,                        //you can insert url argumnets here to pass to api.php
+												   //for example "id=5&parent=6"
 				  dataType: 'json',                //data format      
 				  type: "POST",
 				  success: function(data)          //on recieve of reply
@@ -207,7 +226,7 @@ if($_SESSION['loginid'] <= 2)
 				    
 				   	var v = $('#answer_storage_month_year option:selected').val();
 					
-					var vname = data;    //get name
+					var vname = data;           //get name
 					var t = v;           //get name
 					
 					
@@ -225,60 +244,22 @@ if($_SESSION['loginid'] <= 2)
   }); 
 			  
 			     }
-
+				 
+				 
+				 
+				 
 			</script>
-                        <?}  else {
-                             ?>
-                            
-                             <script>
-				function toggle() {
-				var v = $('#answer_storage_month_year option:selected').val();
-				var v = v.toString();
-				$(function () 
-			    {
-				//-----------------------------------------------------------------------
-				// 2) Send a http request with AJAX http://api.jquery.com/jQuery.ajax/
-				//-----------------------------------------------------------------------
-				$.ajax({  
-				  url: 'api.php',     //the script to call to get data          
-				  data: "org_id=<?php echo $org_code; ?>&month="+v, //you can insert url argumnets here to pass to api.php
-										   //for example "id=5&parent=6"
-				  dataType: 'json',                //data format      
-				  type: "POST",
-				  success: function(data)          //on recieve of reply
-				  { 
-				    
-				   	var v = $('#answer_storage_month_year option:selected').val();
-					
-					var vname = data;    //get name
-					var t = v;           //get name
-					
-					
-					if(vname > 0)
-					{
-					  	$('#output').html("<b><a href='report_upo.php?month="+t+"' target='_blank'>Please click here to see your report.</a></b>"); //Set output element html
-						$('.widget-accordion').hide();
-					}
-					else{
-						$('#output').html("<b>You have not insert any data for this month. </b>"); //Set output element html
-						$('.widget-accordion').show();
-					}
-				  } 
-				});
-  }); 
-			  
-			     }
-			 
-			</script>   
-                          <?}?>
-                        
-                       			
+			
+			
 			<div id="output"></div>
 		
 		<div class="row">
 			
 			<div class="span6">
-
+			
+			   
+			
+					
 					
 				</div> <!-- /.widget -->
 				
@@ -287,6 +268,10 @@ if($_SESSION['loginid'] <= 2)
 			</form>
 			
 			<div class="span6">
+				
+				
+		
+				
 				
 			</div> <!-- /.span6 -->
 			
@@ -307,6 +292,10 @@ if($_SESSION['loginid'] <= 2)
 	</div> <!-- /.container -->		
 	
 </div> <!-- /#footer -->
+
+
+
+
 
   </body>
 </html>
