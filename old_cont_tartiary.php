@@ -685,25 +685,29 @@ $nov_score=0;
 				 $question_type=mysql_query("SELECT qt.type_id,qt.type_name FROM hss_tertiary_question_type qt
 LEFT JOIN hss_question_type_div_district_tertiary AS dd ON qt.type_name=dd.type_name WHERE dd.division_name='$div1'");
 
-/*while($question_types = mysql_fetch_array($question_type))
+while($question_types = mysql_fetch_array($question_type))
    {?>
     <div >
    <?php
-         $question_type=$question_types['type_name'];
+          print_r($question_types);
+        echo $question_type=$question_types['type_name'];
          $question_types_id=$question_types['type_id'];
 		 
 		   $qtype_sql = mysql_query("SELECT * FROM hss_questions_tertiary where question_type_id=$question_types_id");
-              
+             // $qtype=  mysql_fetch_array($qtype_sql);
+           //  echo  $count_question = mysql_num_rows($qtype_sql);
 			 while($questions = mysql_fetch_array($qtype_sql))
 			  {
-			   echo $questions['cnt'];
+			// echo "<pre>";
+			 // print_r($questions);
+			 // echo $questions['cnt'];
 			  }
 			  
         ?>
        
    </div>
    <?php } 
-*/
+
 				
 				
 				 ?> </td><td> <? echo  $sept_score ;?></td><td> <?php echo $oct_score; ?> </td><td><?php echo '0'; ?></td><?

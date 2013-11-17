@@ -136,8 +136,8 @@ if($_SESSION['loginid'] <= 2)
 		<div id="page-title" class="clearfix">
 			
 			<ul class="breadcrumb">
-			  <li>
-			    <a href="org.php">Home</a> <span class="divider">/</span>
+				  <li>
+			    <a href="org_edit.php?month=<?php echo $month ;?>">Back to Edit</a> <span class="divider">/</span>
 			  </li>
 			
 			  <li class="active">Health System Strengthening Evaluation Form</li>

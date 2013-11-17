@@ -225,10 +225,10 @@ return true;
                            <p>
                           <table class='table'>
 			  <tbody>
-			    <th> Division Name</th><th>Insitution Name</th><th> Percentage <div>Sept</div></th><th> Percentage <div>Oct</div></th><th> Percentage <div>Nov</div> </th>
+			    <th> Division Name</th><th> Percentage <div>Sept</div></th><th> Percentage <div>Oct</div></th><th> Percentage <div>Nov</div> </th>
 			  </tbody>
                           <?php 
-                          $division1=mysql_query("select o.division_name,a.division_bbs_code from organization o 
+                          $division1=mysql_query("select o.division_name from organization o 
                           INNER JOIN admin_division AS a ON (o.division_code=a.division_bbs_code) GROUP BY o.division_name");
            
                      $sum_sept=0; 
@@ -236,12 +236,17 @@ return true;
                      $sum_nov=0;
                           while ($row_div =  mysql_fetch_array($division1)){
                           $div1 = $row_div['division_name']; 
-						  $div1_code= $row_div['division_bbs_code']; 
-						  //$org_name=$row_div['org_name'];
 						  
+						  $org_name=mysql_query("select org_name,division_name from organization where division_name='$div1' AND org_type_code='1002'||org_type_code='1004'||org_type_code='1005'"); 
 						  
-          
-
+						  //$row_org =  mysql_fetch_array($org_name);
+						  //echo "<pre>";
+                          //print_r($row_org);
+						  while($row_org= mysql_fetch_array($org_name)){
+						  echo "<pre>";
+                          print_r($row_org);
+						  }
+           
   $sql_con=mysql_query(" SELECT o.division_name,
   SUM(CASE WHEN answer_storage_q1_answer = 'yes' THEN 1 ELSE 0 END) AS q1,
   SUM(CASE WHEN answer_storage_q2_answer = 'yes' THEN 1 ELSE 0 END) AS q2,
@@ -670,43 +675,11 @@ $nov_score=0;
                           $sum_sept+= $sept;
                           $sum_oct+= $oct;
 						  //$sum_nov+= $nov;
+                       
                           ?>
+			 
                           <tr>
-						  
-				<td><?php  echo $div1;  ?></td>
-				<td><?php
-				$org_name_= mysql_query("SELECT org_name,org_code from organization where (org_type_code='1005' AND division_code='$div1_code') OR (org_type_code='1002' AND division_code='$div1_code') OR (org_code='10001811' AND division_code='$div1_code') OR (org_code='10000425' AND division_code='$div1_code') OR (org_code='10001109' AND division_code='$div1_code')");
-				while($row_org= mysql_fetch_array($org_name_)){
-				 echo $org_name=$row_org['org_name'].'<br>'; 
-				 ///echo "<pre>";
-				 //print_r($row_org);
-				}
-				
-				 $question_type=mysql_query("SELECT qt.type_id,qt.type_name FROM hss_tertiary_question_type qt
-LEFT JOIN hss_question_type_div_district_tertiary AS dd ON qt.type_name=dd.type_name WHERE dd.division_name='$div1'");
-
-/*while($question_types = mysql_fetch_array($question_type))
-   {?>
-    <div >
-   <?php
-         $question_type=$question_types['type_name'];
-         $question_types_id=$question_types['type_id'];
-		 
-		   $qtype_sql = mysql_query("SELECT * FROM hss_questions_tertiary where question_type_id=$question_types_id");
-              
-			 while($questions = mysql_fetch_array($qtype_sql))
-			  {
-			   echo $questions['cnt'];
-			  }
-			  
-        ?>
-       
-   </div>
-   <?php } 
-*/
-				
-				
-				 ?> </td><td> <? echo  $sept_score ;?></td><td> <?php echo $oct_score; ?> </td><td><?php echo '0'; ?></td><?
+				<td><?php  echo $div1; ?> </td><td> <? echo  $sept_score ;?></td><td> <?php echo $oct_score; ?> </td><td><?php echo '0'; ?></td><?
                           } 
                          
                         ?>

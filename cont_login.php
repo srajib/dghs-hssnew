@@ -3,19 +3,7 @@ session_start();
 //error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
-if(empty($_SESSION['loginid']))
-{
-	print "<script>";
-	print " self.location='index.php'"; // Comment this line if you don't want to redirect
-	print "</script>";
-}
 
-if($_SESSION['loginid'] <= 2)
-{
-	print "<script>";
-	print " self.location='admin.php'"; // Comment this line if you don't want to redirect
-	print "</script>";
-}
 
  $bd=$_GET['bd'];
 //$division_bbs_code=$_GET['division_bbs_code'];
@@ -82,7 +70,7 @@ return true;
 </head>
 
 <body>
- <?php include('header.php'); 
+ <?php include('header_login.php'); 
  
 
  	
@@ -114,29 +102,7 @@ return true;
 				</li>
 				
 			
-				<li class="dropdown">					
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-external-link"></i>
-						Report
-						<b class="caret"></b>
-					</a>	
 			
-					<ul class="dropdown-menu">							
-						<li><a href="basic_report.php">Basic Report</a></li>
-						<li class="dropdown">
-							<a href="javascript:;">
-								Report									
-								<i class="icon-chevron-right sub-menu-caret"></i>
-							</a>
-						</li>
-                                                <li class="dropdown">
-							<a href="upozila_organization_summary.php">
-								Organization Answer Report									
-								<i class="icon-chevron-right sub-menu-caret"></i>
-							</a>
-						</li>
-					</ul>   			
-				</li>
 				
 			
 			</ul>
@@ -144,12 +110,7 @@ return true;
 			
 			<ul class="nav pull-right">
 		
-				<li class="">
-					<form class="navbar-search pull-left">
-						<input type="text" class="search-query" placeholder="Search">
-						<button class="search-btn"><i class="icon-search"></i></button>
-					</form>	    				
-				</li>
+				
 				
 			</ul>
 			
@@ -182,7 +143,7 @@ return true;
 			
 			<div class="span3">
 			<ul id="navigation" style="border:double; border-color:#AFDBFE;background-color:#EEF5FD" hieght="auto"> 
-		<li><a href="cont.php?bd=<?php echo $bd;?>">Bangladesh</a>
+		<li><a href="cont_login.php?bd=<?php echo $bd;?>">Bangladesh</a>
 			<ul>
 <?php
 // tree part start
@@ -190,22 +151,18 @@ return true;
     while($row = mysql_fetch_array($tree))
             {
                 ?>
-                <li style="background-color:#EEF5FD"><a href="division.php?division_bbs_code=<?php echo $row['division_bbs_code'];?>"><?php echo $row['division_name']; ?></a>
+                <li style="background-color:#EEF5FD"><a href="division_login.php?division_bbs_code=<?php echo $row['division_bbs_code'];?>"><?php echo $row['division_name']; ?></a>
                         <ul>
                 <?php
                  $divid = $row['division_bbs_code'];
                  $dist = mysql_query("SELECT * FROM admin_district WHERE division_bbs_code='$divid'");
-				
-				 //echo $dist_rows = mysql_num_rows("SELECT * FROM admin_district WHERE division_bbs_code='$divid'");
-				 
-				 
                  while($rowdist = mysql_fetch_array($dist))
                 { ?>
-                     <li style="background-color:#EEF5FD"><a href="district.php?district_bbs_code=<?php echo $rowdist['district_bbs_code']; ?>"><?php echo $rowdist['district_name']; ?></a>
+                     <li style="background-color:#EEF5FD"><a href="district_login.php?district_bbs_code=<?php echo $rowdist['district_bbs_code']; ?>"><?php echo $rowdist['district_name']; ?></a>
                             <ul>
 							<?php
 					 $disid=$rowdist['old_district_id'];
-				     $upo = mysql_query("SELECT * FROM admin_upazila WHERE old_district_id='$disid'");
+				         $upo = mysql_query("SELECT * FROM admin_upazila WHERE old_district_id='$disid'");
 					 while($rowupo = mysql_fetch_array($upo)){
 		?>
                                 <li style="background-color:#EEF5FD"><a href="organization_summery.php?upozilla_id=<?php echo $rowupo['old_upazila_id']?> "><?php echo $rowupo['upazila_name']; ?></a>
@@ -231,14 +188,13 @@ return true;
 			    <th> Division Name</th><th> Percentage <div>Sept</div></th><th> Percentage <div>Oct</div></th><th>Percentage <div>Nov</div>  </th>
 			  </tbody>
                           <?php 
-                          $division1=mysql_query("select o.division_name,o.division_bbs_code from admin_division o"); 
+                          $division1=mysql_query("select o.division_name from admin_division o"); 
            
                      $sum_sept=0; 
                      $sum_oct=0;
                      $sum_nov=0;
                           while ($row_div=  mysql_fetch_array($division1)){
                           $div1= $row_div['division_name']; 
-						  $div1_code= $row_div['division_bbs_code']; 
          
   $sql_con=mysql_query(" SELECT o.division_name,
   SUM(CASE WHEN answer_storage_q1_answer = 'Yes' THEN 1 ELSE 0 END) AS q1,
@@ -307,6 +263,9 @@ WHERE  o.division_name='$div1' and a.answer_storage_month_year='09-2013' GROUP B
 $sept=0;
 $sept_score=0;
                           while($row= mysql_fetch_array($sql_con)){
+//                               echo '<pre>';
+//                              print_r($row);
+                          //$divname=$row['div_name'];
                           $q1=$row['q1'];
                           $q2=$row['q2'];
                           $q3=$row['q3'];
@@ -365,14 +324,16 @@ $sept_score=0;
                           $q51=$row['q51'];
                           $q52=$row['q52'];
                           $q53=$row['q53'];
-						  
-                        $sept=$q1+$q2+$q3+$q4+$q5+$q6+$q7+$q8+$q9+$q10+$q11+$q12+$q13+$q14+$q15+$q16+$q17+$q18+$q19+$q20+$q21+$q22+$q23+$q24+$q25+$q26+$q27+$q28+$q29+$q30+$q31+$q32+$q33+$q34+$q35+$q36+$q37+$q38+$q39+$q40+$q41+$q42+$q43+$q44+$q45+$q46+$q47+$q48+$q49+$q50+$q51+$q52+$q53;
+                          
+                          $sept=$q1+$q2+$q3+$q4+$q5+$q6+$q7+$q8+$q9+$q10+$q11+$q12+$q13+$q14+$q15+$q16+$q17+$q18+$q19+$q20+$q21+$q22+$q23+$q24+$q25+$q26+$q27+$q28+$q29+$q30+$q31+$q32+$q33+$q34+$q35+$q36+$q37+$q38+$q39+$q40+$q41+$q42+$q43+$q44+$q45+$q46+$q47+$q48+$q49+$q50+$q51+$q52+$q53;
                          
-                        $dis_count= mysql_query("SELECT d.division_name,COUNT(ds.district_name) AS dis_cnt FROM admin_division d
-                        INNER JOIN admin_district AS ds ON d.division_bbs_code=ds.division_bbs_code GROUP BY d.division_name");
+                        $dis_count= mysql_query("SELECT d.division_name,COUNT(ds.district_name) as dis_cnt  FROM admin_division d
+                        INNER JOIN admin_district AS ds ON d.division_bbs_code=ds.division_bbs_code and d.division_name='$div1' GROUP BY d.division_name");
                         $dis_count_row=  mysql_fetch_array($dis_count);
                         $district_count=$dis_count_row['dis_cnt'];
-                        $sept_score=round(($sept/$district_count)).'%';   
+                        
+                         $sept_score=round(($sept/$district_count)).'%'; 
+                          
                          } 
                          
                
@@ -509,13 +470,16 @@ $oct_score=0;
                           $oct_q52=$row_oct['oct_q52'];
                           $oct_q53=$row_oct['oct_q53'];
                           
-                         $oct=$oct_q1+$oct_q2+$oct_q3+$oct_q4+$oct_q5+$oct_q6+$oct_q7+$oct_q8+$oct_q9+$oct_q10+$oct_q11+$oct_q12+$oct_q13+$oct_q14+$oct_q15+$oct_q16+$oct_q17+$oct_q18+$oct_q19+$oct_q20+$oct_q21+$oct_q22+$oct_q23+$oct_q24+$oct_q25+$oct_q26+$oct_q27+$oct_q28+$oct_q29+$oct_q30+$oct_q31+$oct_q32+$oct_q33+$oct_q34+$oct_q35+$oct_q36+$oct_q37+$oct_q38+$oct_q39+$oct_q40+$oct_q41+$oct_q42+$oct_q43+$oct_q44+$oct_q45+$oct_q46+$oct_q47+$oct_q48+$oct_q49+$oct_q50+$oct_q51+$oct_q52+$oct_q53;
+                          
+                          $oct=$oct_q1+$oct_q2+$oct_q3+$oct_q4+$oct_q5+$oct_q6+$oct_q7+$oct_q8+$oct_q9+$oct_q10+$oct_q11+$oct_q12+$oct_q13+$oct_q14+$oct_q15+$oct_q16+$oct_q17+$oct_q18+$oct_q19+$oct_q20+$oct_q21+$oct_q22+$oct_q23+$oct_q24+$oct_q25+$oct_q26+$oct_q27+$oct_q28+$oct_q29+$oct_q30+$oct_q31+$oct_q32+$oct_q33+$oct_q34+$oct_q35+$oct_q36+$oct_q37+$oct_q38+$oct_q39+$oct_q40+$oct_q41+$oct_q42+$oct_q43+$oct_q44+$oct_q45+$oct_q46+$oct_q47+$oct_q48+$oct_q49+$oct_q50+$oct_q51+$oct_q52+$oct_q53;
 
+                          //$oct_score=round(($oct * .53)).'%';
                         $dis_count_oct= mysql_query("SELECT d.division_name,COUNT(ds.district_name) as dis_cnt  FROM admin_division d
                         INNER JOIN admin_district AS ds ON d.division_bbs_code=ds.division_bbs_code GROUP BY d.division_name");
                         $dis_count_oct_row=  mysql_fetch_array($dis_count_oct);
                         $dcount_oct=$dis_count_oct_row['dis_cnt'];
-                        $oct_score=round(($oct/$dcount_oct)).'%'; 
+                        
+                        $oct_score=round(($oct /$dcount_oct)).'%'; 
                            
                           }
                           ////////// November
@@ -651,13 +615,14 @@ $nov_score=0;
                           
                         $nov=$nov_q1+$nov_q2+$nov_q3+$nov_q4+$nov_q5+$nov_q6+$nov_q7+$nov_q8+$nov_q9+$nov_q10+$nov_q11+$nov_q12+$nov_q13+$nov_q14+$nov_q15+$nov_q16+$nov_q17+$nov_q18+$nov_q19+$nov_q20+$nov_q21+$nov_q22+$nov_q23+$nov_q24+$nov_q25+$nov_q26+$nov_q27+$nov_q28+$nov_q29+$nov_q30+$nov_q31+$nov_q32+$nov_q33+$nov_q34+$nov_q35+$nov_q36+$nov_q37+$nov_q38+$nov_q39+$nov_q40+$nov_q41+$nov_q42+$nov_q43+$nov_q44+$nov_q45+$nov_q46+$nov_q47+$nov_q48+$nov_q49+$nov_q50+$nov_q51+$nov_q52+$nov_q53;
 
-                        $dis_count_nov= mysql_query("SELECT d.division_name,COUNT(ds.district_name) as dis_cnt FROM admin_division d
+
+                          //$oct_score=round(($oct * .53)).'%';
+                        $dis_count_nov= mysql_query("SELECT d.division_name,COUNT(ds.district_name) as dis_cnt  FROM admin_division d
                         INNER JOIN admin_district AS ds ON d.division_bbs_code=ds.division_bbs_code GROUP BY d.division_name");
-                        
-						$dis_count_nov_row=  mysql_fetch_array($dis_count_nov);
+                        $dis_count_nov_row=  mysql_fetch_array($dis_count_nov);
                         $dcount_nov=$dis_count_nov_row['dis_cnt'];
+                        
                         $nov_score=round(($nov /$dcount_nov)).'%'; 
-						
                            
                           }
                     
@@ -667,32 +632,22 @@ $nov_score=0;
                           ?>
 			 
                           <tr>
-			    <td><?php  echo $div1; ?> </td><td><?php      
-				
-				$dis_count_nov=mysql_query("SELECT COUNT(district_name) as dis_cnt from admin_district where division_bbs_code=$div1_code");
-				$dis_count_nov_row=mysql_fetch_array($dis_count_nov);
-				$dcount_nov=$dis_count_nov_row['dis_cnt'];
-				
-				echo $sept=round(($sept/$dcount_nov)).'%'; ?></td><td><?php echo $oct=round(($oct/$dcount_nov)).'%'; ?></td><td><? echo $nov=round(($nov/$dcount_nov)); ?></td><?
-                        $sum_sept+= $sept; 
-						$sum_oct+= $oct;	
-						$sum_nov+= $nov;						
+			    <td><?php  echo $div1; ?> </td><td><?echo $sept_score; ?></td><td><? echo $oct_score; ?></td><td><? echo $nov_score; ?></td><?
+                                 
                           } 
                           
                         ?>
                            </tr>
                                 
 			</table>
- <!--                         
-<table class="table">
+                          
+<!--<table class="table">
 <tr>
 <td><strong>Total Summary</strong></td>
-<td><strong><? echo " $sum_sept" ;?></strong></td> <td><strong><? echo " $sum_oct" ;?></strong></td>
+<td><strong><? echo " $sum_sept" ;?></strong></td> <td><strong><? echo " $sum_oct" ;?></strong></td><td>0</td><td>0</td>
 
 </tr>
-</table>
-
--->
+</table>-->
 			
 			</div><!-- /.span6 -->
 			

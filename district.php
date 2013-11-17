@@ -36,19 +36,36 @@ if($_SESSION['loginid'] <= 2)
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <!-- Styles -->
-<link href="./css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-<link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+<link href="css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 
-<link href="./css/slate.css" rel="stylesheet">
-<link href="./css/slate-responsive.css" rel="stylesheet">
+<link href="css/slate.css" rel="stylesheet">
+<link href="css/slate-responsive.css" rel="stylesheet">
+
+<!-- Javascript -->
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="css/jscal2.css"/>
+<link rel="stylesheet" type="text/css" href="css/border-radius.css"/>
+<link rel="stylesheet" type="text/css" href="css/steel/steel.css"/>
+
+
+<script src="js/demos/charts/bar.js"></script>
+
+
+
 <link rel="stylesheet" href="treeview/jquery.treeview.css" />
 <link rel="stylesheet" href="treeview/screen.css" />
 	
-	<script src="treeview/lib/jquery.js" type="text/javascript"></script>
-	<script src="treeview/lib/jquery.cookie.js" type="text/javascript"></script>
-	<script src="treeview/jquery.treeview.js" type="text/javascript"></script>
-	<script type="text/javascript" src="treeview/demo.js"></script>
+<script src="treeview/lib/jquery.js" type="text/javascript"></script>
+<script src="treeview/lib/jquery.cookie.js" type="text/javascript"></script>
+<script src="treeview/jquery.treeview.js" type="text/javascript"></script>
+<script type="text/javascript" src="treeview/demo.js"></script>
 
 
 <!-- Javascript -->
@@ -135,6 +152,7 @@ return true;
 						<button class="search-btn"><i class="icon-search"></i></button>
 					</form>	    				
 				</li>
+                           
 				
 			</ul>
 			
@@ -179,12 +197,13 @@ return true;
                 <?php
                  $divid = $row['division_bbs_code'];
                  $dist = mysql_query("SELECT * FROM admin_district WHERE division_bbs_code='$divid'");
+				// echo $dist_rows = mysql_num_rows("SELECT * FROM admin_district WHERE division_bbs_code='$divid'");
                  while($rowdist = mysql_fetch_array($dist))
                 { ?>
                      <li style="background-color:#EEF5FD"><a href="district.php?district_bbs_code=<?php echo $rowdist['district_bbs_code']; ?>"><?php echo $rowdist['district_name']; ?></a>
                             <ul>
 							<?php
-							 $disid=$rowdist['old_district_id'];
+							$disid=$rowdist['old_district_id'];
 				            $upo = mysql_query("SELECT * FROM admin_upazila WHERE old_district_id='$disid'");
 							while($rowupo = mysql_fetch_array($upo)){
 							?>
@@ -204,28 +223,33 @@ return true;
 	</ul>	
 				
 			</div> <!-- /.span3 -->
-			<div class="spane6"> <h3> Upazila wise Summary Report of <? echo $dis_name ;?> District</h3>
+					<div class="spane6"> <h3> Upazila wise Summary Report of <? echo $dis_name ;?> District</h3>
                             <p>
 			<table class='table'>
 			  <tbody>
-			    <th> Upazila Name </th><th> Answer </th><th> Sept </th><th> Oct </th><th> Nov </th><th>Dec </th>
+		 	    <th> Upazila Name </th><th>Percentage of Sept </th><th>Percentage of Oct </th><th>Percentage of Nov </th>
 			  </tbody>
                               <?
-//			  $Upazila1=mysql_query("SELECT o.upazila_thana_name FROM organization o 
-//                          INNER JOIN hss_answer_storage AS a ON (o.org_code=a.answer_storage_org_id)
-//                          WHERE o.district_code='$district_bbs_code' GROUP BY o.upazila_thana_name ");
-                              
-                        $Upazila1=mysql_query("SELECT o.upazila_name FROM admin_upazila o 
+		$Upazila1=mysql_query("SELECT o.upazila_name,o.upazila_bbs_code,o.upazila_district_code	FROM admin_upazila o 
                 INNER JOIN admin_district AS a ON (o.old_district_id=a.old_district_id)
                 WHERE o.old_district_id='$dis_id' GROUP BY o.upazila_name ");
            
+		   
+		   //print_r($Upazila1);
+		   
+		   
                      $sum_sept=0; 
                      $sum_oct=0;
                      $sum_nov=0;
+					 
                           while ($row_upa=  mysql_fetch_array($Upazila1)){
-                          $upa1= $row_upa['upazila_name']; 
+                            
+							 $upa1= $row_upa['upazila_name']; 
+							 echo $upaBBS=$row_upa['upazila_bbs_code'];
+							 echo $disBBS=$row_upa['upazila_district_code'];	
+							
                           
-                          $sql_con=mysql_query(" SELECT o.upazila_thana_name,
+                          $sql_con=mysql_query(" SELECT o.upazila_thana_name
   SUM(CASE WHEN answer_storage_q1_answer = 'yes' THEN 1 ELSE 0 END) AS q1,
   SUM(CASE WHEN answer_storage_q2_answer = 'yes' THEN 1 ELSE 0 END) AS q2,
   SUM(CASE WHEN answer_storage_q3_answer = 'yes' THEN 1 ELSE 0 END) AS q3, 
@@ -290,10 +314,9 @@ INNER JOIN organization AS o ON (a.answer_storage_org_id=o.org_code)
 WHERE o.district_code='$district_bbs_code' and o.upazila_thana_name='$upa1' and a.answer_storage_month_year='09-2013' GROUP BY o.upazila_thana_name");
 
 $sept=0;
+$sept_score=0;
                           while($row= mysql_fetch_array($sql_con)){
-//                               echo '<pre>';
-//                              print_r($row);
-                          //$divname=$row['div_name'];
+
                           $q1=$row['q1'];
                           $q2=$row['q2'];
                           $q3=$row['q3'];
@@ -355,7 +378,7 @@ $sept=0;
                           
                          $sept=$q1+$q2+$q3+$q4+$q5+$q6+$q7+$q8+$q9+$q10+$q11+$q12+$q13+$q14+$q15+$q16+$q17+$q18+$q19+$q20+$q21+$q22+$q23+$q24+$q25+$q26+$q27+$q28+$q29+$q30+$q31+$q32+$q33+$q34+$q35+$q36+$q37+$q38+$q39+$q40+$q41+$q42+$q43+$q44+$q45+$q46+$q47+$q48+$q49+$q50+$q51+$q52+$q53;
                          
-                        // $sept_score=round(($sept * .53)).'%';
+                          $sept_score=round(($sept * 1.887)).'%';
                          } 
  //////////////////////////////////////////////// October
                           
@@ -423,10 +446,9 @@ $sept=0;
   LEFT JOIN organization AS o ON (a.answer_storage_org_id=o.org_code)
   WHERE o.district_code='$district_bbs_code' and o.upazila_thana_name='$upa1' and a.answer_storage_month_year='10-2013' GROUP BY o.upazila_thana_name");
 $oct=0;
+$oct_score=0;
                           while($row_oct= mysql_fetch_array($sql_con_oct)){
-//                              echo '<pre>';
-//                              print_r($row_oct);
-                          //$disname=$row['district_name'];
+
                           $oct_q1=$row_oct['oct_q1'];
                           $oct_q2=$row_oct['oct_q2'];
                           $oct_q3=$row_oct['oct_q3'];
@@ -486,26 +508,25 @@ $oct=0;
                           $oct_q52=$row_oct['oct_q52'];
                           $oct_q53=$row_oct['oct_q53'];
                           
-                          
-                            $oct=$oct_q1+$oct_q2+$oct_q3+$oct_q4+$oct_q5+$oct_q6+$oct_q7+$oct_q8+$oct_q9+$oct_q10+$oct_q11+$oct_q12+$oct_q13+$oct_q14+$oct_q15+$oct_q16+$oct_q17+$oct_q18+$oct_q19+$oct_q20+$oct_q21+$oct_q22+$oct_q23+$oct_q24+$oct_q25+$oct_q26+$oct_q27+$oct_q28+$oct_q29+$oct_q30+$oct_q31+$oct_q32+$oct_q33+$oct_q34+$oct_q35+$oct_q36+$oct_q37+$oct_q38+$oct_q39+$oct_q40+$oct_q41+$oct_q42+$oct_q43+$oct_q44+$oct_q45+$oct_q46+$oct_q47+$oct_q48+$oct_q49+$oct_q50+$oct_q51+$oct_q52+$oct_q53;
-                   
-                         // $oct_score=round(($oct * .53)).'%';
+                          $oct=$oct_q1+$oct_q2+$oct_q3+$oct_q4+$oct_q5+$oct_q6+$oct_q7+$oct_q8+$oct_q9+$oct_q10+$oct_q11+$oct_q12+$oct_q13+$oct_q14+$oct_q15+$oct_q16+$oct_q17+$oct_q18+$oct_q19+$oct_q20+$oct_q21+$oct_q22+$oct_q23+$oct_q24+$oct_q25+$oct_q26+$oct_q27+$oct_q28+$oct_q29+$oct_q30+$oct_q31+$oct_q32+$oct_q33+$oct_q34+$oct_q35+$oct_q36+$oct_q37+$oct_q38+$oct_q39+$oct_q40+$oct_q41+$oct_q42+$oct_q43+$oct_q44+$oct_q45+$oct_q46+$oct_q47+$oct_q48+$oct_q49+$oct_q50+$oct_q51+$oct_q52+$oct_q53;
+						  $oct_score=round(($oct  * 1.887)).'%';
+						  
                           }
-                           $sum_sept+= $sept;
+                          $sum_sept+= $sept;
                           $sum_oct+= $oct;
                           ?>
                           <tr>
-				<td> <? echo $upa1; ?>  </td><td> Yes </td><td> <? echo $sept ;?></td><td> <?php echo $oct; ?> </td><td> 0 </td><td> 0 </td> </tr>
+				<td> <? echo $upa1; ?>  </td><td> <? echo $sept_score ;?></td><td> <?php echo $oct_score; ?> </td><td> 0 </td></tr>
 			 
 			<? } ?>			  
 			</table>
-                            
 <table class="table" width="950px">
+<!--
 <tr>
 <td><strong>Total Summary </strong></td>
 <td><strong><? echo " $sum_sept" ;?></strong></td><td><strong><? echo " $sum_oct" ;?></strong></td><td>0</td><td>0</td>
 
-</tr>
+</tr>-->
 </table>
 			</div><!-- /.span6 -->
 			

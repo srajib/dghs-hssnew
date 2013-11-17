@@ -238,10 +238,7 @@ return true;
                           $div1 = $row_div['division_name']; 
 						  $div1_code= $row_div['division_bbs_code']; 
 						  //$org_name=$row_div['org_name'];
-						  
-						  
-          
-
+           
   $sql_con=mysql_query(" SELECT o.division_name,
   SUM(CASE WHEN answer_storage_q1_answer = 'yes' THEN 1 ELSE 0 END) AS q1,
   SUM(CASE WHEN answer_storage_q2_answer = 'yes' THEN 1 ELSE 0 END) AS q2,
@@ -681,31 +678,6 @@ $nov_score=0;
 				 ///echo "<pre>";
 				 //print_r($row_org);
 				}
-				
-				 $question_type=mysql_query("SELECT qt.type_id,qt.type_name FROM hss_tertiary_question_type qt
-LEFT JOIN hss_question_type_div_district_tertiary AS dd ON qt.type_name=dd.type_name WHERE dd.division_name='$div1'");
-
-/*while($question_types = mysql_fetch_array($question_type))
-   {?>
-    <div >
-   <?php
-         $question_type=$question_types['type_name'];
-         $question_types_id=$question_types['type_id'];
-		 
-		   $qtype_sql = mysql_query("SELECT * FROM hss_questions_tertiary where question_type_id=$question_types_id");
-              
-			 while($questions = mysql_fetch_array($qtype_sql))
-			  {
-			   echo $questions['cnt'];
-			  }
-			  
-        ?>
-       
-   </div>
-   <?php } 
-*/
-				
-				
 				 ?> </td><td> <? echo  $sept_score ;?></td><td> <?php echo $oct_score; ?> </td><td><?php echo '0'; ?></td><?
                           } 
                          

@@ -3,19 +3,7 @@ session_start();
 //error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
-if(empty($_SESSION['loginid']))
-{
-	print "<script>";
-	print " self.location='index.php'"; // Comment this line if you don't want to redirect
-	print "</script>";
-}
 
-if($_SESSION['loginid'] <= 2)
-{
-	print "<script>";
-	print " self.location='admin.php'"; // Comment this line if you don't want to redirect
-	print "</script>";
-}
 
 // $q_id=$_REQUEST['question_id'];
 // $org_code=$_SESSION['org_code'];
@@ -78,7 +66,7 @@ return true;
 </head>
 
 <body>
- <?php include('header.php');
+ <?php include('header_login.php');
  $bd='Bangladesh';
  ?>
 <div id="nav">
@@ -93,56 +81,23 @@ return true;
 			
 			<ul class="nav">
 		
-				<li class="nav-icon">
-					<a href="index.php">
-						<i class="icon-home"></i>
-						<span>Home</span>
-					</a>	    				
-				</li>
+				
                                 <li class="dropdown"> 
-					<a href="reporting.php">
+					<a href="reporting_login.php">
 						<i class="icon-home"></i>
 						<span>HSS Report Panel</span>
 					</a>	    				
 				</li>
 				
 			
-				<li class="dropdown">					
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-external-link"></i>
-						Report
-						<b class="caret"></b>
-					</a>	
-			
-					<ul class="dropdown-menu">							
-						<li><a href="basic_report.php">Basic Report</a></li>
-						<li class="dropdown">
-							<a href="javascript:;">
-								Report									
-								<i class="icon-chevron-right sub-menu-caret"></i>
-							</a>
-
-						</li>
-                                              <li class="dropdown">
-							<a href="upozila_organization_summary.php">
-								Organization Answer Report									
-								<i class="icon-chevron-right sub-menu-caret"></i>
-							</a>
-						</li>
-					</ul>   			
-				</li>
+				
 			
 			</ul>
 			
 			
 			<ul class="nav pull-right">
 		
-				<li class="">
-					<form class="navbar-search pull-left">
-						<input type="text" class="search-query" placeholder="Search">
-						<button class="search-btn"><i class="icon-search"></i></button>
-					</form>	    				
-				</li>
+				
 				
 			</ul>
 			
@@ -160,11 +115,9 @@ return true;
 		<div id="page-title" class="clearfix">
 			
 			<ul class="breadcrumb">
-			  <li>
-			    <a href="org.php">Home</a> <span class="divider">/</span>
-			  </li>
+			 
 			
-			  <li class="active">Health System Strengthening Evaluation Form</li>
+			  <li class="active">Health System Strengthening Evaluation</li>
 			</ul>
 			
 		</div> <!-- /.page-title -->
@@ -182,14 +135,14 @@ return true;
     while($row = mysql_fetch_array($tree))
             {
                 ?>
-                <li style="background-color:#EEF5FD"><a href="division_login.php?division_bbs_code=<?php echo $row['division_bbs_code'];?>"><?php echo $row['division_name']; ?></a>
+                <li style="background-color:#EEF5FD"><a href="division.php?division_bbs_code=<?php echo $row['division_bbs_code'];?>"><?php echo $row['division_name']; ?></a>
                         <ul>
                 <?php
                  $divid = $row['division_bbs_code'];
                  $dist = mysql_query("SELECT * FROM admin_district WHERE division_bbs_code='$divid'");
                  while($rowdist = mysql_fetch_array($dist))
                 { ?>
-                     <li style="background-color:#EEF5FD"><a href="district_login.php?district_bbs_code=<?php echo $rowdist['district_bbs_code']; ?>"><?php echo $rowdist['district_name']; ?></a>
+                     <li style="background-color:#EEF5FD"><a href="district.php?district_bbs_code=<?php echo $rowdist['district_bbs_code']; ?>"><?php echo $rowdist['district_name']; ?></a>
                             <ul>
 							<?php
 							 $disid=$rowdist['old_district_id'];

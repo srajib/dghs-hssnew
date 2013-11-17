@@ -95,7 +95,7 @@ $org_email = $_SESSION['username'];
     <body>
         <?php
         $print = "<div><input type=\"button\" onclick=\"javascript:window.print()\" value=\"Print HSS\" class=\"btn_print\" /></div><div class=\"rclear\"></div>";
-        echo $print;
+        
         ?>
         <div id="header">
         </div> <!-- /#header -->
@@ -153,28 +153,44 @@ $org_email = $_SESSION['username'];
 								 }
 								}
 
-                $score = 0;
-                for ($i = 1; $i < 53; $i++) {
-                    $count = mysql_query("SELECT * FROM hss_answer_storage  WHERE hss_answer_storage.answer_storage_q" . $i . "_answer='Yes'  AND hss_answer_storage.answer_storage_month_year='" . $answer_storage_month_year . "' AND hss_answer_storage.answer_storage_org_id='" . $org_code . "'");
-                    $count_row = (mysql_num_rows($count));
-                    $score += $count_row;
-                }
-				
-				 $score2 = 0;
-				  for ($i = 1; $i < 53; $i++) {
-                    $count = mysql_query("SELECT * FROM hss_answer_storage  WHERE hss_answer_storage.answer_storage_q" . $i . "_answer='No' AND hss_answer_storage.answer_storage_month_year='" . $answer_storage_month_year . "' AND hss_answer_storage.answer_storage_org_id='" . $org_code . "'");
+                $org_upo = mysql_query("SELECT organization.org_name,admin_division.division_name, admin_district.district_name, admin_upazila.old_upazila_id,admin_upazila.upazila_name FROM organization
+                LEFT JOIN admin_division ON organization.division_code=admin_division.division_bbs_code
+                LEFT JOIN admin_district ON organization.district_code=admin_district.district_bbs_code
+                LEFT JOIN admin_upazila  ON organization.upazila_id=admin_upazila.old_upazila_id where organization.org_code='" .$org_code . "'");
+
+                $org_upo_row = mysql_fetch_array($org_upo);
+                $upa_id=$org_upo_row['old_upazila_id'];
+                $dis_name=$org_upo_row['district_name'];
+                
+                $qtype_sql = mysql_query("SELECT qs.question_desc FROM hss_question_type qt
+INNER JOIN hss_question_type_div_district AS dd ON qt.type_name=dd.type_name 
+INNER JOIN hss_questions AS qs ON qt.type_id=qs.question_type_id
+INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
+INNER JOIN admin_division AS d ON dd.division_name=d.division_name
+INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
+WHERE ds.district_name='$dis_name' and up.old_upazila_id='$upa_id'");
+               // $qtype=  mysql_fetch_array($qtype_sql);
+                $count_question = (mysql_num_rows($qtype_sql));
+		
+		 $score2 = 0;
+				  for ($i = 1; $i < $count_question; $i++) {
+                    $count = mysql_query("SELECT * FROM hss_answer_storage  WHERE hss_answer_storage.answer_storage_q" . $i . "_answer='Yes' AND hss_answer_storage.answer_storage_month_year='" . $answer_storage_month_year . "' AND hss_answer_storage.answer_storage_org_id='" . $org_code . "'");
                     $count_row = (mysql_num_rows($count));
                     $score2 += $count_row;
                 }
-                    
+                   // echo " total : $score2";
                 //$url ="http://app.dghs.gov.bd/dghshrm/uploads/";
 
-                $org = mysql_query("SELECT organization.org_name,admin_division.division_name, admin_district.district_name, admin_upazila.upazila_name FROM organization
+                $org = mysql_query("SELECT organization.org_name,admin_division.division_name, admin_district.district_name, admin_upazila.old_upazila_id,admin_upazila.upazila_name FROM organization
                     LEFT JOIN admin_division ON organization.division_code=admin_division.division_bbs_code
                     LEFT JOIN admin_district ON organization.district_code=admin_district.district_bbs_code
                     LEFT JOIN admin_upazila  ON organization.upazila_id=admin_upazila.old_upazila_id where organization.org_code='" . $org_code . "'");
 
                 $org_detail = mysql_fetch_array($org);
+                $upazila_id=$org_detail['old_upazila_id'];
+				
+				//echo "<pre>";
+				//print_r($org_detail);
                 ?>
                 <div id="output"></div>
 
@@ -195,7 +211,7 @@ $org_email = $_SESSION['username'];
 
                                                     <span class="subheading" style="font-size: 18px"><?php echo $org_detail[0]; ?></span>
                                                 </p>
-                                                <p><span class="subheading" style="font-size: 18px">Upazila: <?php echo $org_detail[3]; ?>, District: <? echo $org_detail[2]; ?>, Division: <? echo $org_detail[1]; ?></span></p>
+                                                <p><span class="subheading" style="font-size: 18px">Upazila: <?php echo $org_detail[4];//echo $org_detail[3]; ?>, District: <? echo $org_detail[2]; ?>, Division: <? echo $org_detail[1]; ?></span></p>
                                                 <p>
                                                     Report on<br>
                                                     <span class="subheading" style="font-size: 17px">Monitoring implementation of improvement plan of HSS</span> <br>
@@ -204,7 +220,7 @@ $org_email = $_SESSION['username'];
                                                         echo date('F-Y', strtotime($date));
                                                         ?></span><br>
                                                     <span class="subheading" style="font-size: 20px">Score:  <?php  //echo $no_ans=(53-($score2+$score)).'-';
-													echo $score_percentage = round(($score * 100) / 53) . '%'; ?> </span>
+													echo $score_percentage = round(($score2 * 100) / $count_question) . '%'; ?> </span>
                                                 </p>
                                             </td>
                                         </tr>
@@ -222,7 +238,7 @@ $org_email = $_SESSION['username'];
                             </div><!--end of id headfoot -->
                         </div><!--end of class fullpage -->
                         <p style="page-break-before:always"></p>
-                        <div class="fullpage" style="height:6727px;">
+                        <div class="fullpage" style="height:auto;">
                             <div style="width:100%; text-align:right;"><? //echo $pdfdata->orgname." | Health Bulletin ".$year." | " ;   ?></div>
                             <fieldset>
                                 <legend><div id="lgndp">Question Answer</div></legend>
@@ -231,7 +247,12 @@ $org_email = $_SESSION['username'];
                                         <div class="accordion-group">
 
                                             <?php
-                                            $question_type = mysql_query("SELECT * FROM hss_question_type ORDER BY type_id ASC");
+                                            $question_type = mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_question_type qt
+INNER JOIN hss_question_type_div_district AS dd ON qt.type_name=dd.type_name 
+INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
+INNER JOIN admin_division AS d ON dd.division_name=d.division_name
+INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
+WHERE up.old_upazila_id='$upazila_id' ORDER BY qt.type_id ASC");
 
                                             while ($question_types = mysql_fetch_array($question_type)) {
                                                 ?>

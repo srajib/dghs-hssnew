@@ -30,20 +30,34 @@ if($_SESSION['loginid'] <= 2)
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <!-- Styles -->
-<link href="./css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-<link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+<link href="css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 
-<link href="./css/slate.css" rel="stylesheet">
-<link href="./css/slate-responsive.css" rel="stylesheet">
+<link href="css/slate.css" rel="stylesheet">
+<link href="css/slate-responsive.css" rel="stylesheet">
+
+<!-- Javascript -->
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="css/jscal2.css"/>
+<link rel="stylesheet" type="text/css" href="css/border-radius.css"/>
+<link rel="stylesheet" type="text/css" href="css/steel/steel.css"/>
+
+
+<script src="js/demos/charts/bar.js"></script>
+
+<script src="treeview/lib/jquery.js" type="text/javascript"></script>
+<script src="treeview/lib/jquery.cookie.js" type="text/javascript"></script>
+
 <link rel="stylesheet" href="treeview/jquery.treeview.css" />
 <link rel="stylesheet" href="treeview/screen.css" />
-	
-	<script src="treeview/lib/jquery.js" type="text/javascript"></script>
-	<script src="treeview/lib/jquery.cookie.js" type="text/javascript"></script>
-	<script src="treeview/jquery.treeview.js" type="text/javascript"></script>
-	<script type="text/javascript" src="treeview/demo.js"></script>
-
+<script src="treeview/jquery.treeview.js" type="text/javascript"></script>
+<script type="text/javascript" src="treeview/demo.js"></script>
 
 </head>
 
@@ -95,6 +109,12 @@ if($_SESSION['loginid'] <= 2)
 						<li class="dropdown">
 							<a href="javascript:;">
 								Report									
+								<i class="icon-chevron-right sub-menu-caret"></i>
+							</a>
+						</li>
+                                                 <li class="dropdown">
+							<a href="tartiry_organization_summry.php">
+								Organization Answer Report									
 								<i class="icon-chevron-right sub-menu-caret"></i>
 							</a>
 						</li>
@@ -475,11 +495,12 @@ $oct=0;
 			<? } ?>			  
 			</table>
 <table class="table" width="950px">
+<!--
 <tr>
 <td><strong>Total Summary </strong></td>
 <td><strong><? echo " $sum_sept" ;?></strong></td><td><strong><? echo " $sum_oct" ;?></strong></td><td>0</td><td>0</td>
 
-</tr>
+</tr>-->
 </table>
 			</div><!-- /.span6 -->
 			

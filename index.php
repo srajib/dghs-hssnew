@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if(!empty($_SESSION['loginid']))
@@ -15,7 +16,7 @@ if(!empty($_SESSION['loginid']))
 			print "</script>";
 		}
 }
-?>
+?> 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,15 +28,14 @@ if(!empty($_SESSION['loginid']))
     
     <!-- Styles -->
     
-    <link href="./css/bootstrap.css" rel="stylesheet">
-    <link href="./css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="./css/bootstrap-overrides.css" rel="stylesheet">
+     <link href="./css/bootstrap.css" rel="stylesheet">
+     <link href="./css/bootstrap-overrides.css" rel="stylesheet">
     
-	<link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+     <link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
         
-    <link href="./css/slate.css" rel="stylesheet">
+     <link href="./css/slate.css" rel="stylesheet">
     
-	<link href="./css/components/signin.css" rel="stylesheet" type="text/css">   
+     <link href="./css/components/signin.css" rel="stylesheet" type="text/css">   
     
     
     <!-- Javascript -->
@@ -54,43 +54,61 @@ if(!empty($_SESSION['loginid']))
 <?php
 include('lib/connect.php');
 extract($_POST);
-$uname = preg_replace('/\s+/', '', $username);
-$pass2 = preg_replace('/\s+/', '', $password);
+@$uname = preg_replace('/\s+/', '', $username);
+@$pass2 = preg_replace('/\s+/', '', $password);
 $pass = md5($pass2);
 
 if(isset($_POST['submit']))
 {
-	$signin = mysql_query("SELECT * FROM lpda_user WHERE username='$uname' AND password='$pass'");
+	$signin = mysql_query("SELECT * FROM user WHERE username='$uname' AND password='$pass'");
 	$row = mysql_fetch_assoc($signin);
 	$rowsign = mysql_num_rows($signin);
 	if($rowsign > 0)
 	{
-	$msg = '<font color="#009900"><b>Login Successful. Redirecting, please wait.</b></font>';
+	@$msg = '<font color="#009900"><b>Login Successful. Redirecting, please wait.</b></font>';
 	$_SESSION['loginid'] = $row['user_id'];
 	$_SESSION['org'] = $row['organization_id'];
 	$_SESSION['org_code'] = $row['org_code'];
-    $_SESSION['username'] = $row['username'];
+        $_SESSION['username'] = $row['username'];
 	
 		/*$ip = $_SERVER['REMOTE_ADDR'];
 		$login = time();*/
 		if($_SESSION['loginid'] == 2 || $_SESSION['loginid'] == 1)
 		{
 			echo "<meta http-equiv='refresh' content='2; url=admin.php'>";
-		}else{
+		}else
+                {
 			echo "<meta http-equiv='refresh' content='2; url=org.php'>";
 		}
 			
 	}
 	else
 	{
-		$msg = '<font color="#FF0000"><b>Login Failed. Check your ID & Password</b></font>';
+		@$msg = '<font color="#FF0000"><b>Login Failed. Check your ID & Password</b></font>';
 	}
 }
 ?>
 
-<div style="height:100px; width:auto; background:url(img/background-gradient-small.jpg) repeat-x;"><img src="img/logo.png" height="90" width="110"><font style="font-family:'Arial Black', Gadget, sans-serif; font-size:25px;position:relative; bottom:15px;">Health System Strengthening Admin Panel</font><br>
+<div style="height:100px; width:auto; background:url(img/background-gradient-small.jpg) repeat-x;"><img src="img/logo.png" height="90" width="110"><font style="font-family:'Arial Black', Gadget, sans-serif; font-size:25px;position:relative; bottom:15px;">Health System Strengthening </font><br>
 <font style="font-family:Georgia, 'Times New Roman', Times, serif; font-size:13px; left:110px; position:relative; bottom:50px">Government of People's Republic of Bangladesh</font><br>
 <font style="font-family:Arial, Helvetica, sans-serif; font-size:15px; left:110px; position:relative; bottom:52px"><b>Directorate General of Health Services</b></font></div>
+<ul class="nav">
+		
+			
+                                
+                                <li class="dropdown">
+					<a href="reporting_login.php">
+						<i class="icon-home"></i>
+                                                <span><h2>&nbsp;&nbsp;HSS Report Panel </h2> </span>
+					</a>	    				
+				</li>
+				
+			
+			
+				
+			
+			</ul>
+			
 <div class="account-container login">
 	
 	<div class="content clearfix">
@@ -103,7 +121,7 @@ if(isset($_POST['submit']))
 				
 			  <p>Sign in using your ID & Password:<br>
                 HSS Improvement Monitoring:<br>
-                <?php echo $msg; ?></p>
+                <?php echo @$msg; ?></p>
 				
 				<div class="field">
 					<label for="username">Username:</label>
@@ -125,34 +143,15 @@ if(isset($_POST['submit']))
 				</span>
 									
 				<button name="submit" class="button btn btn-secondary btn-large">Sign In</button>
-				
+		                Please Use HRM username and password. 
+                                <div>
+                                <a href="http://test.dghs.gov.bd/hrmnew/">Forgot password? </a></div>
 			</div> <!-- .actions -->
-			
-			<!--<div class="login-social">
-				<p>Sign in using social network:</p>
-				
-				<div class="twitter">
-					<a href="#" class="btn_1">Login with Twitter</a>				
-				</div>
-				
-				<div class="fb">
-					<a href="#" class="btn_2">Login with Facebook</a>				
-				</div>
-			</div>-->
-			
 		</form>
 		
 	</div> <!-- /content -->
 	
 </div> <!-- /account-container -->
-
-
-<!-- Text Under Box -->
-<!--<div class="login-extra">
-	Don't have an account? <a href="./signup.html">Sign Up</a><br/>
-	Remind <a href="#">Password</a>
-</div>--> <!-- /login-extra -->
-
 
 </body>
 </html>

@@ -19,7 +19,12 @@ if($_SESSION['loginid'] <= 2)
 }
 
 $org_code=$_SESSION['org_code'];
-$answer_storage_month_year='11-2013';
+
+$answer_storage_month_year9='09-2013';
+$answer_storage_month_year10='10-2013';
+$answer_storage_month_year11='11-2013';
+$answer_storage_month_year12='12-2013';
+
 
 ?>
 
@@ -33,21 +38,24 @@ $answer_storage_month_year='11-2013';
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <!-- Styles -->
-<link href="./css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-<link href="./css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+<link href="css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet">
 
-<link href="./css/slate.css" rel="stylesheet">
-<link href="./css/slate-responsive.css" rel="stylesheet">
+<link href="css/slate.css" rel="stylesheet">
+<link href="css/slate-responsive.css" rel="stylesheet">
 
-<link rel="stylesheet" href="treeview/jquery.treeview.css" />
-<link rel="stylesheet" href="treeview/screen.css" />
+<!-- Javascript -->
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
+<script src="js/bootstrap.js"></script>
 
-<script src="treeview/lib/jquery.js" type="text/javascript"></script>
-<script src="treeview/lib/jquery.cookie.js" type="text/javascript"></script>
-<script src="treeview/jquery.treeview.js" type="text/javascript"></script>
-<script type="text/javascript" src="treeview/demo.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jscal2.css"/>
+<link rel="stylesheet" type="text/css" href="css/border-radius.css"/>
+<link rel="stylesheet" type="text/css" href="css/steel/steel.css"/>
 
+<script src="js/demos/charts/bar.js"></script>
 
 </head>
 
@@ -97,6 +105,12 @@ $answer_storage_month_year='11-2013';
 								<i class="icon-chevron-right sub-menu-caret"></i>
 							</a>
 						</li>
+                                                <li class="dropdown">
+							<a href="upozila_organization_summary.php">
+								Organization Answer Report									
+								<i class="icon-chevron-right sub-menu-caret"></i>
+							</a>
+						</li>
 					</ul>   			
 				</li>
 				
@@ -138,14 +152,7 @@ $answer_storage_month_year='11-2013';
 			
 		</div> <!-- /.page-title -->
 		
-
-		<div class="row">
-			
-			
- <div class="spane7" style="alignment-adjust: central"><h3>Upazila Detail Report </h3></div>
- <p>
-<div class="spane6" > 
-                        
+<div class="span7"> <h3>Upazila Detail Report </h3><p>
 <?php 
 function questionReturn($qid,$org_code,$answer_storage_month_year)
 {
@@ -156,21 +163,31 @@ while($qa = mysql_fetch_array($question))
   return $qa;
  }
 }
+$org_sql=mysql_query("SELECT up.old_upazila_id FROM organization og 
+INNER JOIN admin_upazila AS up ON og.upazila_id=up.old_upazila_id
+WHERE og.org_code='$org_code' ");
+$org_row=  mysql_fetch_array($org_sql);
+$upazilla_id=$org_row['old_upazila_id'];
 
-$question_type=mysql_query("SELECT * FROM hss_question_type ORDER BY type_id ASC");
+
+$question_type=mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_question_type qt
+INNER JOIN hss_question_type_div_district AS dd ON qt.type_name=dd.type_name 
+INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
+INNER JOIN admin_division AS d ON dd.division_name=d.division_name
+INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
+WHERE up.old_upazila_id='$upazilla_id' group by qt.type_id ORDER BY qt.type_id ASC");
 //echo $question_type;
    while($question_types = mysql_fetch_array($question_type))
    {?>
-    <div >
-    <a data-toggle="collapse" data-parent="#sample-accordion" href="#collapse<?php echo $question_types['type_id'];?>">
+    <div>
+       <a data-toggle="collapse" data-parent="#sample-accordion" href="#collapse<?php echo $question_types['type_id'];?>">
    <?php
-        echo $question_types['type_name'];
-         $question_types_id=$question_types['type_id'];
+       echo $question_types['type_name'];
+       $question_types_id=$question_types['type_id'];
         ?>
         </a>
-   </div>
-
-
+  </div>
+    
         <?php
     $question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id");
         $i=0;
@@ -182,47 +199,50 @@ $question_type=mysql_query("SELECT * FROM hss_question_type ORDER BY type_id ASC
                //print_r($answers);	 
 //                        echo "<pre>";
 //                        print_r(questionReturn($qid));
-                          $qa=questionReturn($qid,$org_code,$answer_storage_month_year);
-                        
-                      echo '<div style="width:800px">Q'.$i.'. '. $qa[1]. '&nbsp;&nbsp;&nbsp;&nbsp;';
-
+                          $qa=questionReturn($qid,$org_code,$answer_storage_month_year9);
+                         // print_r($qa);
+                          $qa10=questionReturn($qid,$org_code,$answer_storage_month_year10);
+                         //print_r($qa1);
+                          $qa11=questionReturn($qid,$org_code,$answer_storage_month_year11);
+                          $qa12=questionReturn($qid,$org_code,$answer_storage_month_year12);
+                         //print_r($qa1);
+                       echo '<div style="width:850px">'.$i.'. '. $qa[1]. '&nbsp;&nbsp;';
+                       
                           $ans=$qa[2];
+                          //echo "<strong> September: </strong>-----";
+                         // print_r($ans);  
+                       if(!empty($ans)){ print_r($ans);}else{echo " 0 -----";}
+                         echo "----"; 
+                          $ans10=$qa10[2];
+                          //echo "<strong>  October: </strong>-----";
+                          if(!empty($ans10)){print_r($ans10);}else {" 0 -----";}
+                          echo "----";
+                         /* $ans11=$qa11[2];
+                          echo "<strong>  November: </strong>-----";
+                          if(!empty($ans11)){ print_r($ans11);  }else{echo " 0 -----";}
+                          
+                          $ans12=$qa12[12];
+                          echo "<strong> December: </strong>-----";
+                          if(!empty($ans12)){ print_r($ans12);}else{echo " 0 ";}*/
+                          echo '</div>';
+                         ?></div>
+ 
+ </div> 
+    <? 
 
-                        while($answer = mysql_fetch_assoc($answers))
-                        {
-
-                         //print_r($answer);
-
-                         $answer1 = $answer['answer_ans1'];
-                         $answer2 = $answer['answer_ans2'];
-                         $answer3 = $answer['answer_ans3'];
-                         $answer_id = $answer['answer_id'];
-                         $q_id = $answer['answer_q_id'];
-
-                          if($answer1==$ans){ echo '----------- Answer : '.$answer1.'---------- <strong>Sept:</strong> 1';}
-                         else{ echo '----------- Answer : '.$answer2.'  -----------  <strong>October :</strong> 0';}
-                         
-//                      if($answer1=='Yes'){echo 'Sept : 1'; }
-                     
-            }
              }
+             
                 ?>
 
 <?php
         }
 ?> 
-</div>
-			</div>
-			</div><!-- /.span6 -->
-			
-		</div> <!-- /.row -->
 
+
+								
 		
 	</div> <!-- /.container -->
 	
-</div> <!-- /#content -->
-
-
 
 <div id="footer">	
 		

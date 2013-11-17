@@ -114,6 +114,12 @@ return true;
 								<i class="icon-chevron-right sub-menu-caret"></i>
 							</a>
 						</li>
+                                                <li class="dropdown">
+							<a href="upozila_organization_summary.php">
+								Organization Answer Report									
+								<i class="icon-chevron-right sub-menu-caret"></i>
+							</a>
+						</li>
 					</ul>   			
 				</li>
 				
@@ -164,8 +170,9 @@ return true;
                            <p>
                           <table class='table'>
 			  <tbody>
-			    <th> Organization Name</th><th> Answer </th><th> Sept </th><th> Oct <th><th> <a href="org_nov.php">Nov </a></th><th>Dec </th>
+			    <th> Upazila</th><th> Percentage</th><th> Jan </th><th> Feb </th><th> March </th><th> April </th><th> May </th><th> June </th><th> July </th><th> Aug </th><th> Sept </th><th> Oct </th><th> Nov </th><th>Dec </th>
 			  </tbody>
+                         
                           <?php 
                           $org1=mysql_query("SELECT o.upazila_name FROM admin_upazila o
                           WHERE o.old_upazila_id='$upozilla_id'");
@@ -241,6 +248,7 @@ INNER JOIN organization AS o ON (a.answer_storage_org_id=o.org_code)
 WHERE  o.upazila_thana_name='$org_name' AND a.answer_storage_month_year='09-2013'");
 
 $sept=0;
+$sept_score=0;
                           while($row= mysql_fetch_array($sql_con)){
 //                               echo '<pre>';
 //                              print_r($row);
@@ -306,7 +314,7 @@ $sept=0;
                           
                          $sept=$q1+$q2+$q3+$q4+$q5+$q6+$q7+$q8+$q9+$q10+$q11+$q12+$q13+$q14+$q15+$q16+$q17+$q18+$q19+$q20+$q21+$q22+$q23+$q24+$q25+$q26+$q27+$q28+$q29+$q30+$q31+$q32+$q33+$q34+$q35+$q36+$q37+$q38+$q39+$q40+$q41+$q42+$q43+$q44+$q45+$q46+$q47+$q48+$q49+$q50+$q51+$q52+$q53;
                         
-                        // $sept_score=round(($sept * .53)).'%';
+                         $sept_score=round(($sept * .53)).'%';
                           
                          } 
                         
@@ -375,7 +383,7 @@ $sept=0;
   a.answer_storage_month_year FROM hss_answer_storage a
   LEFT JOIN organization AS o ON (a.answer_storage_org_id=o.org_code)
   WHERE  o.upazila_thana_name='$org_name' and a.answer_storage_month_year='10-2013' ");
-$oct=0;
+$oct_score=0;
                           while($row_oct= mysql_fetch_array($sql_con_oct)){
 //                              echo '<pre>';
 //                              print_r($row_oct);
@@ -440,16 +448,39 @@ $oct=0;
                           $oct_q53=$row_oct['oct_q53'];
                           
                           
-                           $oct=$oct_q1+$oct_q2+$oct_q3+$oct_q4+$oct_q5+$oct_q6+$oct_q7+$oct_q8+$oct_q9+$oct_q10+$oct_q11+$oct_q12+$oct_q13+$oct_q14+$oct_q15+$oct_q16+$oct_q17+$oct_q18+$oct_q19+$oct_q20+$oct_q21+$oct_q22+$oct_q23+$oct_q24+$oct_q25+$oct_q26+$oct_q27+$oct_q28+$oct_q29+$oct_q30+$oct_q31+$oct_q32+$oct_q33+$oct_q34+$oct_q35+$oct_q36+$oct_q37+$oct_q38+$oct_q39+$oct_q40+$oct_q41+$oct_q42+$oct_q43+$oct_q44+$oct_q45+$oct_q46+$oct_q47+$oct_q48+$oct_q49+$oct_q50+$oct_q51+$oct_q52+$oct_q53;
+                         $oct=$oct_q1+$oct_q2+$oct_q3+$oct_q4+$oct_q5+$oct_q6+$oct_q7+$oct_q8+$oct_q9+$oct_q10+$oct_q11+$oct_q12+$oct_q13+$oct_q14+$oct_q15+$oct_q16+$oct_q17+$oct_q18+$oct_q19+$oct_q20+$oct_q21+$oct_q22+$oct_q23+$oct_q24+$oct_q25+$oct_q26+$oct_q27+$oct_q28+$oct_q29+$oct_q30+$oct_q31+$oct_q32+$oct_q33+$oct_q34+$oct_q35+$oct_q36+$oct_q37+$oct_q38+$oct_q39+$oct_q40+$oct_q41+$oct_q42+$oct_q43+$oct_q44+$oct_q45+$oct_q46+$oct_q47+$oct_q48+$oct_q49+$oct_q50+$oct_q51+$oct_q52+$oct_q53;
 
-                         // $oct_score=round(($oct * .53)).'%';
+                         $oct_score=round(($oct * .53)).'%';
                            
                           }
-//                         
+                         $jan=0;
+                         $feb=0;
+                         $mar=0;
+                         $apr=0;
+                         $may=0;
+                         $jun=0;
+                         $july=0;
+                         $aug=0;
+                         $nov=0;
+                         $dec=0;
                           ?>
 			 
                           <tr>
-				<td><?php  echo $org_name; ?> </td><td> Yes </td><td><a href="upozilla.php"> <? echo $sept ;?></a></td><td> <a href="org_oct.php"><?php echo $oct; ?> </a></td><td><a href="org_nov.php"></td><td>0</td><?
+				<td><?php  echo $org_name; ?> </td>
+                                <td> Yes </td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '01-'.date('Y');?>"> <? echo $jan ;?></a></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '02-'.date('Y');?>"> <? echo $feb ;?></a></td> 
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '03-'.date('Y');?>"> <? echo $mar ;?></a></td> 
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '04-'.date('Y');?>"> <? echo $apr ;?></a></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '05-'.date('Y');?>"> <? echo $may ;?></a></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '06-'.date('Y');?>"> <? echo $jun ;?></a></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '07-'.date('Y');?>"> <? echo $july ;?></a></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '08-'.date('Y');?>"> <? echo $aug ;?></a></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '09-'.date('Y');?> "> <? echo $sept_score ;?></a></td>
+                                <td> <a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '10-'.date('Y');?>"><?php echo $oct_score; ?> </a></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '11-'.date('Y');?>"><? echo $nov ;?></td>
+                                <td><a href="upozilla.php?upazilla_id=<?echo $upozilla_id;?>&&month=<?php echo '12-'.date('Y');?>"> <? echo $dec ;?></a></td>
+                                    <?
                                  
                           } 
                           

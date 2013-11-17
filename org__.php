@@ -75,7 +75,7 @@ if($_SESSION['loginid'] <= 2)
 			<ul class="nav">
 		
 				
-                                <?php   if(@$org_type=='1002'||$org_type=='1005'||$org_code=='10001811'||$org_code=='10000425'||$org_code=='10001109'){?>
+                                <?php    if(@$org_type=='1002'||$org_type=='1005'||$org_type=='1004'){?>
                                 <li class="dropdown">
 					<a href="reporting_tartiary.php">
 						<i class="icon-home"></i>
@@ -106,21 +106,6 @@ if($_SESSION['loginid'] <= 2)
 							
 							
 						</li>
-                                                
-                                                <?  if(@$org_type=='1002'||$org_type=='1005'||$org_code=='10001811'||$org_code=='10000425'||$org_code=='10001109'){?>
-                                                <li class="dropdown">
-							<a href="tartiry_organization_summry.php">
-								Organization Answer Report									
-								<i class="icon-chevron-right sub-menu-caret"></i>
-							</a>
-						</li>
-                                                <?}else{?>
-                                                 <li class="dropdown">
-							<a href="upozila_organization_summary.php">
-								Organization Answer Report									
-								<i class="icon-chevron-right sub-menu-caret"></i>
-							</a>
-						</li><?}?>
 					</ul>   			
 				</li>
 			
@@ -202,7 +187,7 @@ if($_SESSION['loginid'] <= 2)
 				}
 			
                         ?><?php
-			 if(@$org_type=='1002'||$org_type=='1005'||$org_code=='10001811'||$org_code=='10000425'||$org_code=='10001109'){?>
+			if(@$org_type=='1002'||$org_type=='1005'||$org_type=='1004'){?>
 			<script>
 				function toggle() {
 				var v = $('#answer_storage_month_year option:selected').val();
@@ -289,22 +274,27 @@ if($_SESSION['loginid'] <= 2)
 			</script>   
                           <?}?> 
                         
-			<?php   
-				  $previous_month=date('m-Y', strtotime('last month'));
-				  $previous_month_text=date('F-Y', strtotime('last month'));
-				  
-				  
-				  $current_month=date('m-Y');
-				  $current_month_text=date('F-Y');
+			<?php  $base_month ='09-2013';
+			       $base_month_date ='01-09-2013';
+				   $current_month=date('m-Y');
+				  //$org_type;
 			?>
-            <select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
-			    <option value="">==Select Month==</option>
-				<option value="<?php echo $current_month;?>"><?php echo  $current_month_text; ?></option>
-				<option value="<?php echo $previous_month;?>"><?php echo $previous_month_text;?></option>
-				<option value="<?php echo '09-2013';?>"><?php echo 'September-2013';?></option>
+<!--			<select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
+				<option value="">==Select Month==</option>
+				<?php if($base_month==$current_month) { } else { ?>
+				<option value="<?php echo $base_month;?>"><?php echo date('F',strtotime($base_month_date)).'-'.date('Y'); ?></option>
+				<?php } ?>
+				<? foreach($months as $month): ?>
+				<option value="<?php echo date('m',strtotime($month)).'-'.date('Y');?>"><?php echo $month.'-'.date('Y'); ?></option>
+				<? endforeach; ?>
+			</select>-->
+                        <select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
+					<option value="">==Select Month==</option>
+				<option value="10-2013">October,2013</option>
+				<option value="09-2013">September,2013</option>
+				
 				
 			</select>
-		
 			</div>
 		    </div>
 			<div id="output"></div>
@@ -334,22 +324,10 @@ if($_SESSION['loginid'] <= 2)
 				            <div class="accordion-group">
 
                         <?php 
-                        $org = mysql_query("SELECT organization.org_name,admin_division.division_name, admin_district.district_name, admin_upazila.old_upazila_id,admin_upazila.upazila_name FROM organization
-                    LEFT JOIN admin_division ON organization.division_code=admin_division.division_bbs_code
-                    LEFT JOIN admin_district ON organization.district_code=admin_district.district_bbs_code
-                    LEFT JOIN admin_upazila  ON organization.upazila_id=admin_upazila.old_upazila_id where organization.org_code='" . $org_code . "'");
-
-                   $org_detail = mysql_fetch_array($org);
-                   $upazila_id=$org_detail['old_upazila_id'];
 						
-						   if(@$org_type=='1002'||$org_type=='1005'||$org_code=='10001811'||$org_code=='10000425'||$org_code=='10001109'){
-                                                       
-						   $question_type=mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_tertiary_question_type qt
-INNER JOIN hss_question_type_div_district_tertiary AS dd ON qt.type_name=dd.type_name 
-INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
-INNER JOIN admin_division AS d ON dd.division_name=d.division_name
-INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
-WHERE up.old_upazila_id='$upazila_id' group by qt.type_id ORDER BY qt.type_id ASC");
+						   if(@$org_type=='1002'||$org_type=='1005'||$org_type=='1004'){
+						
+						   $question_type=mysql_query("SELECT * FROM hss_tertiary_question_type ORDER BY type_id ASC");
 						   while($question_types = mysql_fetch_array($question_type))
 						   {?>
 						    <div class="accordion-heading">
@@ -417,13 +395,7 @@ WHERE up.old_upazila_id='$upazila_id' group by qt.type_id ORDER BY qt.type_id AS
 							} 
 							}
 							else{
-                                                            
-						   $question_type=mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_question_type qt
-INNER JOIN hss_question_type_div_district AS dd ON qt.type_name=dd.type_name 
-INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
-INNER JOIN admin_division AS d ON dd.division_name=d.division_name
-INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
-WHERE up.old_upazila_id='$upazila_id' group by type_id ORDER BY qt.type_id ASC");
+						   $question_type=mysql_query("SELECT * FROM hss_question_type ORDER BY type_id  ASC");
 						   while($question_types = mysql_fetch_array($question_type))
 						   {?>
 						    <div class="accordion-heading">
@@ -498,7 +470,7 @@ WHERE up.old_upazila_id='$upazila_id' group by type_id ORDER BY qt.type_id ASC")
 					<?php 
                                         
 				  if(@$_POST['submit']){	
-				  if(@$org_type=='1002'||$org_type=='1005'||$org_code=='10001811'||$org_code=='10000425'||$org_code=='10001109'){
+				   if(@$org_type=='1002'||$org_type=='1005'||$org_type=='1004'){
 					//print_r($_POST);
 					$exception_field=array('submit','param');
 					$str=createMySqlInsertString($_POST, $exception_field);
@@ -522,6 +494,8 @@ WHERE up.old_upazila_id='$upazila_id' group by type_id ORDER BY qt.type_id ASC")
                                             /******************************************************/	
                                             $str_k=$str['k'];
                                             $str_v=$str['v'];
+                                            //print_r($str_k);
+                                           // print_r($str_v);
                                             $sql=mysql_query("INSERT INTO hss_answer_storage($str_k)values($str_v)");
                                             //mysql_query($sql);
                                             print "<script>";

@@ -21,6 +21,8 @@ if($_SESSION['loginid'] <= 2)
 $org_code=$_SESSION['org_code'];
 $answer_storage_month_year='09-2013';
 
+
+
 $upazilla_id=$_GET['upazilla_id'];
 ?>
 
@@ -191,32 +193,15 @@ $tree = mysql_query("SELECT * from admin_division");
 <div class="spane7" > <h3>Upazila Report </h3>
                         
 <?php 
-
-
-
 function questionReturn($qid,$org_code,$answer_storage_month_year)
 {
- /*$question = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_answer_storage 
- JOIN hss_questions AS q ON q.question_id=".$qid." WHERE hss_answer_storage.answer_storage_month_year='".$answer_storage_month_year."' AND hss_answer_storage.answer_storage_org_id='".$org_code."'");
-*/
-
-
-
  $question = mysql_query("SELECT q.question_id,q.question_desc,answer_storage_q".$qid."_answer FROM hss_answer_storage 
  JOIN hss_questions AS q ON q.question_id=".$qid." WHERE hss_answer_storage.answer_storage_month_year='".$answer_storage_month_year."' AND hss_answer_storage.answer_storage_org_id='".$org_code."'");
-
- while($qa = mysql_fetch_array($question))
+while($qa = mysql_fetch_array($question))
  {
   return $qa;
  }
 }
-$org = mysql_query("SELECT org_name,org_code from organization where organization.upazila_id=$upazilla_id where org_type_code=''");
-//$test=mysql_fetch_array($org);
-echo "<pre>";
- while($qa = mysql_fetch_array($org))
- {
-  //print_r($qa);
- }
 
 $question_type=mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_question_type qt
 INNER JOIN hss_question_type_div_district AS dd ON qt.type_name=dd.type_name 
@@ -238,10 +223,9 @@ WHERE up.old_upazila_id='$upazilla_id' ORDER BY qt.type_id ASC");
 
 
         <?php
-		$answer_storage_month=$_GET['month'];
-		$date33 ='01-'.$answer_storage_month;
-        $month=date('F', strtotime($date33));
-		$question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id");
+		$date33 ='01-09-2013';
+echo date('F', strtotime($date33));
+    $question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id");
         $i=0;
         while($results = mysql_fetch_array($question))
                 {   $i++;
@@ -251,7 +235,7 @@ WHERE up.old_upazila_id='$upazilla_id' ORDER BY qt.type_id ASC");
                //print_r($answers);	 
 //                        echo "<pre>";
 //                        print_r(questionReturn($qid));
-                          $qa=questionReturn($qid,$org_code,$answer_storage_month);
+                          $qa=questionReturn($qid,$org_code,$answer_storage_month_year);
                         
                       echo '<div style="width:800px">'.$i.'. '. $qa[1]. '&nbsp;&nbsp;&nbsp;&nbsp;';
                           // echo '<div style="width:800px">Q'.$i.' &nbsp;&nbsp;&nbsp;  ';
@@ -269,8 +253,8 @@ WHERE up.old_upazila_id='$upazilla_id' ORDER BY qt.type_id ASC");
                          $answer_id = $answer['answer_id'];
                          $q_id = $answer['answer_q_id'];
 
-                         if($answer1==$ans){ echo '------------ Answer : '.$answer1.'   ------------  <strong>'.$month.' :</strong> 1';}
-                         else{ echo '------------ Answer : '.$answer2.'  ------------  <strong>'.$month.' :</strong> 0';}
+                         if($answer1==$ans){ echo '------------ Answer : '.$answer1.'   ------------  <strong>Sept:</strong> 1';}
+                         else{ echo '------------ Answer : '.$answer2.'  ------------  <strong>Sept :</strong> 0';}
                          
 //                      if($answer1=='Yes'){echo 'Sept : 1'; }
                      

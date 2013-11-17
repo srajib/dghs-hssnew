@@ -75,8 +75,7 @@ if($_SESSION['loginid'] <= 2)
 						<span>HSS Report Panel</span>
 					</a>	    				
 				</li>
-				
-			
+
 				<li class="dropdown">					
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-external-link"></i>
@@ -89,6 +88,12 @@ if($_SESSION['loginid'] <= 2)
 						<li class="dropdown">
 							<a href="javascript:;">
 								Report									
+								<i class="icon-chevron-right sub-menu-caret"></i>
+							</a>
+						</li>
+                                                 <li class="dropdown">
+							<a href="tartiry_organization_summry.php">
+								Organization Answer Report									
 								<i class="icon-chevron-right sub-menu-caret"></i>
 							</a>
 						</li>

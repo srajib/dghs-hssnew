@@ -136,8 +136,8 @@ if($_SESSION['loginid'] <= 2)
 		<div id="page-title" class="clearfix">
 			
 			<ul class="breadcrumb">
-			  <li>
-			    <a href="org.php">Home</a> <span class="divider">/</span>
+				<li>
+			    <a href="org_edit.php?month=<?php echo $month ;?>">Back to Edit</a> <span class="divider">/</span>
 			  </li>
 			
 			  <li class="active">Health System Strengthening Evaluation Form</li>
@@ -156,14 +156,14 @@ if($_SESSION['loginid'] <= 2)
 			<h2>Start uploading manually </h2>
 			<div>Allowed file types: <span style="color:red">jpg, gif, png.</span></div>
                         <div>Allowed file Upload Limit: <span style="color:red">3 Files.</span></div>
-                        <div>Allowed file Size: <span style="color:red">1 mb.</span></div>
+                        <div>Allowed file Size: <span style="color:red">4 mb.</span></div>
 			<!-- do not need enctype="multipart/form-data" -->
 			<form id="form1" method="POST">
 				<?php				
 					$uploader=new PhpUploader();
-					$uploader->MaxSizeKB=1024;
+					$uploader->MaxSizeKB=2048;
 					$uploader->Name="myuploader";
-					$uploader->InsertText="Select multiple files (Max 1M)";
+					$uploader->InsertText="Select multiple files (Max 4M)";
 					$uploader->AllowedFileExtensions="*.jpg,*.png,*.gif";	
                                         $uploader->MaxFilesLimit=3;
 					$uploader->MultipleFilesUpload=true;

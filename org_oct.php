@@ -185,8 +185,8 @@ $question_type=mysql_query("SELECT * FROM hss_question_type ORDER BY type_id ASC
 //                        print_r(questionReturn($qid));
                           $qa=questionReturn($qid,$org_code,$answer_storage_month_year);
                         
-                     // echo '<div style="width:800px">Q'.$i.'. '. $qa[1]. '&nbsp;&nbsp;&nbsp;&nbsp;';
-                          echo '<div style="width:800px">Q'.$i.' &nbsp;&nbsp;&nbsp;  ';
+                       echo '<div style="width:800px">'.$i.'. '. $qa[1]. '&nbsp;&nbsp;&nbsp;&nbsp;';
+                         // echo '<div style="width:800px">Q'.$i.' &nbsp;&nbsp;&nbsp;  ';
 
                           $ans=$qa[2];
 
@@ -201,8 +201,8 @@ $question_type=mysql_query("SELECT * FROM hss_question_type ORDER BY type_id ASC
                          $answer_id = $answer['answer_id'];
                          $q_id = $answer['answer_q_id'];
 
-                         if($answer1==$ans){ echo '----------- Answer : '.$answer1.'---------- <strong>Sept:</strong> 1';}
-                         else{ echo '--------- Answer : '.$answer2.'  -----------  <strong>Sept :</strong> 0';}
+                         if($answer1==$ans){ echo '----------- Answer : '.$answer1.'---------- <strong>October:</strong> 1';}
+                         else{ echo '----------- Answer : '.$answer2.'  -----------  <strong>October :</strong> 0';}
                          
 //                      if($answer1=='Yes'){echo 'Sept : 1'; }
                      

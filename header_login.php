@@ -1,12 +1,4 @@
 <?php    
-$org_code=$_SESSION['org_code'];
-$org = mysql_query("SELECT org_name,org_code,id,org_type_code,email_address1
-FROM organization where org_code='".$org_code."'");
-$org_detail=mysql_fetch_array($org);
- $org_type=$org_detail['org_type_code']; 
- $org_code=$org_detail['org_code']; 
-$org_id=$org_detail['id']; 
-$user_email=$org_detail['email_address1'];
 
 //echo "$org_type||$org_code||$org_id";
 ?>
@@ -23,16 +15,7 @@ $user_email=$org_detail['email_address1'];
 		<div  id="info">				
 			
 			<div class="span2" style="height:100px; width:600px;" >
-                           	<div style="position:relative;height:100px; width:520px; " >
-				
-					<h5>Welcome to <?php echo $org_detail['org_name']; ?>.</h5>
-			 		<p>
-					<span>Logged in using <?php echo $user_email ;
-					
-						?>.</span>
-						<br>
-						 <a href="logout.php">Logout</a>
-					</p>				
+                           	<div style="position:relative;height:100px; width:520px;">
 				</div> <!-- /.info-details -->
 				
 				 <!-- /.info-avatar -->
