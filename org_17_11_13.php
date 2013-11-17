@@ -3,7 +3,6 @@ session_start();
 //error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
-require_once 'inc.function.temp.php';
 if (empty($_SESSION['loginid'])) {
   print "<script>";
   print " self.location='index.php'"; // Comment this line if you don't want to redirect
@@ -293,13 +292,146 @@ if ($_SESSION['loginid'] <= 2) {
 
                       $org_detail = mysql_fetch_array($org);
                       $upazila_id = $org_detail['old_upazila_id'];
-                       echo "<h1>$org_code<br><h1>";
 
-                      if (checkIfOrgIsTartiary($org_code)) {
-                        echo "<h1>org is Tartiary<br><h1>";
-                        include_once 'question_tertiray_org.php';
-                      }else {
-                        include_once 'question_org.php';
+                      if (@$org_type == '1002' || $org_type == '1005' || $org_code == '10001811' || $org_code == '10000425' || $org_code == '10001109') {
+
+                        $question_type = mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_tertiary_question_type qt
+INNER JOIN hss_question_type_div_district_tertiary AS dd ON qt.type_name=dd.type_name 
+INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
+INNER JOIN admin_division AS d ON dd.division_name=d.division_name
+INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
+WHERE up.old_upazila_id='$upazila_id' group by qt.type_id ORDER BY qt.type_id ASC");
+                        while ($question_types = mysql_fetch_array($question_type)) {
+                          ?>
+                          <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sample-accordion" href="#collapse<?php echo $question_types['type_id']; ?>">
+                              <?php
+                              echo $question_types['type_name'];
+                              $question_types_id = $question_types['type_id'];
+                              ?>
+                            </a>
+                            <i class="icon-plus toggle-icon"></i>
+                          </div>
+                          <div id="collapse<?php echo $question_types['type_id']; ?>" class="accordion-body collapse">
+                            <div class="accordion-inner">
+
+                              <?php
+                              
+                              $question = mysql_query("SELECT * FROM hss_tertiary_question where question_type_id=$question_types_id order by question_id asc");
+                              if ($question_types['type_name'] == 'Co-ordination Meeting') {
+                                echo "Note:<br/>Inter Unit/Inter Department co-ordination meeting with service provider of indoor/Outdoor
+/Labroatory/Radiology,etc.<br/>N.B. This is <b>not</b> the monthly field staff meeting.<br/><br/>";
+                              }
+                              $i = 0;
+                              while ($results = mysql_fetch_array($question)) {
+                                $i++;
+                                $qid = $results['question_id'];
+
+                                echo '<div class="">' . $i . '. ' . $results['question_desc'] . '</div>';
+                                $answer_qid = $results['question_id'];
+
+                                $answers = mysql_query("SELECT * FROM hss_answers_tertiary where answer_q_id=$qid");
+                                while ($answer = mysql_fetch_assoc($answers)) {
+                                  $answer1 = $answer['answer_ans1'];
+                                  $answer2 = $answer['answer_ans2'];
+                                  $answer3 = $answer['answer_ans3'];
+                                  $answer_id = $answer['answer_id'];
+                                  $q_id = $answer['answer_q_id'];
+                                  ?>
+
+                                  <?php
+                                  echo '<input type="hidden" name="answer_storage_q' . $q_id . '" value=' . $q_id . '>&nbsp;';
+                                  echo '<input type="radio" name="answer_storage_q' . $q_id . '_answer" value=' . $answer1 . '> ' . $answer1 . '&nbsp;&nbsp;';
+                                  echo '<input type="radio" name="answer_storage_q' . $q_id . '_answer" value=' . $answer2 . '> ' . $answer2 . '&nbsp;&nbsp;';
+
+                                  if ($answer3) {
+                                    echo '<input type="radio" name="answer_storage_q' . $q_id . '_answer" value=' . $answer3 . '> ' . $answer3;
+                                  } else {
+                                    
+                                  }
+                                  ?>
+
+
+                                  <?php
+                                }
+                                //echo   '<div>&nbsp;&nbsp;  <a href="evidence.php?question_id='.$qid.'&&org_email='.$user_email.'&&month='.$month.'">Add Photograph</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$user_email.'&&month='.$month.'">Add Document</a></div><div></div>';
+                                //echo   '<div></div>';
+                              }
+                              ?>
+
+                            </div>
+
+                          </div>
+
+                          <?php
+                        }
+                      } else {
+
+                        $question_type = mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_question_type qt
+INNER JOIN hss_question_type_div_district AS dd ON qt.type_name=dd.type_name 
+INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
+INNER JOIN admin_division AS d ON dd.division_name=d.division_name
+INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
+WHERE up.old_upazila_id='$upazila_id' group by type_id ORDER BY qt.type_id ASC");
+                        while ($question_types = mysql_fetch_array($question_type)) {
+                          ?>
+                          <div class="accordion-heading">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sample-accordion" href="#collapse<?php echo $question_types['type_id']; ?>">
+                              <?php
+                              echo $question_types['type_name'];
+                              $question_types_id = $question_types['type_id'];
+                              ?>
+                            </a>
+                            <i class="icon-plus toggle-icon"></i>
+                          </div>
+                          <div id="collapse<?php echo $question_types['type_id']; ?>" class="accordion-body collapse">
+                            <div class="accordion-inner">
+
+                              <?php
+                              $question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id order by question_id asc");
+                              if ($question_types['type_name'] == 'Co-ordination Meeting') {
+                                echo "Note:<br/>Inter Unit/Inter Department co-ordination meeting with service provider of indoor/Outdoor
+/Labroatory/Radiology,etc.<br/>N.B. This is <b>not</b> the monthly field staff meeting.<br/><br/>";
+                              }
+
+                              $i = 0;
+                              while ($results = mysql_fetch_array($question)) {
+                                $i++;
+                                $qid = $results['question_id'];
+
+                                echo '<div class="">' . $i . '. ' . $results['question_desc'] . '</div>';
+                                $answer_qid = $results['question_id'];
+
+                                $answers = mysql_query("SELECT * FROM hss_answers where answer_q_id=$qid");
+                                while ($answer = mysql_fetch_assoc($answers)) {
+                                  $answer1 = $answer['answer_ans1'];
+                                  $answer2 = $answer['answer_ans2'];
+                                  //$answer3 = $answer['answer_ans3'];
+                                  $answer_id = $answer['answer_id'];
+                                  $q_id = $answer['answer_q_id'];
+                                  ?>
+
+                                  <?php
+                                  echo '<input type="hidden" name="answer_storage_q' . $q_id . '" value=' . $q_id . '>&nbsp;';
+                                  echo '<input type="radio" name="answer_storage_q' . $q_id . '_answer" value=' . $answer1 . '> ' . $answer1 . '&nbsp;&nbsp;';
+                                  echo '<input type="radio" name="answer_storage_q' . $q_id . '_answer" value=' . $answer2 . '> ' . $answer2 . '&nbsp;&nbsp;';
+
+                                  //if($answer3){ echo '<input type="radio" name="answer_storage_q'.$q_id.'_answer" value='.$answer3.'> '.$answer3;}else {}
+                                  ?>
+
+
+                                  <?php
+                                }
+                                //echo   '<div>&nbsp;&nbsp;  <a href="evidence.php?question_id='.$qid.'&&org_email='.$user_email.'&&month='.$month.'">Add Photograph</a> | <a href="doc.php?question_id='.$qid.'&&org_email='.$user_email.'&&month='.$month.'">Add Document</a></div><div></div>';
+                                //echo   '<div></div>';
+                              }
+                              ?>
+
+                            </div>
+
+                          </div>
+                        <?
+                        }
                       }
                       ?>
                       <div style="margin-left:5px;"><input type="submit" name="submit" value="Save" class="btn btn-primary"> </div>
