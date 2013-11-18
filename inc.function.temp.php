@@ -208,7 +208,7 @@ $tartiary_type_codes_array="'1002','1005','1010'";
 function getAllOrgUnderDivisionTar($division_code) {
     global $tartiary_org_codes_array;
     global $tartiary_type_codes_array;
-    return getRows('organization', " WHERE division_code='$division_code' AND org_type_code IN($tartiary_type_codes_array) OR org_code IN($tartiary_org_codes_array)");
+    return getRows('organization', " WHERE division_code='$division_code' AND org_type_code IN($tartiary_type_codes_array) AND org_code IN($tartiary_org_codes_array)");
 }
 
 function getAllOrgUnderDivision($division_code) {
