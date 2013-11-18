@@ -29,8 +29,8 @@ foreach ($upazilas as $upazila) {
             $countAnswered = 0;
             $countTotal = 0;
             foreach ($orgs as $org) {
-                $countAnswered+=countAllAnswerFrmOrg($org['org_code'], $mm, $yy, $answersToBeCountedArray, $additoinalQueryString = '');
-                $countTotal+= countOfQuestoinsAssignedToOrg($org['org_code']);
+                $countAnswered=countAllAnswerFrmOrg($org['org_code'], $mm, $yy, $answersToBeCountedArray, $additoinalQueryString = '');
+                $countTotal= countOfQuestoinsAssignedToOrg($org['org_code']);
                 $dataArray[$upazila['upazila_name']][$org['org_name']]["$mm-$yy"]['countAnswered'] = $countAnswered;
                 $dataArray[$upazila['upazila_name']][$org['org_name']]["$mm-$yy"]['countTotal'] = $countTotal;
             }
