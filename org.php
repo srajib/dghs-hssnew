@@ -4,6 +4,7 @@ session_start();
 include('lib/connect.php');
 include('inc.functions.generic.php');
 require_once 'inc.function.temp.php';
+
 if (empty($_SESSION['loginid'])) {
   print "<script>";
   print " self.location='index.php'"; // Comment this line if you don't want to redirect
@@ -31,7 +32,7 @@ if ($_SESSION['loginid'] <= 2) {
         </a>
         <div class="nav-collapse">
           <ul class="nav">
-            <?php if (@$org_type == '1002' || $org_type == '1005' || $org_code == '10001811' || $org_code == '10000425' || $org_code == '10001109') { ?>
+            <?php  if (checkIfOrgIsTartiary($org_code)) { ?>
               <li class="dropdown">
                 <a href="reporting_tartiary.php">
                   <i class="icon-home"></i>
@@ -62,14 +63,14 @@ if ($_SESSION['loginid'] <= 2) {
 
                 </li>
 
-                <? if (@$org_type == '1002' || $org_type == '1005' || $org_code == '10001811' || $org_code == '10000425' || $org_code == '10001109') { ?>
+                <?php  if (checkIfOrgIsTartiary($org_code))  { ?>
                   <li class="dropdown">
                     <a href="tartiry_organization_summry.php">
                       Organization Answer Report									
                       <i class="icon-chevron-right sub-menu-caret"></i>
                     </a>
                   </li>
-                <? } else { ?>
+                <?php } else { ?>
                   <li class="dropdown">
                     <a href="upozila_organization_summary.php">
                       Organization Answer Report									
@@ -154,7 +155,7 @@ if ($_SESSION['loginid'] <= 2) {
               for ($i = 0; $i > -1; $i--) {
                 array_push($months, date('F', strtotime("$i month", $first)));
               }
-              ?><?php if (@$org_type == '1002' || $org_type == '1005' || $org_code == '10001811' || $org_code == '10000425' || $org_code == '10001109') { ?>
+              ?><?php if (checkIfOrgIsTartiary($org_code))  { ?>
                 <script>
                   function toggle() {
                     var v = $('#answer_storage_month_year option:selected').val();
@@ -293,10 +294,10 @@ if ($_SESSION['loginid'] <= 2) {
 
                       $org_detail = mysql_fetch_array($org);
                       $upazila_id = $org_detail['old_upazila_id'];
-                       echo "<h1>$org_code<br><h1>";
+                       //echo "<h1>$org_code<br><h1>";
 
-                      if (checkIfOrgIsTartiary($org_code)) {
-                        echo "<h1>org is Tartiary<br><h1>";
+                      if(checkIfOrgIsTartiary($org_code)) {
+                        //echo "<h1>org is Tartiary<br><h1>";
                         include_once 'question_tertiray_org.php';
                       }else {
                         include_once 'question_org.php';
@@ -311,7 +312,7 @@ if ($_SESSION['loginid'] <= 2) {
             </div> <!-- /.widget-content -->
             <?php
             if (@$_POST['submit']) {
-              if (@$org_type == '1002' || $org_type == '1005' || $org_code == '10001811' || $org_code == '10000425' || $org_code == '10001109') {
+             if(checkIfOrgIsTartiary($org_code)) {
                 //print_r($_POST);
                 $exception_field = array('submit', 'param');
                 $str = createMySqlInsertString($_POST, $exception_field);
@@ -324,8 +325,7 @@ if ($_SESSION['loginid'] <= 2) {
                 print "<script>";
                 print " self.location=org.php"; // Comment this line if you don't want to redirect
                 print "</script>";
-              }
-//                                        
+              }                        
               else {
                 //print_r($_POST);
                 $exception_field = array('submit', 'param');

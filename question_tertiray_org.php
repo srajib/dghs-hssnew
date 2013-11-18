@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-$question_type = mysql_query("SELECT * FROM hss_questions_tertiary");
+$question_type = mysql_query("SELECT * FROM hss_tertiary_question_type");
 while ($question_types = mysql_fetch_array($question_type)) {
+ // myprint_r($question_types);
   if (questionTypeBelongsToOrgTar($question_types['type_id'], $org_code)) {
     ?>
     <div class="accordion-heading">

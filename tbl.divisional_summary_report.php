@@ -5,8 +5,8 @@ session_start();
 require_once 'lib/connect.php';
 require_once 'inc.functions.generic.php';
 require_once 'inc.function.temp.php';
-error_reporting(E_ALL);
-ini_set('display_errors','On');
+//error_reporting(E_ALL);
+//ini_set('display_errors','On');
 
 $startmonth = 9;
 $endmonth = 11;
@@ -41,12 +41,12 @@ foreach ($divisions as $division) {
 
 
 
-myprint_r($dataArray);
+//myprint_r($dataArray);
 
 
 
 ?>
-
+<!--
 <table border="1px">
     <?php
     foreach ($dataArray as $district => $districtData) {
@@ -70,3 +70,5 @@ myprint_r($dataArray);
     }
     ?>
 </table>
+
+-->

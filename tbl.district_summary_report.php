@@ -4,8 +4,8 @@ session_start();
 require_once 'lib/connect.php';
 require_once 'inc.functions.generic.php';
 require_once 'inc.function.temp.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
+//error_reporting(E_ALL);
+//ini_set('display_errors', 'On');
 
 $division_bbs_code = $_REQUEST['division_bbs_code'];
 
@@ -38,31 +38,9 @@ foreach ($districts as $district) {
         }
     }
 }
-myprint_r($dataArray);
+//myprint_r($dataArray);
 ?>
 
-<table border="1px">
-    <?php
-    foreach ($dataArray as $district => $districtData) {
-        echo "<tr id='$district'>";
-            echo "<td>$district</td>";
-            echo "<td>";
-                echo "<table border='1px'>";
-                    echo "<tr>";
-                    foreach ($districtData as $year => $yearData) {
-                        if ($yearData['countTotal'] > 0) {
-                            $percentage = round(($yearData['countAnswered'] * 100) / $yearData['countTotal'], 1);
-                            echo "<td>$percentage%</td>";
-                        } else {
-                            $percentage = 0;
-                        }
-                    }
-                     echo "</tr>";
-                echo "</table>";
-            echo "</td>";        
-        echo "</tr>";
-    }
-    ?>
-</table>
+
 
 
