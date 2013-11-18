@@ -29,9 +29,10 @@ foreach ($divisions as $division) {
             foreach ($orgs as $org) {                
                 $countAnswered+=countAllAnswerFrmOrgTar($org['org_code'], $mm, $yy, $answersToBeCountedArray, $additoinalQueryString = '');             
                 $countTotal+= countOfQuestoinsAssignedToOrgTar($org['org_code']);               
+                $dataArray[$division['division_name']][$org['org_name']]["$mm-$yy"]['countAnswered']=$countAnswered;
+                $dataArray[$division['division_name']][$org['org_name']]["$mm-$yy"]['countTotal']=$countTotal;
             }
-            $dataArray[$division['division_name']][$org['org_name']]["$mm-$yy"]['countAnswered']=$countAnswered;
-            $dataArray[$division['division_name']][$org['org_name']]["$mm-$yy"]['countTotal']=$countTotal;
+            
         }
     }
     
