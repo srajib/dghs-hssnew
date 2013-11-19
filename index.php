@@ -47,7 +47,75 @@ if(!empty($_SESSION['loginid']))
 
 	<script src="./js/demos/signin.js"></script>
 
-
+    <style>
+    /*Initialize*/
+ul {
+  text-align: left;
+  display: inline;
+  margin: 0;
+  padding: 15px 4px 17px 0;
+  list-style: none;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  
+}
+ul li {
+  font: bold 12px/18px sans-serif;
+  display: inline-block;
+  margin-right: -4px;
+  position: relative;
+  padding: 15px 20px;
+  background: #fff;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+  margin-left:auto;
+  margin-right:auto;
+  width:250px;
+}
+ul li:hover {
+  background: #ccc;
+  color: #fff;
+}
+ul li ul {
+  padding: 0;
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 150px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transiton: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -ms-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  -transition: opacity 0.2s;
+  color:#fff;
+}
+ul li ul li { 
+  background: #ccc; 
+  display: block; 
+  color: #fff;
+  text-shadow: 0 -1px 0 #0ccc;
+}
+ul li ul li:hover { background: #ccc;color:#fff; }
+ul li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  color:#fff;
+}
+    </style>
+    
+    
 </head>
 
 <body>
@@ -92,29 +160,26 @@ if(isset($_POST['submit']))
 <div style="height:100px; width:auto; background:url(img/background-gradient-small.jpg) repeat-x;"><img src="img/logo.png" height="90" width="110"><font style="font-family:'Arial Black', Gadget, sans-serif; font-size:25px;position:relative; bottom:15px;">Health System Strengthening </font><br>
 <font style="font-family:Georgia, 'Times New Roman', Times, serif; font-size:13px; left:110px; position:relative; bottom:50px">Government of People's Republic of Bangladesh</font><br>
 <font style="font-family:Arial, Helvetica, sans-serif; font-size:15px; left:110px; position:relative; bottom:52px"><b>Directorate General of Health Services</b></font></div>
-<ul class="nav">
-		
-			
-                                
-                                <li class="dropdown">
-					<a href="reporting_login.php">
-						<i class="icon-home"></i>
-                                                <span><h2>&nbsp;&nbsp;HSS Report Panel </h2> </span>
-					</a>	    				
-				</li>
-				
-			
-			
-				
-			
-			</ul>
-			
+
+  <ul>
+  <li>
+    HSS Improvement Report
+    <ul>
+      <li><a href="cont_tartiary.php">Tertiary Hospitals</a></li> 
+      <li> <a href="cont_login.php"> Upazila/District Level Facilities </a></li>
+    </ul>
+  </li>
+</ul>
+  
+ 
+
 <div class="account-container login">
 	
 	<div class="content clearfix">
 		
 		<form action="" method="post">
-		
+		    
+          <h3>For entering data please sign in below</h3>
 			<h1>Sign In</h1>		
 			
 			<div class="login-fields">

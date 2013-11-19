@@ -203,12 +203,12 @@ return true;
         echo "<tr>";
         echo "<td>$upazila</td>";
         echo "<td>";
-        echo "<table border='1'>";
+        echo "<table border='0'>";
         foreach ($upazilaData as $org => $orgData) {
             echo "<tr>";
             echo "<td  width='200'>$org</td>";
             echo "<td>";
-            echo "<table border='1'>";
+            echo "<table border='0'>";
             echo "<tr>";
             foreach ($orgData as $year => $yearData) {     
                 if($yearData['countTotal']>0){
@@ -241,7 +241,7 @@ return true;
 </table>
 			
 			</div><!-- /.span6 -->
-			s
+		
 		</div> <!-- /.row -->
 		
 	</div> <!-- /.container -->

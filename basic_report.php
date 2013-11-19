@@ -3,6 +3,8 @@ session_start();
 //error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
+require_once 'inc.function.temp.php';
+
 if(empty($_SESSION['loginid']))
 {
 	print "<script>";
@@ -16,6 +18,7 @@ if($_SESSION['loginid'] <= 2)
 	print " self.location='admin.php'"; // Comment this line if you don't want to redirect
 	print "</script>";
 }
+$org_code=$_SESSION['org_code'];
 ?>
 
 <!DOCTYPE html>
@@ -189,7 +192,7 @@ if($_SESSION['loginid'] <= 2)
 		    </div>
                 <?php
                                      
-			if($org_type=='1002'||$org_type=='1028'||$org_type=='1005'||$org_type=='1022'||$org_type=='1023'){
+			  if (checkIfOrgIsTartiary($org_code)) {
                                                 
                             ?>
 			<script>

@@ -22,11 +22,12 @@ while ($question_types = mysql_fetch_array($question_type)) {
 
         <?php
         $question = mysql_query("SELECT * FROM hss_questions where question_type_id=$question_types_id order by question_id asc");
-        if ($question_types['type_name'] == 'Co-ordination Meeting') {
+       if ($question_types['type_name'] == 'Coordination meeting') {
           echo "Note:<br/>Inter Unit/Inter Department co-ordination meeting with service provider of indoor/Outdoor
-/Labroatory/Radiology,etc.<br/>N.B. This is <b>not</b> the monthly field staff meeting.<br/><br/>";
+     /Labroatory/Radiology,etc.<br/>N.B. This is <b>not</b> the monthly field staff meeting.<br/><br/>";
         }
-
+      
+        
         $i = 0;
         while ($results = mysql_fetch_array($question)) {
           $i++;

@@ -3,6 +3,8 @@ session_start();
 //error_reporting(2);
 include('lib/connect.php');
 include('_licts_include.php');
+include('inc.functions.generic.php');
+require_once 'inc.function.temp.php';
 
 if(empty($_SESSION['loginid']))
 {
@@ -123,7 +125,7 @@ $answer_storage_month_year=$_REQUEST['month'];
 	<div class="container">
 		
 	
-		<?php
+		<?php $org_code;
 		
 				function questionReturn($qid,$org_code,$answer_storage_month_year)
 								{
@@ -171,8 +173,10 @@ INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
 INNER JOIN admin_division AS d ON dd.division_name=d.division_name
 INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
 WHERE ds.district_name='$dis_name' and up.old_upazila_id='$upa_id'");
-               // $qtype=  mysql_fetch_array($qtype_sql);
-             $count_question = (mysql_num_rows($qtype_sql));
+                
+           $qtype=  mysql_fetch_array($qtype_sql);
+                
+           $count_question = (mysql_num_rows($qtype_sql));
 		
 		 $score2 = 0;
 		for ($i = 1; $i < $count_question; $i++) {
@@ -192,6 +196,7 @@ WHERE ds.district_name='$dis_name' and up.old_upazila_id='$upa_id'");
 
                 $org_detail = mysql_fetch_array($org);
                 $upazila_id=$org_detail['old_upazila_id'];		
+                
 			?>
 			<div id="output"></div>
 		
@@ -212,13 +217,20 @@ WHERE ds.district_name='$dis_name' and up.old_upazila_id='$upa_id'");
 
                    <span class="subheading"><? echo $org_detail[0]; ?></span>
                 </p>
-                <p><span class="subheading" style="font-size: 18px">Upazila: <?php echo $org_detail[3]; ?>, District: <? echo $org_detail[2]; ?>, Division: <? echo $org_detail[1]; ?></span></p>
+                <p><span class="subheading" style="font-size: 18px">Upazila: <?php echo $org_detail['upazila_name']; ?>, District: <? echo $org_detail[2]; ?>, Division: <? echo $org_detail[1]; ?></span></p>
                 <p>
 				Report on<br>
 				 <span class="subheading" style="font-size: 17px">Monitoring implementation of improvement plan of HSS</span> <br>
 				 <span style="color:#000; font-weight: bold;">Report Period: <?php  $date='01-'.$answer_storage_month_year; echo date('F-Y',strtotime($date));
 				 ?></span><br>
-				 <span class="subheading" style="font-size: 20px">Score:  <?php echo $score_percentage=round(($score2*100)/$count_question).'%';?> </span>
+				 <span class="subheading" style="font-size: 20px">Score:  <?php  
+                  $answersToBeCountedArray = array('Yes');
+                  $time= explode('-', $answer_storage_month_year);
+                  //echo countAllAnswerFrmOrgTar($org_code, $time[0], $time[1], $answersToBeCountedArray, $additoinalQueryString = '');
+                  $core_percentage = (countAllAnswerFrmOrgTar($org_code, $time[0], $time[1], $answersToBeCountedArray, $additoinalQueryString = '')*100)/countOfQuestoinsAssignedToOrgTar($org_code);
+                        
+                  echo round($core_percentage)."% <br/>";
+                         //echo $core_percentage=round(($score2*100)/$count_question).'%';?> </span>
 				</p>
 				</td>
 			  </tr>
@@ -246,17 +258,10 @@ WHERE ds.district_name='$dis_name' and up.old_upazila_id='$upa_id'");
 						<div class="accordion-group">
             
                         <?php 
-                        
-
-				$question_type=mysql_query("SELECT d.old_division_id,up.upazila_name,dd.division_name,ds.old_district_id,dd.district_name,qt.type_id,qt.type_name FROM hss_tertiary_question_type qt
-INNER JOIN hss_question_type_div_district_tertiary AS dd ON qt.type_name=dd.type_name 
-INNER JOIN admin_district AS ds ON dd.district_name=ds.district_name
-INNER JOIN admin_division AS d ON dd.division_name=d.division_name
-INNER JOIN admin_upazila AS up ON ds.old_district_id=up.old_district_id
-WHERE up.old_upazila_id='$upazila_id' GROUP BY qt.type_name ORDER BY qt.type_id ASC");
-				//echo $question_type;
-						   while($question_types = mysql_fetch_array($question_type))
-						   {?>
+			         $question_type = mysql_query("SELECT * FROM hss_tertiary_question_type");
+                        while ($question_types = mysql_fetch_array($question_type)) {
+						    if (questionTypeBelongsToOrgTar($question_types['type_id'], $org_code)) {
+						        ?>
 						    <div class="accordion-heading">
 						    <a class="accordion-toggle" data-toggle="collapse" data-parent="#sample-accordion" href="#collapse<?php echo $question_types['type_id'];?>">
 						   <?php
@@ -365,7 +370,7 @@ WHERE up.old_upazila_id='$upazila_id' GROUP BY qt.type_name ORDER BY qt.type_id 
 								
 								
 						 	<div style="margin-left:5px;"> </div>
-				            </div><? } ?>
+				            </div><? }} ?>
 				             
 						
 						

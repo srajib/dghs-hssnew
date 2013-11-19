@@ -198,7 +198,10 @@ if ($_SESSION['loginid'] <= 2) {
 
 
                 </script>
-              <? } else { ?>
+              <? } else { 
+                   if(@$org_code!='10001109'||@$org_code!='10001972'||@$org_code!='10000753'||@$org_code!='10000864'||@$org_code!='10013720'||@$org_code!='10002304'||@$org_code!='10000105'||@$org_code!='10001805'||@$org_code!='10000393'||@$org_code!='10001214'||@$org_code!='10000575'||@$org_code!='10002196'){
+                   
+                ?>
 
                 <script>
                   function toggle() {
@@ -240,7 +243,7 @@ if ($_SESSION['loginid'] <= 2) {
                   }
 
                 </script>   
-              <? } ?> 
+              <? }} ?> 
 
               <?php
               $previous_month = date('m-Y', strtotime('last month'));
@@ -300,7 +303,9 @@ if ($_SESSION['loginid'] <= 2) {
                         //echo "<h1>org is Tartiary<br><h1>";
                         include_once 'question_tertiray_org.php';
                       }else {
+                       if(@$org_code!='10001109'||@$org_code!='10001972'||@$org_code!='10000753'||@$org_code!='10000864'||@$org_code!='10013720'||@$org_code!='10002304'||@$org_code!='10000105'||@$org_code!='10001805'||@$org_code!='10000393'||@$org_code!='10001214'||@$org_code!='10000575'||@$org_code!='10002196'){
                         include_once 'question_org.php';
+                        }else{}
                       }
                       ?>
                       <div style="margin-left:5px;"><input type="submit" name="submit" value="Save" class="btn btn-primary"> </div>

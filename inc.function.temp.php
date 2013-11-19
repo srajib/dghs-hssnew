@@ -54,7 +54,7 @@ function countAllAnswerFrmOrgTar($org_code, $month, $year, $answersToBeCountedAr
     if(strlen($month)<2){
         $month="0".$month;
     }
-    $question_count = getQuestionCount();
+    $question_count = getQuestionCountTar();
 
     if (strlen($org_code) && orgCodeValid($org_code) && strlen($month) && strlen($year)) {
         $sql = "SELECT * FROM hss_tertiary_answer_storage WHERE answer_storage_org_id='$org_code' AND answer_storage_month_year='$month-$year' $additoinalQueryString ";
@@ -65,7 +65,7 @@ function countAllAnswerFrmOrgTar($org_code, $month, $year, $answersToBeCountedAr
         foreach ($a as $ans) {
             for ($i = 1; $i <= $question_count; $i++) {
                 if (in_array($ans["answer_storage_q" . $i . "_answer"], $answersToBeCountedArray)) {
-                    if (questionNoBelongsToOrg($i, $org_code)) {
+                    if (questionNoBelongsToOrgTar($i, $org_code)) {
                         //echo "answer_storage_q" . $i . "_answer = Yes <br/>"; // debug
                         $ans_count++;
                     }
@@ -143,7 +143,7 @@ function countOfQuestoinsAssignedToOrg($org_code) {
 }
 
 function countOfQuestoinsAssignedToOrgTar($org_code) {
-    $question_count = getQuestionCount();
+    $question_count = getQuestionCountTar();
     $count = 0;
     for ($i = 1; $i <= $question_count; $i++) {
         if (questionNoBelongsToOrgTar($i, $org_code)) {
@@ -180,6 +180,12 @@ function getQuestionCount() {
     return $a['total'];
 }
 
+function getQuestionCountTar() {
+    $sql = "SELECT count(*) as total FROM hss_tertiary_question";
+    $r = mysql_query($sql) or die(mysql_error() . "<pre>Query: $sql</pre>");
+    $a = mysql_fetch_assoc($r); // stores result in array
+    return $a['total'];
+}
 function orgCodeValid($org_code) {
     return getRowVal('organization', 'org_code', $org_code); // returns false if there is no result of the query
 }
@@ -203,12 +209,15 @@ $org_type_code_csv="'1022','1023','1028','1029'";
 $exceptoin_org_code_csv="'10001109','10001972','10000753','10000864','10013720','10002304','10000105','10001805','10000393','10001214','10000575','10002196'";  // org_codes that needs to be escaped 
 
 $tartiary_org_codes_array="'10001811','10000425','10001109'";  
-$tartiary_type_codes_array="'1002','1005','1010'";
+$tartiary_type_codes_array="'1002','1005'";
+$tartiary_exception_org_codes_array="'10002303'";
+
 
 function getAllOrgUnderDivisionTar($division_code) {
     global $tartiary_org_codes_array;
     global $tartiary_type_codes_array;
-    return getRows('organization', " WHERE division_code='$division_code' AND org_type_code IN($tartiary_type_codes_array) AND org_code IN($tartiary_org_codes_array)");
+    global $tartiary_exception_org_codes_array;
+    return getRows('organization', " WHERE division_code='$division_code' AND org_type_code IN($tartiary_type_codes_array) OR (division_code='$division_code' AND org_code IN($tartiary_org_codes_array))");
 }
 
 function getAllOrgUnderDivision($division_code) {
@@ -235,7 +244,7 @@ function checkIfOrgIsTartiary($org_code){
  // myprint_r($org);
   
   $tartiary_org_codes_array=array('10001811','10000425','10001109');  
-  $tartiary_type_codes_array=array('1002','1005','1010');
+  $tartiary_type_codes_array=array('1002','1005');
   
   if(in_array($org['org_code'], $tartiary_org_codes_array)){
     return true;
