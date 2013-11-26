@@ -1,8 +1,9 @@
 <?php
 session_start();
-//error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
+require_once 'inc.function.temp.php';
+
 require_once "phpuploader/phpuploader/include_phpuploader.php" ;
 if(empty($_SESSION['loginid']))
 {

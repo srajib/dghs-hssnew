@@ -142,55 +142,17 @@ $div_sql=mysql_query("Select division_name from admin_division where division_bb
 
 		<div class="row">
 			
-			
 			<div class="span3">
-			<ul id="navigation" style="border:double; border-color:#AFDBFE;background-color:#EEF5FD" hieght="auto"> 
-		<li><a href="cont_login.php?bd=<?php echo $bd;?>">Bangladesh</a>
-			<ul>
-<?php
-// tree part start
- $tree = mysql_query("SELECT * from admin_division");
-    while($row = mysql_fetch_array($tree))
-            {
-                ?>
-                <li style="background-color:#EEF5FD"><a href="division_login.php?division_bbs_code=<?php echo $row['division_bbs_code'];?>"><?php echo $row['division_name']; ?></a>
-                        <ul>
-                <?php
-                 $divid = $row['division_bbs_code'];
-                 $dist = mysql_query("SELECT * FROM admin_district WHERE division_bbs_code='$divid'");
-                 while($rowdist = mysql_fetch_array($dist))
-                { ?>
-                     <li style="background-color:#EEF5FD"><a href="district_login.php?district_bbs_code=<?php echo $rowdist['district_bbs_code']; ?>"><?php echo $rowdist['district_name']; ?></a>
-                            <ul>
-							<?php
-					 $disid=$rowdist['old_district_id'];
-				         $upo = mysql_query("SELECT * FROM admin_upazila WHERE old_district_id='$disid'");
-					 while($rowupo = mysql_fetch_array($upo)){
-		?>
-                                <li style="background-color:#EEF5FD"><a href="organization_summery.php?upozilla_id=<?php echo $rowupo['old_upazila_id']?> "><?php echo $rowupo['upazila_name']; ?></a>
-								
-								</li>
-                               <?php }?> </ul>
-               		  </li>
-                    <?php
-                }?>
-					</ul>
-				</li>
-                <?php
-            }?>
-			</ul>
-		</li>
-	</ul>	
-				
-			</div> <!-- /.span3 -->
+               <?php require_once 'left_menu.php'; ?>
+             </div> <!-- /.span3 -->
+             
 			<div class="spane6"> <h3> Divisional Summary Report of <? echo $div_name ?></h3>
               
       <?php  require_once 'tbl.district_summary_report.php';   ?>    
               
-                    <table border="1px">
-                       <tr>
-                           <th>Division</th><th>&nbsp;Sept&nbsp;&nbsp;&nbsp; Oct&nbsp;&nbsp;&nbsp;    Nov </th>
-                       </tr>
+           <table border="1px">
+                <tr><td width="200"> District</td><td><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td></tr></table></td></tr>
+                             
     <?php
     foreach ($dataArray as $district => $districtData) {
         echo "<tr id='$district'>";
@@ -201,7 +163,7 @@ $div_sql=mysql_query("Select division_name from admin_division where division_bb
                     foreach ($districtData as $year => $yearData) {
                         if ($yearData['countTotal'] > 0) {
                             $percentage = round(($yearData['countAnswered'] * 100) / $yearData['countTotal'], 1);
-                            echo "<td width='50'>$percentage%</td>";
+                            echo "<td width='50' align='center'>$percentage%</td>";
                         } else {
                             $percentage = 0;
                         }

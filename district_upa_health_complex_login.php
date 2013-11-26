@@ -149,22 +149,23 @@ return true;
 		<div class="row">
 			
 			
-	      <div class="span3">
+			<div class="span3">
             <?php require_once 'left_menu.php'; ?>
-          </div> <!-- /.span3 --> 
+			</div> <!-- /.span3 -->
             
-            &nbsp;&nbsp;<a href="district_hospi_login.php?district_bbs_code=<?php echo $district_bbs_code;?>"><h2>District Facilities Report</h2></a>
-            &nbsp;&nbsp;<a href="district_upa_health_complex_login.php?district_bbs_code=<?php echo $district_bbs_code;?>"><h2>Upazila Facilities Report</h2></a>
-            <!--
-             <?php //  require_once 'tbl.upazila_summary_report.php';  ?>    
-			<div class="spane6"> <h3> District Summary Report of <? echo $dis_name ?></h3>
+            
+             <?php require_once 'tbl.upazila_health_complex_report.php';  ?>    
+			<div class="spane6"> <h3> Upazila Health Facility Report of <? echo $dis_name ?></h3>
                            <p>
                          <table class='table'>
 			  <tbody>
-		 	    <th> Upazila Name </th><th> Organization Name </th><th>Sept </th><th>Oct </th><th>Nov </th>
+		 	   
 			  </tbody>
                
               <table border="1">
+                  <tr>
+                   <th> Upazila Name </th><td><table><tr><th width="200"> Organization</th><th><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td></tr></table></th></tr></table></td></tr>
+              
     <?php
     foreach ($dataArray as $upazila => $upazilaData) {
         echo "<tr>";
@@ -208,7 +209,7 @@ return true;
 </table>
 			
 			</div><!-- /.span6 -->
-            -->
+            
 		
 		</div> <!-- /.row -->
 		

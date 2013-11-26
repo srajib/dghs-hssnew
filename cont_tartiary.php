@@ -206,6 +206,7 @@ foreach ($dataArray as $division => $districtData) {
         echo "<td>";
         echo "<table border='0'>";
         foreach ($districtData as $org => $orgData) {
+         
             echo "<tr>";
             echo "<td  width='200'>$org</td>";
             echo "<td>";
@@ -214,7 +215,10 @@ foreach ($dataArray as $division => $districtData) {
             foreach ($orgData as $year => $yearData) {     
                 if($yearData['countTotal']>0){
                     $percentage=round(($yearData['countAnswered']*100)/$yearData['countTotal'],1);
-                    echo "<td width='50'>$percentage%</td>"; 
+                    //echo "<td width='50'>$percentage%</td>"; 
+                      $org_code=$yearData['org_code'];
+                      $month_year=$yearData['month_year'];
+                      echo "<td width='50' align='center'><a href='org_report_tartiary.php?org_code=$org_code&&month=$month_year'>$percentage%</a></td>"; 
                 }else{
                     $percentage=0;
                 }

@@ -1,23 +1,12 @@
-<?php
-session_start();
+<?php  // TOP of your script
+
 //error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
-if (empty($_SESSION['loginid'])) {
-  print "<script>";
-  print " self.location='index.php'"; // Comment this line if you don't want to redirect
-  print "</script>";
-}
 
-if ($_SESSION['loginid'] <= 2) {
-  print "<script>";
-  print " self.location='admin.php'"; // Comment this line if you don't want to redirect
-  print "</script>";
-}
 
-// $q_id=$_REQUEST['question_id'];
-// $org_code=$_SESSION['org_code'];
-// $month=$_REQUEST['month'];
+$bd = $_GET['bd'];
+//$division_bbs_code=$_GET['division_bbs_code'];
 ?>
 
 <!DOCTYPE html>
@@ -48,12 +37,13 @@ if ($_SESSION['loginid'] <= 2) {
     <link rel="stylesheet" type="text/css" href="css/border-radius.css"/>
     <link rel="stylesheet" type="text/css" href="css/steel/steel.css"/>
 
-
     <script src="js/demos/charts/bar.js"></script>
-
 
     <link rel="stylesheet" href="treeview/jquery.treeview.css" />
     <link rel="stylesheet" href="treeview/screen.css" />
+
+    <script src="treeview/lib/jquery.js" type="text/javascript"></script>
+    <script src="treeview/lib/jquery.cookie.js" type="text/javascript"></script>
     <script src="treeview/jquery.treeview.js" type="text/javascript"></script>
     <script type="text/javascript" src="treeview/demo.js"></script>
 
@@ -72,14 +62,16 @@ if ($_SESSION['loginid'] <= 2) {
         return true;
       }
     </script> 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
   </head>
 
   <body>
-<?php
-include('header.php');
-$bd = 'Bangladesh';
-?>
+    <?php include('header_login.php');
+    ?>
     <div id="nav">
 
       <div class="container">
@@ -98,7 +90,8 @@ $bd = 'Bangladesh';
                 <span>Home</span>
               </a>	    				
             </li>
-            <li class="dropdown"> 
+
+            <li class="dropdown">
               <a href="reporting.php">
                 <i class="icon-home"></i>
                 <span>HSS Report Panel</span>
@@ -106,42 +99,15 @@ $bd = 'Bangladesh';
             </li>
 
 
-            <li class="dropdown">					
-              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-external-link"></i>
-                Report
-                <b class="caret"></b>
-              </a>	
 
-              <ul class="dropdown-menu">							
-                <li><a href="basic_report.php">Basic Report</a></li>
-                <li class="dropdown">
-                  <a href="javascript:;">
-                    Report									
-                    <i class="icon-chevron-right sub-menu-caret"></i>
-                  </a>
 
-                </li>
-                <li class="dropdown">
-                  <a href="upozila_organization_summary.php">
-                    Organization Answer Report									
-                    <i class="icon-chevron-right sub-menu-caret"></i>
-                  </a>
-                </li>
-              </ul>   			
-            </li>
 
           </ul>
 
 
           <ul class="nav pull-right">
 
-            <li class="">
-              <form class="navbar-search pull-left">
-                <input type="text" class="search-query" placeholder="Search">
-                <button class="search-btn"><i class="icon-search"></i></button>
-              </form>	    				
-            </li>
+
 
           </ul>
 
@@ -171,15 +137,78 @@ $bd = 'Bangladesh';
 
         <div class="row">
 
+
           <div class="span3">
+          <?php require_once 'left_menu.php'; ?>
+          </div> <!-- /.span3 -->
+        
+          
+          <div class="spane6"> <h3> Divisional Summary Report of Bangladesh</h3>
+            <p>
+           
+<?php //require_once 'tbl.divisional_summary_report.php'; ?>      
+              <table border="1px">
+                <tr>
+                      <th>Division</th><th>Sept</th><th>Oct</th><th>Nov</th>
+                </tr>
+                <tr>
+                      <td>Dhaka</th><td>7.7</td><td>10%	</td><td>1.5%</td>
+                </tr>
+                <tr>
+                      <td>Chittagong</td><td>12.9%</td><td>22.9%</td><td>2.8%</td>
+                </tr>
+                
+                <tr>
+                      <td>Rajshahi</td><td>46.7%</td><td>55.1%</td><td>15%</td>
+                </tr>
+                
+                <tr>
+                      <td>Rangpur</td><td>9.1%</td><td>8.1%</td><td>0%</td>
+                      
+                </tr>
+                <tr>
+                      <td>Khulna</td><td>24.8%	</td><td>25.3%	</td><td>5.1%</td>
+                </tr>
+                
+                   <tr>
+                      <td>Barisal</td><td>20.7%</td><td>27.6%</td><td>7.9%</td>
+                   </tr>
+                   
+                    <tr>
+                      <td>Sylhet</td><td>5.9%</td><td>9.2%</td><td>2.3%</td>
+                   </tr>
+ <!--Division	 Sept    Oct    Nov
+Dhaka	
+7.7%	10%	1.5%
+Chittagong	
+12.9%	22.9%	4.5%
+Rajshahi	
+46.7%	55.1%	15%
+Rangpur	
+9.1%	8.1%	0%
+Khulna	
+24.8%	25.3%	5.1%
+Barisal	
+20.7%	27.6%	7.9%
+Sylhet	
+5.9%	9.2%	2.3%-->
+© 2013 MIS, DGHS, All rights reserved.
 
-            <?php require_once 'left_menu.php'; ?>
+              </table>          
 
-          </div> <!-- /.span6 -->
+
+<!--<table class="table">
+<tr>
+<td><strong>Total Summary</strong></td>
+<td><strong><? echo " $sum_sept"; ?></strong></td> <td><strong><? echo " $sum_oct"; ?></strong></td><td>0</td><td>0</td>
+
+</tr>
+</table>-->
+
+          </div><!-- /.span6 -->
+   
 
         </div> <!-- /.row -->
-
-
 
       </div> <!-- /.container -->
 

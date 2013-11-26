@@ -207,6 +207,9 @@ function getUpazilasUnderDistrict($district_bbs_code){
 
 $org_type_code_csv="'1022','1023','1028','1029'";
 $exceptoin_org_code_csv="'10001109','10001972','10000753','10000864','10013720','10002304','10000105','10001805','10000393','10001214','10000575','10002196'";  // org_codes that needs to be escaped 
+$disthospi_org_type_code_csv="'1022','1028','1023'";
+$upazila_health_complex_org_type_code_csv="'1029'";
+
 
 $tartiary_org_codes_array="'10001811','10000425','10001109'";  
 $tartiary_type_codes_array="'1002','1005'";
@@ -236,6 +239,18 @@ function getAllOrgUnderUpazila($district_bbs_code,$upazila_thana_code) {
     global $org_type_code_csv;
     global $exceptoin_org_code_csv;
     return getRows('organization', " WHERE district_code='$district_bbs_code' AND upazila_thana_code='$upazila_thana_code' AND org_type_code IN($org_type_code_csv) AND org_code NOT IN($exceptoin_org_code_csv)");
+}
+
+function getAllDistHospiUnderUpazila($district_bbs_code,$upazila_thana_code) {
+    global $disthospi_org_type_code_csv;
+    global $exceptoin_org_code_csv;
+    return getRows('organization', " WHERE district_code='$district_bbs_code' AND upazila_thana_code='$upazila_thana_code' AND org_type_code IN($disthospi_org_type_code_csv) AND org_code NOT IN($exceptoin_org_code_csv)");
+}
+
+function getAllUpazilaHelathComplexUnderUpazila($district_bbs_code,$upazila_thana_code) {
+    global $upazila_health_complex_org_type_code_csv;
+    global $exceptoin_org_code_csv;
+    return getRows('organization', " WHERE district_code='$district_bbs_code' AND upazila_thana_code='$upazila_thana_code' AND org_type_code IN($upazila_health_complex_org_type_code_csv) AND org_code NOT IN($exceptoin_org_code_csv)");
 }
 
 function checkIfOrgIsTartiary($org_code){

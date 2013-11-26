@@ -1,10 +1,8 @@
 <?php
-session_start();
-error_reporting(E_ALL);
-ini_set('display_errors','On');
+
 include('lib/connect.php');
 include('inc.functions.generic.php');
-$bd = $_GET['bd'];
+
 //$division_bbs_code=$_GET['division_bbs_code'];
 ?>
 
@@ -146,8 +144,14 @@ $bd = $_GET['bd'];
                     </div> <!-- /.span3 -->
                     <div class="spane6"> <h3> Divisional Summary Report of Bangladesh</h3>
                         <p>
-                           <?php include('tbl.divisional_summary_report.php')?>
-              
+                           <?php //include('tbl.divisional_summary_report.php')?>
+                         <table border="1px">
+                <tbody><tr>
+                      <th>Division</th><th>&nbsp;Sept&nbsp;&nbsp;&nbsp; Oct&nbsp;&nbsp;&nbsp;    Nov </th>
+                </tr>
+<tr id="Dhaka"><td>Dhaka</td><td><table border="1px"><tbody><tr><td align="center" width="50">7.7%</td><td align="center" width="50">10%</td><td align="center" width="50">1.5%</td></tr></tbody></table></td></tr><tr id="Chittagong"><td>Chittagong</td><td><table border="1px"><tbody><tr><td align="center" width="50">12.9%</td><td align="center" width="50">22.9%</td><td align="center" width="50">5.9%</td></tr></tbody></table></td></tr><tr id="Rajshahi"><td>Rajshahi</td><td><table border="1px"><tbody><tr><td align="center" width="50">46.7%</td><td align="center" width="50">55.1%</td><td align="center" width="50">15%</td></tr></tbody></table></td></tr><tr id="Rangpur"><td>Rangpur</td><td><table border="1px"><tbody><tr><td align="center" width="50">9.1%</td><td align="center" width="50">8.1%</td><td align="center" width="50">0%</td></tr></tbody></table></td></tr><tr id="Khulna"><td>Khulna</td><td><table border="1px"><tbody><tr><td align="center" width="50">24.8%</td><td align="center" width="50">25.3%</td><td align="center" width="50">5.1%</td></tr></tbody></table></td></tr><tr id="Barisal"><td>Barisal</td><td><table border="1px"><tbody><tr><td align="center" width="50">20.7%</td><td align="center" width="50">27.6%</td><td align="center" width="50">9.5%</td></tr></tbody></table></td></tr><tr id="Sylhet"><td>Sylhet</td><td><table border="1px"><tbody><tr><td align="center" width="50">5.9%</td><td align="center" width="50">9.2%</td><td align="center" width="50">2.3%</td></tr></tbody></table></td></tr>              </tbody></table>          
+
+
 
                     </div><!-- /.span6 -->
                 </div> <!-- /.row -->

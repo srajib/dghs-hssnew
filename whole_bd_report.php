@@ -1,23 +1,12 @@
-<?php
-session_start();
+<?php  // TOP of your script
+
 //error_reporting(0);
 include('lib/connect.php');
 include('inc.functions.generic.php');
-if (empty($_SESSION['loginid'])) {
-  print "<script>";
-  print " self.location='index.php'"; // Comment this line if you don't want to redirect
-  print "</script>";
-}
 
-if ($_SESSION['loginid'] <= 2) {
-  print "<script>";
-  print " self.location='admin.php'"; // Comment this line if you don't want to redirect
-  print "</script>";
-}
 
-// $q_id=$_REQUEST['question_id'];
-// $org_code=$_SESSION['org_code'];
-// $month=$_REQUEST['month'];
+$bd = $_GET['bd'];
+//$division_bbs_code=$_GET['division_bbs_code'];
 ?>
 
 <!DOCTYPE html>
@@ -48,12 +37,13 @@ if ($_SESSION['loginid'] <= 2) {
     <link rel="stylesheet" type="text/css" href="css/border-radius.css"/>
     <link rel="stylesheet" type="text/css" href="css/steel/steel.css"/>
 
-
     <script src="js/demos/charts/bar.js"></script>
-
 
     <link rel="stylesheet" href="treeview/jquery.treeview.css" />
     <link rel="stylesheet" href="treeview/screen.css" />
+
+    <script src="treeview/lib/jquery.js" type="text/javascript"></script>
+    <script src="treeview/lib/jquery.cookie.js" type="text/javascript"></script>
     <script src="treeview/jquery.treeview.js" type="text/javascript"></script>
     <script type="text/javascript" src="treeview/demo.js"></script>
 
@@ -72,14 +62,16 @@ if ($_SESSION['loginid'] <= 2) {
         return true;
       }
     </script> 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
   </head>
 
   <body>
-<?php
-include('header.php');
-$bd = 'Bangladesh';
-?>
+    <?php include('header_login.php');
+    ?>
     <div id="nav">
 
       <div class="container">
@@ -98,7 +90,8 @@ $bd = 'Bangladesh';
                 <span>Home</span>
               </a>	    				
             </li>
-            <li class="dropdown"> 
+
+            <li class="dropdown">
               <a href="reporting.php">
                 <i class="icon-home"></i>
                 <span>HSS Report Panel</span>
@@ -106,42 +99,15 @@ $bd = 'Bangladesh';
             </li>
 
 
-            <li class="dropdown">					
-              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-external-link"></i>
-                Report
-                <b class="caret"></b>
-              </a>	
 
-              <ul class="dropdown-menu">							
-                <li><a href="basic_report.php">Basic Report</a></li>
-                <li class="dropdown">
-                  <a href="javascript:;">
-                    Report									
-                    <i class="icon-chevron-right sub-menu-caret"></i>
-                  </a>
 
-                </li>
-                <li class="dropdown">
-                  <a href="upozila_organization_summary.php">
-                    Organization Answer Report									
-                    <i class="icon-chevron-right sub-menu-caret"></i>
-                  </a>
-                </li>
-              </ul>   			
-            </li>
 
           </ul>
 
 
           <ul class="nav pull-right">
 
-            <li class="">
-              <form class="navbar-search pull-left">
-                <input type="text" class="search-query" placeholder="Search">
-                <button class="search-btn"><i class="icon-search"></i></button>
-              </form>	    				
-            </li>
+
 
           </ul>
 
@@ -171,15 +137,89 @@ $bd = 'Bangladesh';
 
         <div class="row">
 
+
           <div class="span3">
+          <?php require_once 'left_menu.php'; ?>
+          </div> <!-- /.span3 -->
+        
+          
+          <div class="spane6"> <h3> Divisional Summary Report of Bangladesh</h3>
+            <p>
+           
+<?php require_once 'tbl.divisional_summary_report.php'; ?>      
+              <table border="1px">
+                <tr>
+                      <th>Division</th><th>&nbsp;Sept&nbsp;&nbsp;&nbsp; Oct&nbsp;&nbsp;&nbsp;    Nov </th>
+                </tr>
+<?php
 
-            <?php require_once 'left_menu.php'; ?>
+/*
+foreach ($dataArray as $district => $districtData) {
+  echo "<tr id='$district'>";
+  echo "<td>$district</td>";
+  echo "<td>";
+  echo "<table border='1px'>";
+  echo "<tr>";
+  foreach ($districtData as $year => $yearData) {
+    if ($yearData['countTotal'] > 0) {
+      $percentage = round(($yearData['countAnswered'] * 100) / $yearData['countTotal'], 1);
+      echo "<td width='50' align='center'>$percentage%</td>";
+    } else {
+      $percentage = 0;
+    }
+  }
+  echo "</tr>";
+  echo "</table>";
+  echo "</td>";
+  echo "</tr>";
+}
+ * */
+ 
 
-          </div> <!-- /.span6 -->
+$cont='';
+foreach ($dataArray as $district => $districtData) {
+  $cont=$cont. "<tr id='$district'>";
+  $cont=$cont. "<td>$district</td>";
+  $cont=$cont."<td>";
+  $cont=$cont. "<table border='1px'>";
+  $cont=$cont."<tr>";
+  foreach ($districtData as $year => $yearData) {
+    if ($yearData['countTotal'] > 0) {
+      $percentage = round(($yearData['countAnswered'] * 100) / $yearData['countTotal'], 1);
+     $cont=$cont. "<td width='50' align='center'>$percentage%</td>";
+    } else {
+     $cont=$cont.  $percentage = 0;
+    }
+  }
+  $cont=$cont. "</tr>";
+  $cont=$cont. "</table>";
+  $cont=$cont. "</td>";
+  $cont=$cont. "</tr>";
+}
+
+
+$cachefile ="test.txt";
+// Your normal PHP script and HTML content here
+// BOTTOM of your script
+$fp = fopen($cachefile, 'w'); // open the cache file for writing
+fwrite($fp, $cont); // save the contents of output buffer to the file
+fclose($fp);
+?>
+              </table>          
+
+
+<!--<table class="table">
+<tr>
+<td><strong>Total Summary</strong></td>
+<td><strong><? echo " $sum_sept"; ?></strong></td> <td><strong><? echo " $sum_oct"; ?></strong></td><td>0</td><td>0</td>
+
+</tr>
+</table>-->
+
+          </div><!-- /.span6 -->
+   
 
         </div> <!-- /.row -->
-
-
 
       </div> <!-- /.container -->
 

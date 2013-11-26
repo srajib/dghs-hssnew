@@ -16,6 +16,8 @@ if ($_SESSION['loginid'] <= 2) {
   print " self.location='admin.php'"; // Comment this line if you don't want to redirect
   print "</script>";
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -123,7 +125,13 @@ if ($_SESSION['loginid'] <= 2) {
           </script>
 
         </div> <!-- /.page-title -->
-
+         
+        <?php 
+        $org_query = mysql_query("SELECT org_name,org_code,id,org_type_code,email_address1
+          FROM organization where org_code='".$org_code."'");
+          $org_details=mysql_fetch_array($org_query);
+          $user_email=$org_details['email_address1'];
+        ?>
         <form name="orgfrom" action="" method="post" enctype="multipart/form-data">
         <!-- <input type="hidden" name="answer_storage_month_year_2" value="" id="answer_storage_month_year_2">-->
           <input type="hidden" name="answer_storage_org_id" value="<?php echo $org_code; ?>">
@@ -199,7 +207,7 @@ if ($_SESSION['loginid'] <= 2) {
 
                 </script>
               <? } else { 
-                   if(@$org_code!='10001109'||@$org_code!='10001972'||@$org_code!='10000753'||@$org_code!='10000864'||@$org_code!='10013720'||@$org_code!='10002304'||@$org_code!='10000105'||@$org_code!='10001805'||@$org_code!='10000393'||@$org_code!='10001214'||@$org_code!='10000575'||@$org_code!='10002196'){
+                   //if(@$org_code!='10001109'||@$org_code!='10001972'||@$org_code!='10000753'||@$org_code!='10000864'||@$org_code!='10013720'||@$org_code!='10002304'||@$org_code!='10000105'||@$org_code!='10001805'||@$org_code!='10000393'||@$org_code!='10001214'||@$org_code!='10000575'||@$org_code!='10002196'){
                    
                 ?>
 
@@ -243,7 +251,9 @@ if ($_SESSION['loginid'] <= 2) {
                   }
 
                 </script>   
-              <? }} ?> 
+              <? //}
+              
+                   } ?> 
 
               <?php
               $previous_month = date('m-Y', strtotime('last month'));
@@ -256,8 +266,8 @@ if ($_SESSION['loginid'] <= 2) {
               <select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
                 <option value="">==Select Month==</option>
                 <option value="<?php echo $current_month; ?>"><?php echo $current_month_text; ?></option>
-                <option value="<?php echo $previous_month; ?>"><?php echo $previous_month_text; ?></option>
-                <option value="<?php echo '09-2013'; ?>"><?php echo 'September-2013'; ?></option>
+               <!-- <option value="<?php echo $previous_month; ?>"><?php echo $previous_month_text; ?></option>
+                <option value="<?php echo '09-2013'; ?>"><?php echo 'September-2013'; ?></option>-->
 
               </select>
 
@@ -297,6 +307,8 @@ if ($_SESSION['loginid'] <= 2) {
 
                       $org_detail = mysql_fetch_array($org);
                       $upazila_id = $org_detail['old_upazila_id'];
+                      
+                      //print_r($org_detail);
                        //echo "<h1>$org_code<br><h1>";
 
                       if(checkIfOrgIsTartiary($org_code)) {

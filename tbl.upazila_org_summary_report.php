@@ -5,8 +5,8 @@ session_start();
 require_once 'lib/connect.php';
 require_once 'inc.functions.generic.php';
 require_once 'inc.function.temp.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
+//error_reporting(E_ALL);
+//ini_set('display_errors', 'On');
 
 $district_bbs_code = $_REQUEST['district_bbs_code'];
 $upazila_thana_code = $_REQUEST['upazila_thana_code'];
@@ -24,9 +24,14 @@ $answersToBeCountedArray = array('Yes');
 
 $orgs = getAllOrgUnderUpazila($district_bbs_code,$upazila_thana_code);
 //myprint_r($orgs);
+$organization_code=$orgs[0]['org_code'];
 
 for ($yy = $startyear; $yy <= $endyear; $yy++) {
     for ($mm = $startmonth; $mm <= $endmonth; $mm++) {
+        if($mm<10)
+           $month_year='0'.$mm.'-'.$yy;
+         else 
+          $month_year=$mm.'-'.$yy;
         $countAnswered = 0;
         $countTotal = 0;
         foreach ($orgs as $org) {
@@ -34,11 +39,15 @@ for ($yy = $startyear; $yy <= $endyear; $yy++) {
             $countTotal+= countOfQuestoinsAssignedToOrg($org['org_code']);
             $dataArray[$org['org_name']]["$mm-$yy"]['countAnswered'] = $countAnswered;
             $dataArray[$org['org_name']]["$mm-$yy"]['countTotal'] = $countTotal;
+            $dataArray[$org['org_name']]["$mm-$yy"]['month_year'] = $month_year;
+           // $dataArray[$org['month']]=$mm.$yy;
         }
+        
+        
     }
 }
 
-myprint_r($dataArray);
+//myprint_r($dataArray);
 ?>
 
 
