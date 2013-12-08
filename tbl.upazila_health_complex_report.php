@@ -26,6 +26,12 @@ foreach ($upazilas as $upazila) {
 
     for ($yy = $startyear; $yy <= $endyear; $yy++) {
         for ($mm = $startmonth; $mm <= $endmonth; $mm++) {
+		
+		      if($mm<10)
+               $month_year='0'.$mm.'-'.$yy;
+               else 
+              $month_year=$mm.'-'.$yy;
+			  
             $countAnswered = 0;
             $countTotal = 0;
             foreach ($orgs as $org) {
@@ -33,6 +39,7 @@ foreach ($upazilas as $upazila) {
                 $countTotal+= countOfQuestoinsAssignedToOrg($org['org_code']);
                 $dataArray[$upazila['upazila_name']][$org['org_name']]["$mm-$yy"]['countAnswered'] = $countAnswered;
                 $dataArray[$upazila['upazila_name']][$org['org_name']]["$mm-$yy"]['countTotal'] = $countTotal;
+				$dataArray[$upazila['upazila_name']][$org['org_name']]["$mm-$yy"]['month_year']= $month_year;
             }
             //$dataArray[$upazila['upazila_name']]["$mm-$yy"]['countAnswered'] = $countAnswered;
             //$dataArray[$upazila['upazila_name']]["$mm-$yy"]['countTotal'] = $countTotal;

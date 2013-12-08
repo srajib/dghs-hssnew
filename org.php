@@ -10,13 +10,13 @@ if (empty($_SESSION['loginid'])) {
   print " self.location='index.php'"; // Comment this line if you don't want to redirect
   print "</script>";
 }
-
+/*
 if ($_SESSION['loginid'] <= 2) {
   print "<script>";
   print " self.location='admin.php'"; // Comment this line if you don't want to redirect
   print "</script>";
 }
-
+*/
 
 ?>
 
@@ -266,8 +266,8 @@ if ($_SESSION['loginid'] <= 2) {
               <select name="answer_storage_month_year" id="answer_storage_month_year" onchange="toggle()">
                 <option value="">==Select Month==</option>
                 <option value="<?php echo $current_month; ?>"><?php echo $current_month_text; ?></option>
-               <!-- <option value="<?php echo $previous_month; ?>"><?php echo $previous_month_text; ?></option>
-                <option value="<?php echo '09-2013'; ?>"><?php echo 'September-2013'; ?></option>-->
+               <option value="<?php echo $previous_month; ?>"><?php echo $previous_month_text; ?></option>
+               <!--  <option value="<?php echo '09-2013'; ?>"><?php echo 'September-2013'; ?></option>-->
 
               </select>
 

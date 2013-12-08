@@ -175,13 +175,15 @@ return true;
         foreach ($upazilaData as $org => $orgData) {
             echo "<tr>";
             echo "<td  width='200'>$org</td>";
+            $org_code=getOrgCode($org,$upazila);
             echo "<td>";
             echo "<table border='0'>";
             echo "<tr>";
             foreach ($orgData as $year => $yearData) {     
                 if($yearData['countTotal']>0){
                     $percentage=round(($yearData['countAnswered']*100)/$yearData['countTotal'],1);
-                    echo "<td width='50' align='center'>$percentage%</td>"; 
+                    $month_year = $yearData[month_year];
+                    echo "<td width='50' align='center'><a href='org_report.php?org_code=$org_code&&month=$month_year'>$percentage%</a></td>"; 
                 }else{
                     $percentage=0;
                 }

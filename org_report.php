@@ -75,6 +75,11 @@ $answer_storage_month_year = $_REQUEST['month'];
                 }	
             }
 			
+			#lightbox-image{
+			width:500px;
+			height:500px;
+			}
+			
 			
         </style>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->

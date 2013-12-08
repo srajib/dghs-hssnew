@@ -414,7 +414,7 @@ if ($_SESSION['loginid'] <= 2) {
                             <?php
                           }
                         }
-                      }
+                    }
                       }
                       ?> 	<div style="margin-left:5px;"><input type="submit" name="submit" value="Save" class="btn btn-primary"> </div>
                     </div>

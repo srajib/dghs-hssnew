@@ -2,6 +2,14 @@
 
 $no_of_question = 53;
 
+function getOrgCodeUpa($org,$district_bbs_code,$upazila){
+    //return getRows('admin_district'," WHERE division_bbs_code='$division_bbs_code'");
+    $sql = "SELECT org_code FROM organization WHERE org_name='$org' AND district_code='$district_bbs_code' AND upazila_thana_name LIKE \"%$upazila%\"";
+    $r = mysql_query($sql) or die(mysql_error() . "<pre>Query: $sql</pre>");
+    $a = mysql_fetch_assoc($r); // stores result in array
+    return $a['org_code'];
+}
+
 function getAllAnswer($additoinalQueryString = '') {
     $sql = "SELECT * FROM hss_answer_storage $additoinalQueryString";
     $r = mysql_query($sql) or die(mysql_error() . "<pre>Query: $sql</pre>");
@@ -200,7 +208,20 @@ function getDistricts(){
 function getDistrictsUnderDivision($division_bbs_code){
     return getRows('admin_district'," WHERE division_bbs_code='$division_bbs_code'");
 }
+function getDistrictsCode($district_name){
+    //return getRows('admin_district'," WHERE division_bbs_code='$division_bbs_code'");
+    $sql = "SELECT district_bbs_code FROM admin_district WHERE district_name=\"$district_name\"";
+    $r = mysql_query($sql) or die(mysql_error() . "<pre>Query: $sql</pre>");
+    $a = mysql_fetch_assoc($r); // stores result in array
+    return $a['district_bbs_code'];
+}
 
+function getOrgCode($org,$upazila){
+    $sql = "SELECT org_code FROM organization WHERE org_name LIKE \"%$org%\" AND upazila_thana_name LIKE \"%$upazila%\"";
+    $r = mysql_query($sql) or die(mysql_error() . "<pre>Query: $sql</pre>");
+    $a = mysql_fetch_assoc($r); // stores result in array
+    return $a['org_code'];
+}
 function getUpazilasUnderDistrict($district_bbs_code){
     return getRows('admin_upazila'," WHERE upazila_district_code='$district_bbs_code'");
 }

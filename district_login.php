@@ -208,7 +208,7 @@ return true;
 </table>
 			
 			</div><!-- /.span6 -->
-            -->
+
 		
 		</div> <!-- /.row -->
 		

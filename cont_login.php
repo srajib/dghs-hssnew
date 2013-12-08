@@ -142,20 +142,29 @@ include('inc.functions.generic.php');
                             </li>
                         </ul>	
                     </div> <!-- /.span3 -->
-                  <div class="spane6"> <h3> Divisional Summary Report of Bangladesh</h3>
+                    
+             <div class="spane6"> <h3> Divisional Summary Report of Bangladesh</h3>
             <p>
            
-   
+    
               </p><table border="1px">
                 <tbody><tr>
                       <th>Division</th><th>&nbsp;Sept&nbsp;&nbsp;&nbsp; Oct&nbsp;&nbsp;&nbsp;    Nov </th>
                 </tr>
-<tr id="Dhaka"><td>Dhaka</td><td><table border="1px"><tbody><tr><td align="center" width="50">7.7%</td><td align="center" width="50">10%</td><td align="center" width="50">1.5%</td></tr></tbody></table></td></tr><tr id="Chittagong"><td>Chittagong</td><td><table border="1px"><tbody><tr><td align="center" width="50">14.5%</td><td align="center" width="50">23.7%</td><td align="center" width="50">6.4%</td></tr></tbody></table></td></tr><tr id="Rajshahi"><td>Rajshahi</td><td><table border="1px"><tbody><tr><td align="center" width="50">46.7%</td><td align="center" width="50">55.1%</td><td align="center" width="50">16.7%</td></tr></tbody></table></td></tr><tr id="Rangpur"><td>Rangpur</td><td><table border="1px"><tbody><tr><td align="center" width="50">9.1%</td><td align="center" width="50">8.4%</td><td align="center" width="50">0%</td></tr></tbody></table></td></tr><tr id="Khulna"><td>Khulna</td><td><table border="1px"><tbody><tr><td align="center" width="50">24.8%</td><td align="center" width="50">26.8%</td><td align="center" width="50">6.9%</td></tr></tbody></table></td></tr><tr id="Barisal"><td>Barisal</td><td><table border="1px"><tbody><tr><td align="center" width="50">20.7%</td><td align="center" width="50">28.3%</td><td align="center" width="50">12.2%</td></tr></tbody></table></td></tr><tr id="Sylhet"><td>Sylhet</td><td><table border="1px"><tbody><tr><td align="center" width="50">23.9%</td><td align="center" width="50">27.8%</td><td align="center" width="50">17.5%</td></tr></tbody></table></td></tr>              </tbody></table>          
+				
+<tr id="Dhaka"><td><a href="division_login.php?division_bbs_code=30">Dhaka</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">7.7%</td><td align="center" width="50">10%</td><td align="center" width="50">34.7%</td></tr></tbody></table></td></tr><tr id="Chittagong"><td><a href="division_login.php?division_bbs_code=20">Chittagong</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">14%</td><td align="center" width="50">22.5%</td><td align="center" width="50">75.7%</td></tr></tbody></table></td></tr><tr id="Rajshahi"><td><a href="division_login.php?division_bbs_code=50">Rajshahi</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">46.7%</td><td align="center" width="50">55.1%</td><td align="center" width="50">69.5%</td></tr></tbody></table></td></tr><tr id="Rangpur"><td><a href="division_login.php?division_bbs_code=55">Rangpur</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">9.1%</td><td align="center" width="50">8.4%</td><td align="center" width="50">33.4%</td></tr></tbody></table></td></tr><tr id="Khulna"><td><a href="division_login.php?division_bbs_code=40">Khulna</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">24.8%</td><td align="center" width="50">26.8%</td><td align="center" width="50">50.6%</td></tr></tbody></table></td></tr><tr id="Barisal"><td><a href="division_login.php?division_bbs_code=10">Barisal</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">20.7%</td><td align="center" width="50">28.3%</td><td align="center" width="50">87.5%</td></tr></tbody></table></td></tr><tr id="Sylhet"><td><a href="division_login.php?division_bbs_code=60">Sylhet</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">23.9%</td><td align="center" width="50">27.8%</td><td align="center" width="50">82.9%</td></tr></tbody></table></td></tr>              </tbody></table>          
 
 
 
+<!--				
+<tr id="Dhaka"><td><a href="division_login.php?division_bbs_code=30">Dhaka</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">7.7%</td><td align="center" width="50">10%</td><td align="center" width="50">6.7%</td></tr></tbody></table></td></tr><tr id="Chittagong"><td><a href="division_login.php?division_bbs_code=20">Chittagong</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">14%</td><td align="center" width="50">22.5%</td><td align="center" width="50">75.1%</td></tr></tbody></table></td></tr><tr id="Rajshahi"><td><a href="division_login.php?division_bbs_code=50">Rajshahi</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">46.7%</td><td align="center" width="50">55.1%</td><td align="center" width="50">69.5%</td></tr></tbody></table></td></tr><tr id="Rangpur"><td><a href="division_login.php?division_bbs_code=55">Rangpur</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">9.1%</td><td align="center" width="50">8.4%</td><td align="center" width="50">31%</td></tr></tbody></table></td></tr><tr id="Khulna"><td><a href="division_login.php?division_bbs_code=40">Khulna</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">24.8%</td><td align="center" width="50">26.8%</td><td align="center" width="50">49.3%</td></tr></tbody></table></td></tr><tr id="Barisal"><td><a href="division_login.php?division_bbs_code=10">Barisal</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">20.7%</td><td align="center" width="50">28.3%</td><td align="center" width="50">87.5%</td></tr></tbody></table></td></tr><tr id="Sylhet"><td><a href="division_login.php?division_bbs_code=60">Sylhet</a></td><td><table border="1px"><tbody><tr><td align="center" width="50">23.9%</td><td align="center" width="50">27.8%</td><td align="center" width="50">77.3%</td></tr></tbody></table></td></tr>              </tbody></table>          
+-->
 
-          </div><!-- /.span6 -->
+
+          </div>
+<!-- /.span6 -->
+
+        </div> <!-- /.span6 -->
                 </div> <!-- /.row -->
             </div> <!-- /.container -->
         </div> <!-- /#content -->

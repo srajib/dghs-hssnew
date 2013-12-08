@@ -6,13 +6,7 @@ include('inc.functions.generic.php');
 
 
  //$bd=$_GET['bd'];
- $district_bbs_code=$_GET['district_bbs_code'];
-
- $dis_sql=mysql_query("Select old_district_id,district_name from admin_district where district_bbs_code='$district_bbs_code'");
- $dis_row= mysql_fetch_array($dis_sql);
- $dis_name=$dis_row['district_name'];
- $dis_id=$dis_row['old_district_id']; 
- 
+$division_bbs_code=$_GET['division_bbs_code'];
 ?>
 
 <!DOCTYPE html>
@@ -78,9 +72,9 @@ return true;
 <body>
  <?php include('header_login.php'); 
  
-//$div_sql=mysql_query("Select division_name from admin_division where division_bbs_code='$division_bbs_code'");
-// $div_row= mysql_fetch_array($div_sql);
-// $div_name=$div_row['division_name'];
+$div_sql=mysql_query("Select division_name from admin_division where division_bbs_code='$division_bbs_code'");
+ $div_row= mysql_fetch_array($div_sql);
+ $div_name=$div_row['division_name'];
  	
 ?>
 <div id="nav">
@@ -148,78 +142,51 @@ return true;
 
 		<div class="row">
 			
-			
 			<div class="span3">
-            <?php require_once 'left_menu.php'; ?>
-			</div> <!-- /.span3 -->
-            
-            
-             <?php require_once 'tbl.upazila_health_complex_report.php';  ?>    
-			<div class="spane6"> <h3> Upazila Health Facility Report of <? echo $dis_name ?></h3>
-                           <p>
-                         <table class='table'>
-			  <tbody>
-		 	   
-			  </tbody>
-               
-              <table border="1">
-                  <tr>
-                   <th> Upazila Name </th><td><table><tr><th width="200"> Organization</th><th><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td></tr></table></th></tr></table></td></tr>
+               <?php require_once 'left_menu.php'; ?>
+             </div> <!-- /.span3 -->
+             
+			<div class="spane6"> <h3> Divisional Summary Report of <? echo $div_name ?></h3>
               
+      <?php  require_once 'tbl.district_summary_report.php';   ?>    
+              
+           <table border="1px">
+                <tr><th width="200" align='left'> District</th><th><table border="0"><tr><th width="50" align='center'> Sept</th><th width="50" align='center'> Oct  </th><th width="50" align='center'> Nov </th></tr></table></td></tr>
+                             
     <?php
-    foreach ($dataArray as $upazila => $upazilaData) {
-        echo "<tr>";
-        echo "<td>$upazila</td>";
-		//$org_code=getOrgCodeUpa($org,$district_bbs_code);
-        echo "<td>";
-        echo "<table border='0'>";
-        foreach ($upazilaData as $org => $orgData) {
-           
-         // print_r($orgData);
-            echo "<tr>";
-            
-            $org_code=getOrgCodeUpa($org,$district_bbs_code,$upazila);
-			if($org_code)
-			{
-			echo "<td  width='200'>$org</td>";
+    foreach ($dataArray as $district => $districtData) {
+        echo "<tr id='$district'>";
+            echo "<td>$district</td>";
             echo "<td>";
-            echo "<table border='0'>";
-            echo "<tr>";
-            foreach ($orgData as $year => $yearData) {     
-                if($yearData['countTotal']>0){
-                    $percentage=round(($yearData['countAnswered']*100)/$yearData['countTotal'],1);
-					$month_year = $yearData[month_year];
-                    echo "<td width='50' align='center'><a href='org_report.php?org_code=$org_code&&month=$month_year'>$percentage%</a></td>"; 
-                }else{
-                    $percentage=0;
-                }
-            }
-            echo "</tr>";
-            echo "</table>";
-            echo "</td>";
-            echo "</tr>";
-			}
-        }
-        echo "</table>";
-        echo "</td>";
-        //myprint_r($val);
+                echo "<table border='1px'>";
+                    echo "<tr>";
+                    foreach ($districtData as $year => $yearData) {
+                        if ($yearData['countTotal'] > 0) {
+                            $percentage = round(($yearData['countAnswered'] * 100) / $yearData['countTotal'], 1);
+                            echo "<td width='50' align='center'>$percentage%</td>";
+                        } else {
+                            $percentage = 0;
+                        }
+                    }
+                     echo "</tr>";
+                echo "</table>";
+            echo "</td>";        
         echo "</tr>";
     }
     ?>
 </table>
-                     
+                          
 <table class="table" width="950px">
 <!--
 <tr>
 <td><strong>Total Summary </strong></td>
-<td><strong><? echo " $sum_sept" ;?></strong></td><td><strong><? echo 0 ;?></strong></td><td>0</td><td>0</td>
+<td><strong><? echo " $sum_sept" ;?></strong></td><td><strong><? echo " $sum_oct" ;?></strong></td><td>0</td><td>0</td>
 
 </tr>-->
 </table>
 			
 			</div><!-- /.span6 -->
-            
-		
+			
 		</div> <!-- /.row -->
 		
 	</div> <!-- /.container -->

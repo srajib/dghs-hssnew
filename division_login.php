@@ -151,16 +151,30 @@ $div_sql=mysql_query("Select division_name from admin_division where division_bb
       <?php  require_once 'tbl.district_summary_report.php';   ?>    
               
            <table border="1px">
-                <tr><td width="200"> District</td><td><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td></tr></table></td></tr>
+                <tr><th width="200" align='left'> District</th><th><table border="0"><tr><th width="50" align='center'> Sept</th><th width="50" align='center'> Oct  </th><th width="50" align='center'> Nov </th></tr></table></td></tr>
                              
     <?php
+	//print_r($dataArray);
     foreach ($dataArray as $district => $districtData) {
-        echo "<tr id='$district'>";
-            echo "<td>$district</td>";
+	    //print_r($districtData);
+		//print_r($district);
+	
+             echo "<tr id='$district'>";
+              $code1 = getDistrictsCode($district);
+		      //echo $code1 = $districtData['district_bbs_code'];
+			  //echo $code2 =$district['district_bbs_code'];
+            echo "<td><a href='district_login.php?district_bbs_code=$code1'>$district</a></td>";
             echo "<td>";
                 echo "<table border='1px'>";
                     echo "<tr>";
-                    foreach ($districtData as $year => $yearData) {
+                    foreach ($districtData as $code => $codeData) {
+                    {
+                      
+                     //echo $code;
+                      
+                    foreach($codeData as $year => $yearData){
+                    {
+                      
                         if ($yearData['countTotal'] > 0) {
                             $percentage = round(($yearData['countAnswered'] * 100) / $yearData['countTotal'], 1);
                             echo "<td width='50' align='center'>$percentage%</td>";
@@ -168,10 +182,13 @@ $div_sql=mysql_query("Select division_name from admin_division where division_bb
                             $percentage = 0;
                         }
                     }
+                       }
+                    }
                      echo "</tr>";
                 echo "</table>";
             echo "</td>";        
         echo "</tr>";
+    }
     }
     ?>
 </table>

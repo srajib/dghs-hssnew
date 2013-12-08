@@ -33,8 +33,9 @@ foreach ($districts as $district) {
                 //$dataArray[$district['district_name']][$org['org_name']]["$mm-$yy"]['countAnswered'] = $countAnswered;
                 //$dataArray[$district['district_name']][$org['org_name']]["$mm-$yy"]['countTotal'] = $countTotal;
             }
-            $dataArray[$district['district_name']]["$mm-$yy"]['countAnswered'] = $countAnswered;
-            $dataArray[$district['district_name']]["$mm-$yy"]['countTotal'] = $countTotal;
+            $dataArray[$district['district_name']][$district['district_bbs_code']]["$mm-$yy"]['countAnswered'] = $countAnswered;
+            $dataArray[$district['district_name']][$district['district_bbs_code']]["$mm-$yy"]['countTotal'] = $countTotal;
+            //$dataArray[$district['district_bbs_code']]["$mm-$yy"]['district_bbs_code'] = $district_bbs_code;
         }
     }
 }
