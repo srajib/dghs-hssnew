@@ -232,7 +232,7 @@ $disthospi_org_type_code_csv="'1022','1028','1023'";
 $upazila_health_complex_org_type_code_csv="'1029'";
 
 
-$tartiary_org_codes_array="'10001811','10000425','10001109'";  
+$tartiary_org_codes_array="'10001811','10000425','10001109','10001486'";  
 $tartiary_type_codes_array="'1002','1005'";
 $tartiary_exception_org_codes_array="'10002303'";
 
