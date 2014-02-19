@@ -147,7 +147,7 @@ $bd = $_GET['bd'];
 <?php require_once 'tbl.divisional_summary_report.php'; ?>      
               <table border="1px">
                 <tr>
-                      <th>Division</th><th>&nbsp;Sept&nbsp;&nbsp;&nbsp; Oct&nbsp;&nbsp;&nbsp;    Nov </th>
+                      <th>Division</th><th>&nbsp;Sept&nbsp;&nbsp;&nbsp; Oct&nbsp;&nbsp;&nbsp;    Nov&nbsp;&nbsp;&nbsp;    Dec &nbsp;&nbsp;&nbsp;    Jan &nbsp;&nbsp;&nbsp;   Feb</th>
                 </tr>
 <?php
 foreach ($dataArray as $district => $districtData) {

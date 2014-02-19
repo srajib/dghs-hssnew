@@ -15,7 +15,7 @@ if(@$_GET["ContextValue"])
 	else
 	{
 		echo("Session has started already, unable to set the session id! Please include uploader before session_start().");
-		exit(400);
+		exit(200);
 	}
 }
 
@@ -584,7 +584,7 @@ class PhpUploader
 		catch(Exception $x)
 		{
 			echo("Error:" . $x->getMessage());
-			exit(400);
+			exit(200);
 		}
 	} 
 
@@ -887,7 +887,7 @@ class PhpUploader
 	{
 		$this->_PreProcessRequestInternal();
 		if( ! $this->IsValidationRequest() )
-			exit(400);
+			exit(200);
 	}
 	function _PreProcessRequestInternal()
 	{
@@ -921,10 +921,10 @@ class PhpUploader
 			catch(Exception $x)
 			{
 				PhpUploader_Log("Error:" . $x->getMessage());
-				exit(400);
+				exit(200);
 			}
 			echo("OK");
-			exit(400);
+			exit(200);
 		}
 		else if(@$_GET['_Addon']=="upload")
 		{
@@ -940,10 +940,10 @@ class PhpUploader
 			{
 				PhpUploader_Log("Error:" . $x->getMessage());
 				echo("Error:" . $x->getMessage());
-				exit(400);
+				exit(200);
 			}
 			echo("OK");
-			exit(400);
+			exit(200);
 		}
 		else
 		{
@@ -1293,7 +1293,7 @@ class PhpUploader
 		echo("<script type='text/javascript'>");
 		echo("if(window.parent.CurrentUpload)window.parent.CurrentUpload.UploadError('" . $uploadid . "','" . PhpUploader_JSEncode($message) . "')");
 		echo("</script>");
-		exit(400);
+		exit(200);
 	}
 	
 	function _GetAndCheckUploadID()

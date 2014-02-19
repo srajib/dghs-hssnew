@@ -192,10 +192,10 @@ return true;
                           <table class='table'>
 			
               <?php require_once('tbl.tartiary_summary_report.php') ;?>  
-              <table border="1px">
-                <tr>
-                      <th>Division</th><th colspan="2">&nbsp;Sept&nbsp;&nbsp;&nbsp; Oct&nbsp;&nbsp;&nbsp;    Nov </th>
-                </tr>
+               <table border="1px">
+                <tr><th width="200" align='left'> Division</th><th><table border="0"><tr><th width='200'>Organization</th><th width="50" align='right'> Sept</th><th width="50" align='right'> Oct  </th><th width="50" align='right'> Nov </th><th width="50" align='right'> Dec</th><th width="50" align='right'> Jan</th><th width="50" align='right'> Feb</th></tr></table></td></tr>
+                             
+   
 <?php
 
 

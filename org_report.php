@@ -35,16 +35,6 @@ $answer_storage_month_year = $_REQUEST['month'];
         </script>
         <style type="text/css">
             /* jQuery lightBox plugin - Gallery style */
-			
-		    #lightbox-container-image-box{
-			width:500px;
-			height:500px;
-			}
-			
-			#lightbox-image{
-			width:500px;
-			/*height:500px;*/
-			}
             .gallery {
                 /*		background-color: #444;*/
                 padding: 10px;
@@ -85,13 +75,8 @@ $answer_storage_month_year = $_REQUEST['month'];
                 }	
             }
 			
-		#lightbox-container-image img { width:auto; max-height:520px; }
-			
 			
         </style>
-		
-		<!--#lightbox-container-image-box{width: 510px; display: block; height: 706px;}-->
-		
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>

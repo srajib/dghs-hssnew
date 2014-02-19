@@ -151,7 +151,7 @@ $div_sql=mysql_query("Select division_name from admin_division where division_bb
       <?php  require_once 'tbl.district_summary_report.php';   ?>    
               
            <table border="1px">
-                <tr><th width="200" align='left'> District</th><th><table border="0"><tr><th width="50" align='center'> Sept</th><th width="50" align='center'> Oct  </th><th width="50" align='center'> Nov </th></tr></table></td></tr>
+                <tr><th width="200" align='left'> District</th><th><table border="0"><tr><th width="50" align='center'> Sept</th><th width="50" align='center'> Oct  </th><th width="50" align='center'> Nov </th><th width="50" align='center'> Dec </th><th width="50" align='center'> Jan </th><th width="50" align='center'> Feb </th></tr></table></td></tr>
                              
     <?php
 	//print_r($dataArray);

@@ -164,7 +164,7 @@ return true;
                
               <table border="1">
                 <tr>
-                 <th> Upazila Name </th><td><table><tr><th width="200"> Organization</th><th><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td></tr></table></th></tr></table></td></tr>
+                 <th> Upazila Name </th><td><table><tr><th width="200"> Organization</th><th><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td><td width="50">Dec</td><td width="50">Jan</td><td width="50">Feb</td></tr></table></th></tr></table></td></tr>
                 
     <?php
     foreach ($dataArray as $upazila => $upazilaData) {

@@ -158,7 +158,7 @@ return true;
 			<div class="spane6"> <h3> Organization Summary Report </h3>
     
               <table border="1">
-             <tr><th width="200"> Organization</th><th><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td></tr></table></th></tr>
+             <tr><th width="200"> Organization</th><th><table border="0"><tr><td width="50"> Sept</td><td width="50"> Oct  </td><td width="50"> Nov </td><td width="50"> Dec </td></tr></table></th></tr>
                 
     <?php
     

@@ -62,77 +62,7 @@ if($_SESSION['loginid'] <= 2)
 </head>
 
 <body>
- 	<?php include('header.php');
-     //require_once('php_image_magician.php');	
-	 
-	 /**
-	 * Resize the image to these set dimensions
-	 *
-	 * @param  int $width        	- Max width of the image
-	 * @param  int $height       	- Max height of the image
-	 * @param  string $resizeOption - Scale option for the image
-	 *
-	 * @return Save new image
-	 */
-	public function resizeTo( $width, $height, $resizeOption = 'default' )
-	{
-		switch(strtolower($resizeOption))
-		{
-			case 'exact':
-				$this->resizeWidth = $width;
-				$this->resizeHeight = $height;
-			break;
-			case 'maxwidth':
-				$this->resizeWidth  = $width;
-				$this->resizeHeight = $this->resizeHeightByWidth($width);
-			break;
-			case 'maxheight':
-				$this->resizeWidth  = $this->resizeWidthByHeight($height);
-				$this->resizeHeight = $height;
-			break;
-			default:
-				if($this->origWidth > $width || $this->origHeight > $height)
-				{
-					if ( $this->origWidth > $this->origHeight ) {
-				    	 $this->resizeHeight = $this->resizeHeightByWidth($width);
-			  			 $this->resizeWidth  = $width;
-					} else if( $this->origWidth < $this->origHeight ) {
-						$this->resizeWidth  = $this->resizeWidthByHeight($height);
-						$this->resizeHeight = $height;
-					}
-				} else {
-		            $this->resizeWidth = $width;
-		            $this->resizeHeight = $height;
-		        }
-			break;
-		}
-		$this->newImage = imagecreatetruecolor($this->resizeWidth, $this->resizeHeight);
-    	        imagecopyresampled($this->newImage, $this->image, 0, 0, 0, 0, $this->resizeWidth, $this->resizeHeight, $this->origWidth, $this->origHeight);
-	}
-	/**
-	 * Get the resized height from the width keeping the aspect ratio
-	 *
-	 * @param  int $width - Max image width
-	 *
-	 * @return Height keeping aspect ratio
-	 */
-	private function resizeHeightByWidth($width)
-	{
-		return floor(($this->origHeight / $this->origWidth) * $width);
-	}
-	/**
-	 * Get the resized width from the height keeping the aspect ratio
-	 *
-	 * @param  int $height - Max image height
-	 *
-	 * @return Width keeping aspect ratio
-	 */
-	private function resizeWidthByHeight($height)
-	{
-		return floor(($this->origWidth / $this->origHeight) * $height);
-	}
-	 
-	 ?>
+ 	<?php include('header.php'); ?>
 <div id="nav">
 		
 	<div class="container">
@@ -271,16 +201,9 @@ if($fileguidlist)
                         $mvcfile->FileName='q_'.$q_id.'_'.$org_code.'_'.$month.'_'.$i++.'.'.substr($mvcfile->FileName,- 3);
                         $filepath=$mvcfile->FileName;
                         array_push($myArray,$mvcfile->FileName);
-						
-						//$mvcfile = new Imagick($mvcfile->FileName);
-						//$mvcfile->resizeImage(320,240,Imagick::FILTER_LANCZOS,1);
-						//$mvcfile->writeImage($mvcfile->FileName);
-                        
-					    $mvcfile2 = new ResizeImage("upload/".$filepath);
-						$mvcfile2->resizeTo(100, 100);
-						$mvcfile2->saveImage("upload/".$filepath);
-                        //$mvcfile2->MoveTo("upload/".$filepath);
-						//$mvcfile->destroy(); 
+                      
+                        $mvcfile->MoveTo("upload/". $filepath);
+                       
                         //Copys the uploaded file to a new location.
 			//$mvcfile->CopyTo("upload/".$filepath);
 			//Deletes this instance.

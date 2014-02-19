@@ -12,7 +12,7 @@ $district_bbs_code = $_REQUEST['district_bbs_code'];
 $upazila_thana_code = $_REQUEST['upazila_thana_code'];
 
 $startmonth = 9;
-$endmonth = 11;
+$endmonth = 12;
 $startyear = 2013;
 $endyear = 2013;
 
@@ -47,6 +47,42 @@ for ($yy = $startyear; $yy <= $endyear; $yy++) {
     }
 }
 
+
+$startmonth = 1;
+$endmonth = 1;
+$startyear = 2014;
+$endyear = 2014;
+
+//$dataArray = array();
+//$answersToBeCountedArray = array('Yes');
+
+//myprint_r($divisions);
+
+
+$orgs = getAllOrgUnderUpazila($district_bbs_code,$upazila_thana_code);
+//myprint_r($orgs);
+$organization_code=$orgs[0]['org_code'];
+
+for ($yy = $startyear; $yy <= $endyear; $yy++) {
+    for ($mm = $startmonth; $mm <= $endmonth; $mm++) {
+        if($mm<10)
+           $month_year='0'.$mm.'-'.$yy;
+         else 
+          $month_year=$mm.'-'.$yy;
+        $countAnswered = 0;
+        $countTotal = 0;
+        foreach ($orgs as $org) {
+            $countAnswered+=countAllAnswerFrmOrg($org['org_code'], $mm, $yy, $answersToBeCountedArray, $additoinalQueryString = '');
+            $countTotal+= countOfQuestoinsAssignedToOrg($org['org_code']);
+            $dataArray[$org['org_name']]["$mm-$yy"]['countAnswered'] = $countAnswered;
+            $dataArray[$org['org_name']]["$mm-$yy"]['countTotal'] = $countTotal;
+            $dataArray[$org['org_name']]["$mm-$yy"]['month_year'] = $month_year;
+           // $dataArray[$org['month']]=$mm.$yy;
+        }
+        
+        
+    }
+}
 //myprint_r($dataArray);
 ?>
 
